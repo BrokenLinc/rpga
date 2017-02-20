@@ -1,23 +1,18 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
+import SignIn from './components/SignIn';
+
 const restrictAccess = (ChildComponent) => {
   class RestrictedComponent extends Component {
-    componentWillMount() {
-      const { router } = this.context;
+    render() {
       const { user } = this.props;
 
-      if(!user.email) {
-        router.push('/');
-      }
-    }
-    render() {
-      return <ChildComponent {...this.props}/>
+      if (user.isLoading) return null;
+
+      return user.email ? <ChildComponent {...this.props}/> : <SignIn/>
     }
   }
-  RestrictedComponent.contextTypes = {
-    router: PropTypes.object
-  };
   return connect(
     (state) => ({
       user: state.user,

@@ -2,14 +2,17 @@ import React from 'react';
 import { Router, Route, hashHistory } from 'react-router'
 
 import restrictAccess from '../restrictAccess';
+import Dashboard from './Dashboard';
 import Characters from './Characters';
-import SignIn from './SignIn';
+import PageTemplate from './PageTemplate';
 
 const AppRouter = () => {
   return (
     <Router history={hashHistory}>
-      <Route path="/" component={SignIn}/>
-      <Route path="/characters" component={restrictAccess(Characters)}/>
+      <Route component={PageTemplate}>
+        <Route path="/" component={restrictAccess(Dashboard)}/>
+        <Route path="/characters" component={restrictAccess(Characters)}/>
+      </Route>
     </Router>
   );
 }

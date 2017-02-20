@@ -16,10 +16,10 @@ class AuthConnector extends Component {
       }
     });
   }
-  // getChildContext() {
-  //   const { user } = this.props;
-  //   return { user };
-  // }
+  getChildContext() {
+    const { user } = this.props;
+    return { user };
+  }
   render() {
     return this.props.children;
   }
@@ -34,15 +34,14 @@ AuthConnector.propTypes = {
   signedIn: PropTypes.func.isRequired,
 };
 
-// AuthConnector.childContextTypes = {
-//   user: PropTypes.object,
-// };
+AuthConnector.childContextTypes = {
+  user: PropTypes.object,
+};
 
 export default connect(
-  // (state) => ({
-  //   user: state.user,
-  // }),
-  null,
+  (state) => ({
+    user: state.user,
+  }),
   (dispatch) => ({
     signedIn: (user) => { dispatch(actionCreators.signedIn(user)) },
     signedOut: () => { dispatch(actionCreators.signedOut()) },

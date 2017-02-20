@@ -1,4 +1,4 @@
-var Rebase = require('re-base');
+import Rebase from 're-base';
 
 import config from './config';
 

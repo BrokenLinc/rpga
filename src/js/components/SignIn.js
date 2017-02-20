@@ -38,7 +38,7 @@ class SignIn extends Component {
         this.setState({ error });
       } else {
         // Give it a second, it's going to space
-        setTimeout(() => { router.push('/characters'); }, 1);
+        // setTimeout(() => { router.push('/characters'); }, 1);
       }
     });
 
@@ -54,8 +54,10 @@ class SignIn extends Component {
     event.preventDefault();
   }
   render() {
-    const { user } = this.props;
+    const { user } = this.context;
     const { email, password, error } = this.state;
+
+    if (user.isLoading) return null;
 
     return user.email ? (
       <div className="form">
@@ -78,19 +80,9 @@ class SignIn extends Component {
   };
 }
 
-SignIn.propTypes = {
-  user: PropTypes.object.isRequired,
-};
-
 SignIn.contextTypes = {
   router: PropTypes.object,
-  //user: PropTypes.object,
+  user: PropTypes.object,
 };
 
-//export default SignIn;
-
-export default connect(
-  (state) => ({
-    user: state.user,
-  })
-)(SignIn);
+export default SignIn;

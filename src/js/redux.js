@@ -11,12 +11,12 @@ const actionCreators = {
   signedOut: () => ({ type: ACTIONS.SIGNED_OUT }),
 };
 
-const userReducer = (state = {}, action) => {
+const userReducer = (state = { isLoading: true }, action) => {
   switch (action.type) {
   case ACTIONS.SIGNED_IN:
     return action.payload.user;
   case ACTIONS.SIGNED_OUT:
-    return {};
+    return { };
   default:
     return state;
   }
