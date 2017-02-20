@@ -1,4 +1,52 @@
-.main-view {
-	padding: 10px;
-	background-color: rgb(200,200,200);
+body {
+	background-color: #eee;
+}
+.authdebug {
+		background-color: #b00;
+		bottom: 0;
+		color: white;
+		font-size: 12px;
+		line-height: 16px;
+		padding: 8px 10px;
+		position: absolute;
+		right: 0;
+		width: 320px;
+}
+.form {
+	background-color: #f8f8f8;
+	border: 4px solid white;
+	border-radius: 3px;
+	box-shadow: 0 6px 16px fade(black, 15%);
+	margin: 40px auto;
+	width: 280px;
+	transition: border-color 0.1s;
+	padding: 20px;
+	text-align: center;
+
+	.form-control {
+		text-align: center;
+	}
+
+	&.is-error {
+		animation: shake 0.4s both;
+		border-color: #e67;
+	}
+}
+
+@keyframes shake {
+  20% {
+    transform: translate3d(8px, 0, 0);
+  }
+
+  40% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  60% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  80% {
+    transform: translate3d(-1px, 0, 0);
+  }
 }

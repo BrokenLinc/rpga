@@ -2,11 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import '../css/app.less';
+import App from './components/App';
 
-const MainView = () => (
-	<h1>Hello world!</h1>
-);
-
-var mainView = React.createElement(MainView);
-
-ReactDOM.render(mainView, document.getElementById("main"));
+ReactDOM.render(<App/>,document.getElementById('app'));

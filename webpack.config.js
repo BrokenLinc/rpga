@@ -35,7 +35,7 @@ var config = {
 			{
 		      test: /\.jsx?$/,
 		      exclude: /node_modules/,
-		      loader: 'babel', 
+		      loader: 'babel',
 		      query: {
 		        presets: ['es2015', 'stage-0', 'react', 'react-hmre']
 		      }
@@ -44,14 +44,14 @@ var config = {
 				test : /\.less$/,
 				loader : extractCSS ? ExtractPlugin.extract('style', 'css!less') : 'style-loader!css-loader!less-loader'
 			},
-			{ 
-				test: /\.css$/, 
-				loader: extractCSS ? ExtractPlugin.extract('style', 'css') : 'style-loader!css-loader' 
+			{
+				test: /\.css$/,
+				loader: extractCSS ? ExtractPlugin.extract('style', 'css') : 'style-loader!css-loader'
 			},
 			{
 				test: /\.(png|jpg|svg)$/,
 				loaders: ['url', 'image-webpack']
-			}	
+			}
 		]
 	},
 	resolve: {
@@ -72,7 +72,7 @@ if (isProduction) {
 		    compress: {
 		        warnings: false
 		    }
-		})		
+		})
 	);
 }
 
