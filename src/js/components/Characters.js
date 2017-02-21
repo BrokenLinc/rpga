@@ -1,8 +1,10 @@
-import { map } from 'lodash';
+import { assign, map } from 'lodash';
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 import cn from 'classnames';
 
 import base from '../base';
+import { characterSpec } from '../specs';
 
 class Characters extends Component {
   constructor(props) {
@@ -11,12 +13,7 @@ class Characters extends Component {
     this.state = {
       characters: [],
       isLoading: true,
-      name: '',
-      error: null,
     };
-
-    this.onNameChange = this.onNameChange.bind(this);
-    this.onAddFormSubmit = this.onAddFormSubmit.bind(this);
   }
   componentDidMount(){
     const { uid } = this.context.user;
@@ -26,53 +23,31 @@ class Characters extends Component {
       state: 'characters',
       asArray: true,
       then: () => {
-        this.setState({isLoading: false})
+        this.setState({ isLoading: false });
       },
     });
   }
   componentWillUnmount(){
     base.removeBinding(this.ref);
   }
-  onNameChange(event) {
-    this.setState({ name: event.target.value });
-  }
-  onAddFormSubmit(event) {
-    const { uid } = this.context.user;
-    const { name } = this.state;
-
-    this.setState({ error: '' });
-
-    base.push(`users/${uid}/characters`, {
-      data: { uid, name },
-      then: (error) => {
-        if(error){
-          this.setState({ error });
-        } else {
-          this.setState({ name: '' });
-        }
-      },
-    });
-    event.preventDefault();
-  }
   render() {
-    const { characters, error, isLoading } = this.state;
+    const { characters, isLoading } = this.state;
 
     return (
       <div>
         <h1>Characters</h1>
-        <ul>
-          {map(characters, ({ name }, i) => (
-            <li key={i}>{ name }</li>
-          ))}
-        </ul>
 
-        <form onSubmit={ this.onAddFormSubmit } className={cn('form', {'is-error':error})}>
-          <div className="form-group">
-            <label>Character Name</label>
-            <input type="text" value={ this.state.name } onChange={ this.onNameChange } className="form-control"/>
-          </div>
-          <button className="btn btn-default">Create</button>
-        </form>
+        <ul>
+          {map(characters, (character) => {
+            const { key, name, power } = characterSpec(character);
+            return (
+              <li key={key}>
+                <Link to={`/characters/${key}`}>{ name }, { power } power</Link>
+              </li>
+            )
+          })}
+        </ul>
+        <Link className="btn btn-default" to="/characters/create">New Character</Link>
     </div>
     );
   }
@@ -82,4 +57,4 @@ Characters.contextTypes = {
   user: PropTypes.object.isRequired,
 };
 
-export default Characters;
+export default Characters
