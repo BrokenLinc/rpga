@@ -17,7 +17,7 @@ class SignIn extends Component {
 
     this.onEmailChange = this.onEmailChange.bind(this);
     this.onPasswordChange = this.onPasswordChange.bind(this);
-    this.onSignInClick = this.onSignInClick.bind(this);
+    this.onSignInFormSubmit = this.onSignInFormSubmit.bind(this);
     // this.onSignUpClick = this.onSignUpClick.bind(this);
     this.onSignOutClick = this.onSignOutClick.bind(this);
   }
@@ -27,7 +27,7 @@ class SignIn extends Component {
   onPasswordChange(event) {
     this.setState({ password: event.target.value });
   }
-  onSignInClick(event) {
+  onSignInFormSubmit(event) {
     const { email, password } = this.state;
     const { router } = this.context;
 
@@ -65,17 +65,17 @@ class SignIn extends Component {
         <a onClick={ this.onSignOutClick } href="javascript:void(0)">Sign out</a>.
       </div>
     ) : (
-      <div className={cn('form', {'is-error':error})}>
+      <form onSubmit={ this.onSignInFormSubmit } className={cn('form', {'is-error':error})}>
         <div className="form-group">
           <label>Email</label>
-    		  <input value={ email } onChange={ this.onEmailChange } className="form-control" type="text" placeholder="Email"/>
+    		  <input value={ email } onChange={ this.onEmailChange } className="form-control" type="text" placeholder="someone@gmail.com"/>
         </div>
         <div className="form-group">
           <label>Password</label>
-          <input value={ password } onChange={ this.onPasswordChange } className="form-control" type="password" placeholder="Password"/>
+          <input value={ password } onChange={ this.onPasswordChange } className="form-control" type="password"/>
         </div>
-        <button onClick={ this.onSignInClick } className="btn btn-success">Sign In</button>
-      </div>
+        <button className="btn btn-success">Sign In</button>
+      </form>
     );
   };
 }

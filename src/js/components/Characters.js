@@ -1,5 +1,6 @@
 import { map } from 'lodash';
 import React, { Component, PropTypes } from 'react';
+import cn from 'classnames';
 
 import base from '../base';
 
@@ -11,10 +12,11 @@ class Characters extends Component {
       characters: [],
       isLoading: true,
       name: '',
-    }
+      error: null,
+    };
 
     this.onNameChange = this.onNameChange.bind(this);
-    this.onAddClick = this.onAddClick.bind(this);
+    this.onAddFormSubmit = this.onAddFormSubmit.bind(this);
   }
   componentDidMount(){
     const { uid } = this.context.user;
@@ -34,22 +36,26 @@ class Characters extends Component {
   onNameChange(event) {
     this.setState({ name: event.target.value });
   }
-  onAddClick(event) {
+  onAddFormSubmit(event) {
     const { uid } = this.context.user;
     const { name } = this.state;
 
+    this.setState({ error: '' });
+
     base.push(`users/${uid}/characters`, {
       data: { uid, name },
-      then: (err) => {
-        if(!err){
-          // handle
+      then: (error) => {
+        if(error){
+          this.setState({ error });
+        } else {
+          this.setState({ name: '' });
         }
       },
     });
     event.preventDefault();
   }
   render() {
-    const { characters, isLoading } = this.state;
+    const { characters, error, isLoading } = this.state;
 
     return (
       <div>
@@ -59,9 +65,15 @@ class Characters extends Component {
             <li key={i}>{ name }</li>
           ))}
         </ul>
-        <input type="text" value={ this.state.name } onChange={ this.onNameChange } className="form-control" placeholder="Name" />
-        <button onClick={ this.onAddClick } className="btn btn-default">Add</button>
-      </div>
+
+        <form onSubmit={ this.onAddFormSubmit } className={cn('form', {'is-error':error})}>
+          <div className="form-group">
+            <label>Character Name</label>
+            <input type="text" value={ this.state.name } onChange={ this.onNameChange } className="form-control"/>
+          </div>
+          <button className="btn btn-default">Create</button>
+        </form>
+    </div>
     );
   }
 }
