@@ -30,7 +30,7 @@ class CharacterCreate extends Component {
       data: { uid, name },
     }).then(newLocation => {
       this.setState({ name: '' });
-      router.push(`/characters/${newLocation.key}`);
+      router.push(`/characters`);
     }).catch((error) => {
       this.setState({ error });
     });
@@ -46,7 +46,7 @@ class CharacterCreate extends Component {
         <form onSubmit={ this.onAddFormSubmit } className={cn('form', {'is-error':error})}>
           <div className="form-group">
             <label>Character Name</label>
-            <input type="text" value={ name } onChange={ this.onNameChange } className="form-control"/>
+            <input type="text" value={ name } onChange={ this.onNameChange } className="form-control" autoFocus />
           </div>
           <button className="btn btn-default">Create</button>
         </form>

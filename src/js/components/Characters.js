@@ -1,4 +1,4 @@
-import { assign, map } from 'lodash';
+import { assign, map, remove } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import cn from 'classnames';
@@ -14,6 +14,8 @@ class Characters extends Component {
       characters: [],
       isLoading: true,
     };
+
+    this.deleteCharacter = this.deleteCharacter.bind(this);
   }
   componentDidMount(){
     const { uid } = this.context.user;
@@ -30,6 +32,10 @@ class Characters extends Component {
   componentWillUnmount(){
     base.removeBinding(this.ref);
   }
+  deleteCharacter(key) {
+    const { uid } = this.context.user;
+    base.remove(`users/${uid}/characters/${key}`);
+  }
   render() {
     const { characters, isLoading } = this.state;
 
@@ -43,6 +49,7 @@ class Characters extends Component {
             return (
               <li key={key}>
                 <Link to={`/characters/${key}`}>{ name }, { power } power</Link>
+                <button className="btn btn-sm btn-danger" onClick={ () => { this.deleteCharacter(key) } }>delete</button>
               </li>
             )
           })}
