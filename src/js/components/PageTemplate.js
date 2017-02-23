@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { RouteTransition } from 'react-router-transition';
 
 import base from '../base';
 
@@ -15,7 +16,7 @@ class PageTemplate extends Component {
     event.preventDefault();
   }
   render() {
-    const { children, user } = this.props;
+    const { children, location, user } = this.props;
 
     let menu = null;
 
@@ -35,7 +36,14 @@ class PageTemplate extends Component {
           Project Name
           { menu }
         </header>
-        {children}
+        <RouteTransition
+          pathname={location.pathname}
+          atEnter={{ opacity: 0 }}
+          atLeave={{ opacity: 0 }}
+          atActive={{ opacity: 1 }}
+        >
+          {children}
+        </RouteTransition>
       </div>
     );
   }
