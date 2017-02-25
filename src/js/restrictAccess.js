@@ -1,22 +1,21 @@
+import { assign } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import SignIn from './components/SignIn';
+import RestrictedComponent from './components/RestrictedComponent';
 
 const restrictAccess = (ChildComponent) => {
-  class RestrictedComponent extends Component {
-    render() {
-      const { user } = this.props;
-
-      if (user.isLoading) return null;
-
-      return user.email ? <ChildComponent {...this.props}/> : <SignIn/>
-    }
-  }
   return connect(
     (state) => ({
       user: state.user,
-    })
+    }),
+    null,
+    (stateProps, dispatchProps, ownProps) => (assign(
+      { ChildComponent },
+      stateProps,
+      dispatchProps,
+      ownProps
+    ))
   )(RestrictedComponent);
 };
 

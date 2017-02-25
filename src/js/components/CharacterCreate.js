@@ -1,7 +1,19 @@
+import { indexOf, map, nth } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import cn from 'classnames';
 
 import base from '../base';
+import { characterImage } from '../paths';
+
+// Form animations requie 6 or more character images
+const characterImageFiles = [
+  'character1.png',
+  'character2.png',
+  'character3.png',
+  'character4.png',
+  'character5.png',
+  'character6.png',
+];
 
 class CharacterCreate extends Component {
   constructor(props) {
@@ -11,23 +23,28 @@ class CharacterCreate extends Component {
       isLoading: true,
       name: '',
       error: null,
+      imageFile: characterImageFiles[0],
     };
 
     this.onNameChange = this.onNameChange.bind(this);
     this.onAddFormSubmit = this.onAddFormSubmit.bind(this);
+    this.setImageFile = this.setImageFile.bind(this);
   }
   onNameChange(event) {
     this.setState({ name: event.target.value });
   }
+  setImageFile(imageFile) {
+    this.setState({ imageFile });
+  }
   onAddFormSubmit(event) {
     const { router } = this.context;
     const { uid } = this.context.user;
-    const { name } = this.state;
+    const { name, imageFile } = this.state;
 
     this.setState({ error: '' });
 
     base.push(`users/${uid}/characters`, {
-      data: { uid, name },
+      data: { uid, name, imageFile },
     }).then(newLocation => {
       this.setState({ name: '' });
       router.push(`/characters`);
@@ -37,7 +54,15 @@ class CharacterCreate extends Component {
     event.preventDefault();
   }
   render() {
-    const { name, error, isLoading } = this.state;
+    const { name, imageFile, error, isLoading } = this.state;
+
+    const imagesToShow = [];
+    const startingIndex = indexOf(characterImageFiles, imageFile);
+
+    for(var i = startingIndex - 2; i <= startingIndex + 2; i++) {
+      const thisImageFile = nth(characterImageFiles, i % characterImageFiles.length);
+      imagesToShow.push(thisImageFile);
+    }
 
     return (
       <div>
@@ -48,6 +73,19 @@ class CharacterCreate extends Component {
             <label>Character Name</label>
             <input type="text" value={ name } onChange={ this.onNameChange } className="form-control" autoFocus />
           </div>
+          <ul className="selectionrotator">
+            {map(imagesToShow, (thisImageFile) => {
+              const isActive = thisImageFile === imageFile;
+
+              return (
+                <li key={thisImageFile} onClick={ () => { this.setImageFile(thisImageFile) } }>
+                  <div className={cn('portrait', {'is-active':isActive})}>
+                    <img src={characterImage(thisImageFile)}/>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
           <button className="btn btn-default">Create</button>
         </form>
     </div>

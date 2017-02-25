@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import cn from 'classnames';
 
 import base from '../base';
+import { characterImage } from '../paths';
 import { characterSpec } from '../specs';
 import ContentLoader from './ContentLoader';
 import TransitionGroup from './TransitionGroup';
@@ -49,12 +50,17 @@ class Characters extends Component {
         <hr/>
 
         <ContentLoader isLoading={isLoading}>
-          <TransitionGroup component="ul" transition="expand-60">
+          <TransitionGroup component="ul" transition="expand-160">
             {map(characters, (character) => {
-              const { key, name, power } = characterSpec(character);
+              const { key, imageFile, name, power } = characterSpec(character);
               return (
                 <li key={key}>
-                  <Link to={`/characters/${key}`}>{ name }, { power } power</Link>
+                  <Link to={`/characters/${key}`}>
+                    <div className="portrait">
+                      <img src={characterImage(imageFile)}/>
+                    </div>
+                    { name }, { power } power
+                  </Link>
                   <button className="btn btn-sm btn-danger" onClick={ () => { this.deleteCharacter(key) } }>delete</button>
                 </li>
               )

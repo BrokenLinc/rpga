@@ -5,7 +5,11 @@ const TRANSITION = {
   'expand-60': {
     enterTimeout: 300,
     LeaveTimeout: 300,
-  }
+  },
+  'expand-160': {
+    enterTimeout: 300,
+    LeaveTimeout: 300,
+  },
 }
 
 class TransitionGroup extends Component {
@@ -37,7 +41,8 @@ TransitionGroup.contextTypes = {
   ]),
   component: PropTypes.string,
   transitionName: PropTypes.oneOf([
-    'expand-60'
+    'expand-60',
+    'expand-160',
   ]),
 };
 
