@@ -7,6 +7,7 @@ import base from '../base';
 import { characterImage } from '../paths';
 import { characterSpec } from '../specs';
 import ContentLoader from './ContentLoader';
+import Icon from './Icon';
 import TransitionGroup from './TransitionGroup';
 
 class Characters extends Component {
@@ -45,27 +46,31 @@ class Characters extends Component {
     return (
       <div>
         <h1>Characters</h1>
-        <Link className="btn btn-default" to="/characters/create">New Character</Link>
-
-        <hr/>
-
-        <ContentLoader isLoading={isLoading}>
-          <TransitionGroup component="ul" transition="expand-160">
+        <ContentLoader isLoading={isLoading} align="center">
+          <ul className="characterlist">
+            <li>
+              <Link to="/characters/create" className="characterlistitem">
+                <div className="characterlistitem__portrait portrait">
+                  <Icon name="plus"/>
+                </div>
+                <div className="characterlistitem__name">New Character</div>
+              </Link>
+            </li>
             {map(characters, (character) => {
               const { key, imageFile, name, power } = characterSpec(character);
               return (
                 <li key={key}>
-                  <Link to={`/characters/${key}`}>
-                    <div className="portrait">
+                  <Link to={`/characters/${key}`} className="characterlistitem">
+                    <div className="characterlistitem__portrait portrait">
                       <img src={characterImage(imageFile)}/>
                     </div>
-                    { name }, { power } power
+                    <div className="characterlistitem__name">{ name }</div>
                   </Link>
-                  <button className="btn btn-sm btn-danger" onClick={ () => { this.deleteCharacter(key) } }>delete</button>
+                  {/*<button className="btn btn-sm btn-danger" onClick={ () => { this.deleteCharacter(key) } }>delete</button>*/}
                 </li>
               )
             })}
-          </TransitionGroup>
+          </ul>
         </ContentLoader>
 
     </div>

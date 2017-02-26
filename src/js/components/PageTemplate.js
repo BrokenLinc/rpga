@@ -22,18 +22,18 @@ class PageTemplate extends Component {
 
     if(!user.isLoading) {
       menu = user.email ? (
-        <div>
+        <nav>
           <Link to="/">Dashboard</Link>
           <Link to="/characters">Characters</Link>
           <a onClick={ this.onSignOutClick } href="javascript:void(0)">Sign out</a>
-        </div>
+        </nav>
       ) : null;
     }
 
     return (
       <div>
-        <header>
-          Project Name
+        <header className="pageheader">
+          Game
           { menu }
         </header>
         <RouteTransition

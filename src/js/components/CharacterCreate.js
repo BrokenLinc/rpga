@@ -31,7 +31,7 @@ class CharacterCreate extends Component {
     this.setImageFile = this.setImageFile.bind(this);
   }
   onNameChange(event) {
-    this.setState({ name: event.target.value });
+    this.setState({ name: event.target.value.substr(0,16) });
   }
   setImageFile(imageFile) {
     this.setState({ imageFile });
@@ -71,7 +71,7 @@ class CharacterCreate extends Component {
         <form onSubmit={ this.onAddFormSubmit } className={cn('form', {'is-error':error})}>
           <div className="form-group">
             <label>Character Name</label>
-            <input type="text" value={ name } onChange={ this.onNameChange } className="form-control" autoFocus />
+            <input type="text" value={ name } onChange={ this.onNameChange } className="form-control" autoFocus maxLength={16} />
           </div>
           <ul className="selectionrotator">
             {map(imagesToShow, (thisImageFile) => {
