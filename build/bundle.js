@@ -49643,7 +49643,7 @@
 	
 	module.exports = {
 	  characterImage: function characterImage(file) {
-	    return "/images/" + file;
+	    return "images/" + file;
 	  }
 	};
 
