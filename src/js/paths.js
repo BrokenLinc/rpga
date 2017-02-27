@@ -1,3 +1,3 @@
 module.exports = {
-  characterImage: (file) => `/images/${file}`,
+  characterImage: (file) => `images/${file}`,
 };
