@@ -28,6 +28,10 @@ class Characters extends Component {
       context: this,
       state: 'characters',
       asArray: true,
+      queries: {
+        orderByChild: 'name',
+        //limitToFirst: 2,
+      },
       then: () => {
         this.setState({ isLoading: false });
       },
