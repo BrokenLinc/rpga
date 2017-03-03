@@ -95,6 +95,46 @@ class Character extends Component {
         <div className="portrait is-large">
           <img src={characterImage(imageFile)}/>
         </div>
+        <p>Level 1</p>
+        <p>XP: 0/100</p>
+        <div className="well">
+          <p>Level Bonus: 1-2</p>
+          {/*
+          <p>Armor: 5</p>
+          <p>Weapons: 2-11</p>
+          */}
+          {/*
+          <p>Injuries: (1-2)</p>
+          <p>Enhancements: 2-3</p>
+          <p><strong>Total: 8-20</strong></p>
+          */}
+        </div>
+        {/*
+        <div className="well">
+          <p>Techlore: +4 against robots</p>
+          <p>Ophidiophobia: (-2) against snakes</p>
+          <p>Night vision: +3 in darkness</p>
+          <p>Clumsiness: -1 in rough terrain</p>
+        </div>
+        */}
+        <div className="well">
+          <p><strong>Combat</strong></p>
+          {/*<p>0. Special actions (ie. shoot out lights)</p>*/}
+          <p>1. Roll aginst opponent.</p>
+          <p>2. Win: get XP {/*and loot.*/} Move to next scenario. (#10 === boss)</p>
+          <p>3. Lose: {/*get a negative effect,*/} can try again.</p>
+          {/*<p>4. Roll a negative number: DIE</p>*/}
+        </div>
+        {/*
+        <div className="well">
+          <p><strong>Home</strong></p>
+          <p>1. Heal minor wounds.</p>
+          <p>2. Buy surgery (healing/prosthetics/cybernetics).</p>
+          <p>3. Sell loot.</p>
+          <p>4. Buy loot.</p>
+        </div>
+        */}
+        {/*
         <p>{ power } power</p>
         <p>{ wins } wins</p>
         <p>{ draws } draws</p>
@@ -107,6 +147,7 @@ class Character extends Component {
         <button className="btn btn-success" onClick={ () => { this.fight(6) } }>Fight a level 6 cerebrus</button><br/>
         <button className="btn btn-success" onClick={ () => { this.fight(20) } }>Fight a level 20 vampire</button><br/>
         <button className="btn btn-danger" onClick={ () => { this.reset() } }>Reset Counts</button>
+        */}
       </div>
     );
   }
