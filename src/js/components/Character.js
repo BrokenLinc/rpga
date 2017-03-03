@@ -92,7 +92,7 @@ class Character extends Component {
     return (
       <div>
         <h1>{ name }</h1>
-        <Portrait imageFile={imageFile} />
+        <Portrait imageFile={imageFile} className="is-large" />
         <p>Level 1</p>
         <p>XP: 0/100</p>
         <div className="well">

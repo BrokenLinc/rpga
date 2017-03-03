@@ -25,7 +25,7 @@ class Portrait extends Component {
 }
 
 Portrait.contextTypes = {
-  character: PropTypes.object.isRequired,
+  imageFile: PropTypes.string,
   className: PropTypes.string,
 };
 
