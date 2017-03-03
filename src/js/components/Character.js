@@ -2,8 +2,8 @@ import { assign } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 
 import base from '../base';
-import { characterImage } from '../paths';
 import { characterSpec } from '../specs';
+import Portrait from './Portrait';
 
 const rint = (min, max) => {
   return min + Math.floor( Math.random() * (max - min + 1) );
@@ -92,9 +92,7 @@ class Character extends Component {
     return (
       <div>
         <h1>{ name }</h1>
-        <div className="portrait is-large">
-          <img src={characterImage(imageFile)}/>
-        </div>
+        <Portrait imageFile={imageFile} />
         <p>Level 1</p>
         <p>XP: 0/100</p>
         <div className="well">

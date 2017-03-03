@@ -4,6 +4,7 @@ import cn from 'classnames';
 
 import base from '../base';
 import { characterImage } from '../paths';
+import Portrait from './Portrait';
 
 // Form animations requie 6 or more character images
 const characterImageFiles = [
@@ -79,9 +80,7 @@ class CharacterCreate extends Component {
 
               return (
                 <li key={thisImageFile} onClick={ () => { this.setImageFile(thisImageFile) } }>
-                  <div className={cn('portrait', {'is-active':isActive})}>
-                    <img src={characterImage(thisImageFile)}/>
-                  </div>
+                  <Portrait imageFile={thisImageFile} className={cn({'is-active':isActive})} />
                 </li>
               );
             })}

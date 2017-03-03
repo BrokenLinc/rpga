@@ -1,13 +1,12 @@
 import { assign, map, remove } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import cn from 'classnames';
 
 import base from '../base';
-import { characterImage } from '../paths';
 import { characterSpec } from '../specs';
 import ContentLoader from './ContentLoader';
 import Icon from './Icon';
+import Portrait from './Portrait';
 import TransitionGroup from './TransitionGroup';
 
 class Characters extends Component {
@@ -65,9 +64,7 @@ class Characters extends Component {
               return (
                 <li key={key}>
                   <Link to={`/characters/${key}`} className="characterlistitem">
-                    <div className="characterlistitem__portrait portrait">
-                      <img src={characterImage(imageFile)}/>
-                    </div>
+                    <Portrait imageFile={imageFile} />
                     <div className="characterlistitem__name">{ name }</div>
                   </Link>
                   {/*<button className="btn btn-sm btn-danger" onClick={ () => { this.deleteCharacter(key) } }>delete</button>*/}
