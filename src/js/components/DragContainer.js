@@ -1,10 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { DragDropContext } from 'react-dnd';
-import HTML5Backend, { NativeTypes } from 'react-dnd-html5-backend';
 
 import { ItemTypes } from '../constants';
 import DraggableItem from './DraggableItem';
 import ItemDropTarget from './ItemDropTarget';
+import InventoryDropTarget from './InventoryDropTarget';
 
 class DragContainer extends Component {
   constructor(props) {
@@ -32,16 +31,17 @@ class DragContainer extends Component {
       <div>
         <div style={{ overflow: 'hidden', clear: 'both' }}>
           {itemSlots.map(({ accepts }, index) =>
-            <ItemDropTarget
+            <InventoryDropTarget
+              key={index}
+              className="itemslot"
               accepts={accepts}
               onDrop={item => this.handleDrop(index, item)}
-              key={index}
             >
               <DraggableItem
                 name="fake dagger"
                 type={ItemTypes.WEAPON}
               />
-            </ItemDropTarget>
+            </InventoryDropTarget>
           )}
         </div>
 
@@ -62,4 +62,4 @@ class DragContainer extends Component {
 DragContainer.propTypes = {
 };
 
-export default DragDropContext(HTML5Backend)(DragContainer);
+export default DragContainer;

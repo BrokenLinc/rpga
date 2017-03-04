@@ -4,7 +4,8 @@ import { DragSource } from 'react-dnd';
 
 import base from '../base';
 import { characterSpec } from '../specs';
-import DragContainer from './DragContainer';
+import PaperDoll from './PaperDoll';
+import Inventory from './Inventory';
 import Item from './Item';
 import Portrait from './Portrait';
 
@@ -17,8 +18,8 @@ class Character extends Component {
       isLoading: true,
     };
 
-    this.equip = this.equip.bind(this);
-    this.unequip = this.unequip.bind(this);
+    // this.equip = this.equip.bind(this);
+    // this.unequip = this.unequip.bind(this);
   }
   componentDidMount(){
     const { uid } = this.context.user;
@@ -35,29 +36,31 @@ class Character extends Component {
   componentWillUnmount(){
     base.removeBinding(this.ref);
   }
-  unequip(itemKey) {
-    const { uid } = this.context.user;
-    const { characterKey } = this.props.params;
-    base.remove(`users/${uid}/characters/${characterKey}/items/${itemKey}/slot`);
-  }
-  equip(itemKey) {
-    const { uid } = this.context.user;
-    const { characterKey } = this.props.params;
-    const { character } = this.state;
-    const { items } = character;
-    const type = items[itemKey].type;
-
-    each(items, (thisItem, thisItemKey) => {
-      if(thisItem.type === type && thisItemKey !== itemKey) {
-        base.remove(`users/${uid}/characters/${characterKey}/items/${thisItemKey}/slot`);
-      }
-    });
-
-    base.update(`users/${uid}/characters/${characterKey}/items/${itemKey}`, {
-      data: { slot: type }
-    });
-  }
+  // unequip(itemKey) {
+  //   const { uid } = this.context.user;
+  //   const { characterKey } = this.props.params;
+  //   base.remove(`users/${uid}/characters/${characterKey}/items/${itemKey}/slot`);
+  // }
+  // equip(itemKey) {
+  //   const { uid } = this.context.user;
+  //   const { characterKey } = this.props.params;
+  //   const { character } = this.state;
+  //   const { items } = character;
+  //   const type = items[itemKey].type;
+  //
+  //   each(items, (thisItem, thisItemKey) => {
+  //     if(thisItem.type === type && thisItemKey !== itemKey) {
+  //       base.remove(`users/${uid}/characters/${characterKey}/items/${thisItemKey}/slot`);
+  //     }
+  //   });
+  //
+  //   base.update(`users/${uid}/characters/${characterKey}/items/${itemKey}`, {
+  //     data: { slot: type }
+  //   });
+  // }
   render() {
+    const { uid } = this.context.user;
+    const { characterKey } = this.props.params;
     const { character, isLoading, wins, draws, losses } = this.state;
     const { imageFile, name, power } = characterSpec(character);
 
@@ -65,21 +68,10 @@ class Character extends Component {
 
     return (
       <div>
-        <DragContainer/>
+        <PaperDoll uid={uid} characterKey={characterKey}/><br/>
+        <Inventory uid={uid} characterKey={characterKey}/>
         <h1>{ name }</h1>
         <Portrait imageFile={imageFile} className="is-large" />
-        <div className="well">
-          <strong>Weapon slot</strong>
-          {map(character.items, (item, key) => (item.slot === 'weapon' ? (
-            <Item key={key} item={item} itemKey={key} toggleEquip={this.unequip} />
-          ) : null))}
-        </div>
-        <div className="well">
-          <strong>Bag</strong>
-          {map(character.items, (item, key) => (item.slot ? null : (
-            <Item key={key} item={item} itemKey={key} toggleEquip={this.equip} />
-          )))}
-        </div>
       </div>
     );
   }

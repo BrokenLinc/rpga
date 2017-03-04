@@ -8,18 +8,18 @@ const style = {
   marginRight: '1.5rem',
   marginBottom: '1.5rem',
   cursor: 'move',
-  float: 'left',
+  display: 'block',
   color: 'black',
 };
 
 class DraggableItem extends Component {
   render() {
-    const { name, isDragging, connectDragSource } = this.props;
+    const { item, isDragging, connectDragSource } = this.props;
     const opacity = isDragging ? 0.4 : 1;
 
     return connectDragSource(
       <div style={{ ...style, opacity }}>
-        { name }
+        { item.name }
       </div>,
     );
   }
@@ -28,17 +28,16 @@ class DraggableItem extends Component {
 DraggableItem.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
-  name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
+  // name: PropTypes.string.isRequired,
+  // type: PropTypes.string.isRequired,
+  item: PropTypes.object.isRequired,
 }
 
 export default DragSource(
-  props => props.type,
+  props => props.item.type,
   {
-    beginDrag(props) {
-      return {
-        name: props.name,
-      };
+    beginDrag({ item }) {
+      return { item };
     },
   },
   (connect, monitor) => ({

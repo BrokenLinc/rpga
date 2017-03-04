@@ -320,3 +320,23 @@ h1 {
 	font-size: 18px;
 	font-weight: 300;
 }
+
+.itemslot, .inventory {
+	background-color: black;
+  height: 12rem;
+  width: 12rem;
+  margin-right: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: white;
+  padding: 1rem;
+  display: inline-block;
+  vertical-align: top;
+
+	&.can-drop {
+		background-color: darkkhaki;
+
+		&.is-over {
+			background-color: darkgreen;
+		}
+	}
+}

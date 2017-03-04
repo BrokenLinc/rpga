@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { DropTarget } from 'react-dnd';
 
+import DraggableItem from './DraggableItem';
+
 const style = {
   height: '12rem',
   width: '12rem',
@@ -8,15 +10,14 @@ const style = {
   marginBottom: '1.5rem',
   color: 'white',
   padding: '1rem',
-  textAlign: 'center',
-  fontSize: '1rem',
-  lineHeight: 'normal',
-  float: 'left',
+  display: 'inline-block',
+  verticalAlign: 'top',
 };
 
 class ItemDropTarget extends Component {
   render() {
     const { accepts, children, isOver, canDrop, connectDropTarget, lastDroppedItem } = this.props;
+    const { item } = this.props;
     const isActive = isOver && canDrop;
 
     let backgroundColor = '#222';
@@ -28,17 +29,10 @@ class ItemDropTarget extends Component {
 
     return connectDropTarget(
       <div style={{ ...style, backgroundColor }}>
-        {/*isActive ?
-          'Release to drop' :
-          `This itemSlot accepts: ${accepts.join(', ')}`
-        */}
-
-        {/*lastDroppedItem &&
-          <p>Last dropped: {JSON.stringify(lastDroppedItem)}</p>
-        */}
-        { children }
-
-      </div>,
+        {item ? (
+          <DraggableItem item={item} />
+        ) : null}
+      </div>
     );
   }
 }
@@ -50,10 +44,7 @@ ItemDropTarget.propTypes = {
   accepts: PropTypes.arrayOf(PropTypes.string).isRequired,
   lastDroppedItem: PropTypes.object,
   onDrop: PropTypes.func.isRequired,
-  children: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.arrayOf(PropTypes.node),
-  ]),
+  item: PropTypes.object,
 };
 
 export default DropTarget(
