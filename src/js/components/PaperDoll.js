@@ -1,5 +1,6 @@
 import { find, map } from 'lodash';
 import React, { Component, PropTypes } from 'react';
+import cn from 'classnames';
 
 import base from '../base';
 import { ItemSlots } from '../constants';
@@ -35,9 +36,18 @@ class PaperDoll extends Component {
     base.removeBinding(this.ref);
   }
   handleDrop(data, slot) {
-    // TODO: equip
-    if(!data.item.slot) {
-      console.log('equip', data.item, slot);
+    const { characterKey, uid } = this.props;
+    const { item } = data;
+    if(item.slot !== slot) {
+      // unequip old item
+      const oldItem = this.getItemInSlot(slot);
+      if(oldItem) {
+        base.remove(`users/${uid}/characters/${characterKey}/items/${oldItem.key}/slot`);
+      }
+      // equip item
+      base.update(`users/${uid}/characters/${characterKey}/items/${item.key}`, {
+        data: { slot }
+      });
     }
   }
   getItemInSlot(slot) {
@@ -47,13 +57,13 @@ class PaperDoll extends Component {
     const { itemSlots } = this.state;
 
     return (
-      <div>
+      <div className="paperdoll">
         {itemSlots.map(({ accepts, slot }, index) => {
           const item = this.getItemInSlot(slot);
           return (
             <GenericDropTarget
               key={slot}
-              className="itemslot"
+              className={cn('itemslot', `is-${slot}`)}
               accepts={accepts}
               onDrop={data => this.handleDrop(data, slot)}
             >

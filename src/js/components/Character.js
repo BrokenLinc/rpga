@@ -4,9 +4,8 @@ import { DragSource } from 'react-dnd';
 
 import base from '../base';
 import { characterSpec } from '../specs';
-import PaperDoll from './PaperDoll';
 import Inventory from './Inventory';
-import Item from './Item';
+import PaperDoll from './PaperDoll';
 import Portrait from './Portrait';
 
 class Character extends Component {
@@ -17,9 +16,6 @@ class Character extends Component {
       character: null,
       isLoading: true,
     };
-
-    // this.equip = this.equip.bind(this);
-    // this.unequip = this.unequip.bind(this);
   }
   componentDidMount(){
     const { uid } = this.context.user;
@@ -36,28 +32,6 @@ class Character extends Component {
   componentWillUnmount(){
     base.removeBinding(this.ref);
   }
-  // unequip(itemKey) {
-  //   const { uid } = this.context.user;
-  //   const { characterKey } = this.props.params;
-  //   base.remove(`users/${uid}/characters/${characterKey}/items/${itemKey}/slot`);
-  // }
-  // equip(itemKey) {
-  //   const { uid } = this.context.user;
-  //   const { characterKey } = this.props.params;
-  //   const { character } = this.state;
-  //   const { items } = character;
-  //   const type = items[itemKey].type;
-  //
-  //   each(items, (thisItem, thisItemKey) => {
-  //     if(thisItem.type === type && thisItemKey !== itemKey) {
-  //       base.remove(`users/${uid}/characters/${characterKey}/items/${thisItemKey}/slot`);
-  //     }
-  //   });
-  //
-  //   base.update(`users/${uid}/characters/${characterKey}/items/${itemKey}`, {
-  //     data: { slot: type }
-  //   });
-  // }
   render() {
     const { uid } = this.context.user;
     const { characterKey } = this.props.params;

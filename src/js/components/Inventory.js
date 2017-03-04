@@ -35,29 +35,28 @@ class Inventory extends Component {
     base.removeBinding(this.ref);
   }
   handleDrop(data) {
-    if(data.item.slot) {
-      // TODO: unequip
-      console.log('unequip', data.item);
+    const { characterKey, uid } = this.props;
+    const { item } = data;
+    if(item.slot) {
+      // unequip item
+      base.remove(`users/${uid}/characters/${characterKey}/items/${item.key}/slot`);
     }
   }
   render() {
     const { items } = this.state;
 
     return (
-      <div>
-        <GenericDropTarget
-          className="inventory"
-          accepts={allItemTypes}
-          onDrop={this.handleDrop}
-        >
-          {map(items, (item) => item.slot ? null :
-            <DraggableItem
-              key={item.key}
-              item={item}
-            />
-          )}
-        </GenericDropTarget>
-      </div>
+      <GenericDropTarget
+        className="inventory"
+        accepts={allItemTypes}
+        onDrop={this.handleDrop}
+      >
+        {map(items, (item) => item.slot ? null :
+          <div key={item.key} className="itemslot">
+            <DraggableItem item={item} />
+          </div>
+        )}
+      </GenericDropTarget>
     );
   }
 }

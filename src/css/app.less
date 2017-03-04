@@ -321,37 +321,101 @@ h1 {
 	font-weight: 300;
 }
 
-.itemslot, .inventory {
-	background-color: black;
-  height: 12rem;
-  width: 12rem;
-  margin-right: 1.5rem;
-  margin-bottom: 1.5rem;
-  color: white;
-  padding: 1rem;
-  display: inline-block;
-  vertical-align: top;
+@dnd-isover: #28d;
+@dnd-candrop: fade(@dnd-isover, 30%);
+
+.paperdoll {
+	display:flex;
+	flex-flow: row wrap;
+	padding: 5px;
+	position: relative;
+	width: 300px;
+	height: 400px;
+
+	.itemslot {
+		position: absolute;
+
+		&.is-head {
+			left: 100px;
+			top: 0;
+		}
+		&.is-jewelry {
+			left: 0;
+			top: 100px;
+		}
+		&.is-chest {
+			left: 100px;
+			top: 100px;
+		}
+		&.is-hands {
+			left: 200px;
+			top: 100px;
+		}
+		&.is-righthand {
+			left: 0;
+			top: 200px;
+		}
+		&.is-lefthand {
+			left: 200px;
+			top: 200px;
+		}
+		&.is-legs {
+			left: 100px;
+			top: 200px;
+		}
+		&.is-feet {
+			left: 100px;
+			top: 300px;
+		}
+
+		&.can-drop {
+			border-color: @dnd-candrop;
+		}
+	}
+}
+
+.itemslot {
+	background-color: #ddd;
+	height: 90px;
+	margin: 5px;
+	padding: 3px;
+	width: 90px;
+	border: 2px solid transparent;
 
 	&.can-drop {
-		background-color: darkkhaki;
+		&.is-over {
+			border-color: @dnd-isover;
+		}
+	}
+}
+
+.inventory {
+	display:flex;
+	flex-flow: row wrap;
+	background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect x="5" y="5" width="90" height="90" fill="#ddd"/></svg>');
+	width: 400px;
+	min-height: 200px;
+	padding-bottom: 100px;
+	border: 2px solid transparent;
+
+	&.can-drop {
+		border-color: @dnd-candrop;
 
 		&.is-over {
-			background-color: darkgreen;
+			border-color: @dnd-isover;
 		}
 	}
 }
 
 .item {
-  border: 1px dashed gray;
-  background-color: white;
-  padding: 0.5rem 1rem;
-  margin-right: 1.5rem;
-  margin-bottom: 1.5rem;
-  cursor: move;
-  display: block;
-  color: black;
+	cursor: pointer;
+	background-color: black;
+	border-radius: 2px;
+	color: white;
+	height: 80px;
+	width: 80px;
 
 	&.is-dragging {
-		opacity: 0.4;
+		opacity: 0;
 	}
 }
