@@ -4,6 +4,7 @@ import { DragSource } from 'react-dnd';
 
 import base from '../base';
 import { characterSpec } from '../specs';
+import DragContainer from './DragContainer';
 import Item from './Item';
 import Portrait from './Portrait';
 
@@ -23,7 +24,7 @@ class Character extends Component {
     const { uid } = this.context.user;
     const { characterKey } = this.props.params;
 
-    this.ref = base.syncState(`users/${uid}/characters/${characterKey}`, {
+    this.ref = base.bindToState(`users/${uid}/characters/${characterKey}`, {
       context: this,
       state: 'character',
       then: () => {
@@ -64,6 +65,7 @@ class Character extends Component {
 
     return (
       <div>
+        <DragContainer/>
         <h1>{ name }</h1>
         <Portrait imageFile={imageFile} className="is-large" />
         <div className="well">
