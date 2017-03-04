@@ -1,4 +1,4 @@
-import { assign } from 'lodash';
+import { assign, each, filter, map } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 
 import base from '../base';
@@ -83,6 +83,26 @@ class Character extends Component {
       losses: 0,
     });
   }
+  unequip(itemKey) {
+    const { uid } = this.context.user;
+    const { characterKey } = this.props.params;
+    base.remove(`users/${uid}/characters/${characterKey}/items/${itemKey}/slot`);
+  }
+  equip(itemKey) {
+    const { uid } = this.context.user;
+    const { characterKey } = this.props.params;
+    const { character } = this.state;
+    const { items } = character;
+    const type = items[itemKey].type;
+    each(items, (thisItem, thisItemKey) => {
+      if(thisItem.type === type && thisItemKey !== itemKey) {
+        base.remove(`users/${uid}/characters/${characterKey}/items/${thisItemKey}/slot`);
+      }
+    });
+    base.update(`users/${uid}/characters/${characterKey}/items/${itemKey}`, {
+      data: { slot: type }
+    });
+  }
   render() {
     const { character, isLoading, wins, draws, losses } = this.state;
     const { imageFile, name, power } = characterSpec(character);
@@ -146,6 +166,24 @@ class Character extends Component {
         <button className="btn btn-success" onClick={ () => { this.fight(20) } }>Fight a level 20 vampire</button><br/>
         <button className="btn btn-danger" onClick={ () => { this.reset() } }>Reset Counts</button>
         */}
+        <div className="well">
+          <strong>Weapon slot</strong>
+          {map(character.items, (item, key) => (item.slot === 'weapon' ? (
+            <div key={key}>
+              { item.name }
+              <a onClick={() => { this.unequip(key) }} href="javascript:void(0)">unequip</a>
+            </div>
+          ) : null))}
+        </div>
+        <div className="well">
+          <strong>Bag</strong>
+          {map(character.items, (item, key) => (item.slot ? null : (
+            <div key={key}>
+              { item.name }
+              <a onClick={() => { this.equip(key, item) }} href="javascript:void(0)">equip</a>
+            </div>
+          )))}
+        </div>
       </div>
     );
   }
