@@ -1,26 +1,15 @@
 import React, { PropTypes, Component } from 'react';
 import { DragSource } from 'react-dnd';
-
-const style = {
-  border: '1px dashed gray',
-  backgroundColor: 'white',
-  padding: '0.5rem 1rem',
-  marginRight: '1.5rem',
-  marginBottom: '1.5rem',
-  cursor: 'move',
-  display: 'block',
-  color: 'black',
-};
+import cn from 'classnames';
 
 class DraggableItem extends Component {
   render() {
     const { item, isDragging, connectDragSource } = this.props;
-    const opacity = isDragging ? 0.4 : 1;
 
     return connectDragSource(
-      <div style={{ ...style, opacity }}>
+      <div className={cn('item', { 'is-dragging': isDragging })}>
         { item.name }
-      </div>,
+      </div>
     );
   }
 }
@@ -28,8 +17,6 @@ class DraggableItem extends Component {
 DraggableItem.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
-  // name: PropTypes.string.isRequired,
-  // type: PropTypes.string.isRequired,
   item: PropTypes.object.isRequired,
 }
 

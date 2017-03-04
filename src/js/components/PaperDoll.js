@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import base from '../base';
 import { ItemSlots } from '../constants';
 import DraggableItem from './DraggableItem';
-import InventoryDropTarget from './InventoryDropTarget';
+import GenericDropTarget from './GenericDropTarget';
 
 class PaperDoll extends Component {
   constructor(props) {
@@ -51,7 +51,7 @@ class PaperDoll extends Component {
         {itemSlots.map(({ accepts, slot }, index) => {
           const item = this.getItemInSlot(slot);
           return (
-            <InventoryDropTarget
+            <GenericDropTarget
               key={slot}
               className="itemslot"
               accepts={accepts}
@@ -60,7 +60,7 @@ class PaperDoll extends Component {
               { item ? (
                 <DraggableItem item={item} />
               ) : null }
-            </InventoryDropTarget>
+            </GenericDropTarget>
           );
         })}
       </div>

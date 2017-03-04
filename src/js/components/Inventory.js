@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import base from '../base';
 import { ItemTypes } from '../constants';
 import DraggableItem from './DraggableItem';
-import InventoryDropTarget from './InventoryDropTarget';
+import GenericDropTarget from './GenericDropTarget';
 
 const allItemTypes = map(ItemTypes, (t) => t);
 
@@ -45,7 +45,7 @@ class Inventory extends Component {
 
     return (
       <div>
-        <InventoryDropTarget
+        <GenericDropTarget
           className="inventory"
           accepts={allItemTypes}
           onDrop={this.handleDrop}
@@ -56,7 +56,7 @@ class Inventory extends Component {
               item={item}
             />
           )}
-        </InventoryDropTarget>
+        </GenericDropTarget>
       </div>
     );
   }

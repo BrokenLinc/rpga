@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { DropTarget } from 'react-dnd';
 import cn from 'classnames';
 
-class Inventory extends Component {
+class GenericDropTarget extends Component {
   render() {
     const { canDrop, children, className, connectDropTarget, isOver } = this.props;
 
@@ -14,7 +14,7 @@ class Inventory extends Component {
   }
 }
 
-Inventory.propTypes = {
+GenericDropTarget.propTypes = {
   accepts: PropTypes.arrayOf(PropTypes.string).isRequired,
   children: PropTypes.oneOfType([
     PropTypes.node,
@@ -37,4 +37,4 @@ export default DropTarget(
     isOver: monitor.isOver(),
     canDrop: monitor.canDrop(),
   })
-)(Inventory);
+)(GenericDropTarget);
