@@ -13,7 +13,13 @@ class DraggableItem extends Component {
 
     return connectDragSource(
       <div className={cn('item', { 'is-dragging': isDragging })}>
-        <img ref={(c) => { this.image = c; }} className="item__image" src={itemImage(item.imageFile)} />
+        {item.imageFile ? (
+          <img
+            ref={(c) => { this.image = c }}
+            className="item__image"
+            src={itemImage(item.imageFile)}
+          />
+        ) : null}
         <div className="item__tooltip">
             <div className="item__name">{ item.name }</div>
             <div className="item__type">{ item.type }</div>
