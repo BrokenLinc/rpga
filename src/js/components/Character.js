@@ -42,10 +42,10 @@ class Character extends Component {
 
     return (
       <div>
-        <PaperDoll uid={uid} characterKey={characterKey}/><br/>
-        <Inventory uid={uid} characterKey={characterKey}/>
         <h1>{ name }</h1>
         <Portrait imageFile={imageFile} className="is-large" />
+        <PaperDoll uid={uid} characterKey={characterKey}/>
+        <Inventory uid={uid} characterKey={characterKey}/>
       </div>
     );
   }
