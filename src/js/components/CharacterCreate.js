@@ -45,7 +45,7 @@ class CharacterCreate extends Component {
     this.setState({ error: '' });
 
     base.push(`users/${uid}/characters`, {
-      data: { uid, name, imageFile },
+      data: { name, imageFile },
     }).then(newLocation => {
       this.setState({ name: '' });
       router.push(`/characters`);

@@ -1,5 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 import { store } from '../redux';
 import Router from './Router';
@@ -15,4 +17,4 @@ const App = () => {
   );
 }
 
-export default App;
+export default DragDropContext(HTML5Backend)(App);

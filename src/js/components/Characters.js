@@ -23,10 +23,11 @@ class Characters extends Component {
   componentDidMount(){
     const { uid } = this.context.user;
 
-    this.ref = base.syncState(`users/${uid}/characters`, {
+    this.ref = base.bindToState(`users/${uid}/characters`, {
       context: this,
       state: 'characters',
       asArray: true,
+      keepKeys: true,
       queries: {
         orderByChild: 'name',
         //limitToFirst: 2,

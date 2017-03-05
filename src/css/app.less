@@ -320,3 +320,145 @@ h1 {
 	font-size: 18px;
 	font-weight: 300;
 }
+
+@dnd-isover: #28d;
+@dnd-candrop: fade(@dnd-isover, 30%);
+
+.paperdoll {
+	display:flex;
+	flex-flow: row wrap;
+	padding: 5px;
+	position: relative;
+	width: 300px;
+	height: 400px;
+	margin: 10px auto;
+
+	.itemslot {
+		position: absolute;
+
+		&.is-head {
+			left: 100px;
+			top: 0;
+		}
+		&.is-jewelry {
+			left: 0;
+			top: 100px;
+		}
+		&.is-chest {
+			left: 100px;
+			top: 100px;
+		}
+		&.is-hands {
+			left: 200px;
+			top: 100px;
+		}
+		&.is-righthand {
+			left: 0;
+			top: 200px;
+		}
+		&.is-lefthand {
+			left: 200px;
+			top: 200px;
+		}
+		&.is-legs {
+			left: 100px;
+			top: 200px;
+		}
+		&.is-feet {
+			left: 100px;
+			top: 300px;
+		}
+
+		&.can-drop {
+			border-color: @dnd-candrop;
+		}
+	}
+}
+
+.itemslot {
+	background-color: #ddd;
+	height: 90px;
+	margin: 5px;
+	padding: 3px;
+	width: 90px;
+	border: 2px solid transparent;
+
+	&.can-drop {
+		&.is-over {
+			border-color: @dnd-isover;
+		}
+	}
+}
+
+.inventory {
+	display:flex;
+	flex-flow: row wrap;
+	background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect x="5" y="5" width="90" height="90" fill="#ddd"/></svg>');
+	width: 400px;
+	min-height: 200px;
+	padding-bottom: 100px;
+	border: 2px solid transparent;
+	margin: 10px auto;
+
+	&.can-drop {
+		border-color: @dnd-candrop;
+
+		&.is-over {
+			border-color: @dnd-isover;
+		}
+	}
+}
+
+.item {
+	cursor: pointer;
+	background-color: black;
+	height: 80px;
+	width: 80px;
+	transition: all 0.3s;
+	position: relative;
+
+	&.is-dragging {
+		opacity: 0;
+	}
+
+	&:hover {
+		box-shadow: 0 15px 30px fade(black, 25%);
+	}
+}
+
+.item__image {
+	position: relative;
+	z-index: 2;
+	border-radius: 2px;
+	overflow: hidden;
+	height: 100%;
+	width: 100%;
+}
+.item__tooltip {
+	position: absolute;
+	z-index: 1;
+	background-color: white;
+	top:-50px;
+	left:50%;
+	transform: translate(-50%, 0) scale(0.001, 0.001);
+	width: 300px;
+	min-height: 170px;
+	box-shadow: 0 15px 30px fade(black, 25%);
+	transition: transform 0.3s;
+	padding-bottom: 10px;
+
+	.item:hover & {
+		transform: translate(-50%,0);
+		transition: transform 0.3s 0.7s;
+	}
+}
+.item__name {
+	font-size: 22px;
+	line-height: 50px;
+	font-weight: 300;
+	height: 140px;
+}
+.item__type {
+	font-style: italic;
+	color: #777;
+}
