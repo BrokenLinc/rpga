@@ -57,22 +57,27 @@ class PaperDoll extends Component {
     const { itemSlots } = this.state;
 
     return (
-      <div className="paperdoll">
-        {itemSlots.map(({ accepts, slot }, index) => {
-          const item = this.getItemInSlot(slot);
-          return (
-            <GenericDropTarget
-              key={slot}
-              className={cn('itemslot', `is-${slot}`)}
-              accepts={accepts}
-              onDrop={data => this.handleDrop(data, slot)}
-            >
-              { item ? (
-                <DraggableItem item={item} />
-              ) : null }
-            </GenericDropTarget>
-          );
-        })}
+      <div className="pane">
+        <div className="pane__heading">Equipment</div>
+        <div className="pane__content">
+          <div className="paperdoll">
+            {itemSlots.map(({ accepts, slot }, index) => {
+              const item = this.getItemInSlot(slot);
+              return (
+                <GenericDropTarget
+                  key={slot}
+                  className={cn('itemslot', `is-${slot}`)}
+                  accepts={accepts}
+                  onDrop={data => this.handleDrop(data, slot)}
+                >
+                  { item ? (
+                    <DraggableItem item={item} />
+                  ) : null }
+                </GenericDropTarget>
+              );
+            })}
+          </div>
+        </div>
       </div>
     );
   }

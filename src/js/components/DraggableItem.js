@@ -22,7 +22,10 @@ class DraggableItem extends Component {
         ) : null}
         <div className="item__tooltip">
             <div className="item__name">{ item.name }</div>
-            <div className="item__type">{ item.type }</div>
+            <div className="item__details">
+              <div className="item__combat">{ item.combat } { item.combatAction }</div>
+              <div className="item__type">{ item.type }</div>
+            </div>
         </div>
     </div>
     );

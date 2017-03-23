@@ -7,7 +7,6 @@ import { characterSpec } from '../specs';
 import ContentLoader from './ContentLoader';
 import Icon from './Icon';
 import Portrait from './Portrait';
-import TransitionGroup from './TransitionGroup';
 
 class Characters extends Component {
   constructor(props) {

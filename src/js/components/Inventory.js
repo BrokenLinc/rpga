@@ -46,17 +46,22 @@ class Inventory extends Component {
     const { items } = this.state;
 
     return (
-      <GenericDropTarget
-        className="inventory"
-        accepts={allItemTypes}
-        onDrop={this.handleDrop}
-      >
-        {map(items, (item) => item.slot ? null :
-          <div key={item.key} className="itemslot">
-            <DraggableItem item={item} />
-          </div>
-        )}
-      </GenericDropTarget>
+      <div className="pane">
+        <div className="pane__heading">Bag</div>
+        <div className="pane__content">
+          <GenericDropTarget
+            className="inventory"
+            accepts={allItemTypes}
+            onDrop={this.handleDrop}
+          >
+            {map(items, (item) => item.slot ? null :
+              <div key={item.key} className="itemslot">
+                <DraggableItem item={item} />
+              </div>
+            )}
+          </GenericDropTarget>
+        </div>
+      </div>
     );
   }
 }
