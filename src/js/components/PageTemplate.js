@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import { RouteTransition } from 'react-router-transition';
 
 import base from '../base';
+import paths from '../paths';
 
 class PageTemplate extends Component {
   constructor(props) {
@@ -18,24 +19,17 @@ class PageTemplate extends Component {
   render() {
     const { children, location, user } = this.props;
 
-    let menu = null;
-
-    if(!user.isLoading) {
-      menu = user.email ? (
-        <nav>
-          <Link to="/">Dashboard</Link>
-          <Link to="/characters">Characters</Link>
-          <a onClick={ this.onSignOutClick } href="javascript:void(0)">Sign out</a>
-        </nav>
-      ) : null;
-    }
-
     return (
       <div>
-        <header className="pageheader">
-          Game
-          { menu }
-        </header>
+        { !user.isLoading && user.email ? (
+          <header className="pageheader">
+            <nav>
+              <span>Undermud</span>
+              <Link to={ paths.characters() }>Characters</Link>
+              <a onClick={ this.onSignOutClick } href="javascript:void(0)">Log out</a>
+            </nav>
+          </header>
+        ) : null }
         <RouteTransition
           className="routetransition"
           pathname={location.pathname}

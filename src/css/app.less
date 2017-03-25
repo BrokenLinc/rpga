@@ -265,23 +265,22 @@ body {
 
 .pageheader {
 	border-bottom: 1px solid #bbb;
-	display: flex;
-	flex-flow: row;
 	font-size: 14px;
 	font-weight: bold;
-	justify-content: center;
 	line-height: 40px;
-	padding: 0 20px;
 	text-transform: uppercase;
 
 	nav {
 		display: flex;
 		flex-flow: row;
-		font-weight: normal;
-		padding-left: 20px;
+		justify-content: space-between;
 
 		> * {
-			padding: 0 20px;
+			padding: 0 15px;
+		}
+
+		a {
+			font-weight: normal;
 		}
 	}
 }

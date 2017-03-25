@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import cn from 'classnames';
 
 import base from '../base';
+import paths from '../paths';
 import { characterImage } from '../paths';
 import Portrait from './Portrait';
 
@@ -48,7 +49,7 @@ class CharacterCreate extends Component {
       data: { name, imageFile },
     }).then(newLocation => {
       this.setState({ name: '' });
-      router.push(`/characters`);
+      router.push(paths.characters());
     }).catch((error) => {
       this.setState({ error });
     });

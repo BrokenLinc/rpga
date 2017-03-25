@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
 import base from '../base';
+import paths from '../paths';
 import { characterSpec } from '../specs';
 import ContentLoader from './ContentLoader';
 import Icon from './Icon';
@@ -52,7 +53,7 @@ class Characters extends Component {
         <ContentLoader isLoading={isLoading} align="center">
           <ul className="characterlist">
             <li>
-              <Link to="/characters/create" className="characterlistitem">
+              <Link to={ paths.characterCreate() } className="characterlistitem">
                 <div className="characterlistitem__portrait portrait">
                   <Icon name="plus"/>
                 </div>
@@ -63,7 +64,7 @@ class Characters extends Component {
               const { key, imageFile, name, power } = characterSpec(character);
               return (
                 <li key={key}>
-                  <Link to={`/characters/${key}`} className="characterlistitem">
+                  <Link to={ paths.character(key) } className="characterlistitem">
                     <Portrait imageFile={imageFile} />
                     <div className="characterlistitem__name">{ name }</div>
                   </Link>

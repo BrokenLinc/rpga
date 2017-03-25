@@ -1,10 +1,12 @@
 import React from 'react';
 import { Router, Route, hashHistory } from 'react-router'
 
+import paths from '../paths';
 import restrictAccess from '../restrictAccess';
 import Dashboard from './Dashboard';
 import Character from './Character';
 import CharacterCreate from './CharacterCreate';
+import CharacterItems from './CharacterItems';
 import Characters from './Characters';
 import PageTemplate from './PageTemplate';
 
@@ -12,10 +14,11 @@ const AppRouter = () => {
   return (
     <Router history={hashHistory}>
       <Route component={PageTemplate}>
-        <Route path="/" component={restrictAccess(Dashboard)}/>
-        <Route path="/characters" component={restrictAccess(Characters)}/>
-        <Route path="/characters/create" component={restrictAccess(CharacterCreate)}/>
-        <Route path="/characters/:characterKey" component={restrictAccess(Character)}/>
+        <Route path={ paths.characters() } component={restrictAccess(Characters)}/>
+        <Route path={ paths.characterCreate() } component={restrictAccess(CharacterCreate)}/>
+        <Route path={ paths.character(':characterKey') } component={restrictAccess(Character)}>
+          <Route path={ paths.characterItems(':characterKey') } component={CharacterItems}/>
+        </Route>
       </Route>
     </Router>
   );

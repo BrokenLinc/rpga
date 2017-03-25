@@ -5,8 +5,6 @@ import cn from 'classnames';
 
 import base from '../base';
 import { characterSpec } from '../specs';
-import Inventory from './Inventory';
-import PaperDoll from './PaperDoll';
 import Portrait from './Portrait';
 import TransitionGroup from './TransitionGroup';
 
@@ -350,10 +348,9 @@ class Character extends Component {
             <li key={index} className={`is-${combatAction}`} style={{flexGrow: combat}}></li>
           ))}
         </ul>*/}
-        <div className="itempanes">
-          <PaperDoll uid={uid} characterKey={characterKey}/>
-          <Inventory uid={uid} characterKey={characterKey}/>
-        </div>
+
+        { this.props.children }
+
       </div>
     );
   }
@@ -361,6 +358,14 @@ class Character extends Component {
 
 Character.contextTypes = {
   user: PropTypes.object.isRequired,
+};
+
+Character.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.node),
+  ]),
+  params: PropTypes.object,
 };
 
 export default Character;
