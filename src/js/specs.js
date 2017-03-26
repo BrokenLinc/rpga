@@ -2,7 +2,8 @@ import { assign } from 'lodash';
 
 module.exports = {
   characterSpec: (o) => assign({
-    power: 3,
+    name: 'Unknown',
+    life: 5,
     imageFile: 'character1.png',
   }, o),
 };

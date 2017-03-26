@@ -1,18 +1,46 @@
+html, body, .react-app, .react-app > div {
+	width: 100%;
+	height: 100%;
+}
+html, body {
+	overflow: hidden; //prevent root scroll/pulling
+}
+.react-app > div {
+	display: flex;
+	flex-flow: column;
+}
+
+div, nav, ul {
+	display: flex;
+	flex-flow: column;
+
+	> * {
+		flex: 0 0 auto;
+	}
+}
+.list-reset {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
 body {
 	background-color: #eee;
 	color: #111;
 }
 .routetransition {
+	flex: 1 1 auto;
 	position:relative;
 	text-align: center;
 
 	> * {
+		display: flex;
+		flex-flow: column;
 		position: absolute;
 		top:0;
 		left:0;
 		right:0;
 		bottom:0;
-		padding: 0 20px;
 	}
 }
 .authdebug {
@@ -63,13 +91,6 @@ body {
   80% {
     transform: translate3d(-1px, 0, 0);
   }
-}
-
-.characterlist {
-	> li.is-active {
-		background: yellow;
-		font-weight: bold;
-	}
 }
 
 .rt-fade {
@@ -145,6 +166,7 @@ body {
 }
 
 .contentloader {
+	flex: 1 1 auto;
 	position: relative;
 	max-height: 1000px;
 
@@ -199,8 +221,6 @@ body {
 	background-color: #f6f6f6;
 	border: 5px solid #ddd;
 	border-radius: 50%;
-	display: flex;
-	flex-flow: column;
 	font-size: 60px;
 	font-weight: 100;
 	margin: 0 auto;
@@ -224,11 +244,11 @@ body {
 }
 
 .selectionrotator {
+	.list-reset;
+
 	display: block;
 	height: 100px;
-	list-style: none;
-	margin: 0 0 20px;
-	padding:0;
+	margin-bottom: 20px;
 	position: relative;
 	width: 100%;
 
@@ -268,12 +288,14 @@ body {
 	font-size: 14px;
 	font-weight: bold;
 	line-height: 40px;
-	text-transform: uppercase;
 
 	nav {
-		display: flex;
 		flex-flow: row;
 		justify-content: space-between;
+
+		span {
+			flex: 1 1 auto;
+		}
 
 		> * {
 			padding: 0 15px;
@@ -281,6 +303,7 @@ body {
 
 		a {
 			font-weight: normal;
+			border-left: 1px solid #ddd;
 		}
 	}
 }
@@ -290,20 +313,20 @@ h1 {
 }
 
 .characterlist {
-	align-items: flex-start;
-	display: flex;
-	flex-flow: row wrap;
-	list-style: none;
-	margin:0;
-	padding:0;
-	text-align: center;
-	justify-content: center;
+	.list-reset;
+
+	> li.is-active {
+		background: yellow;
+		font-weight: bold;
+	}
 }
 .characterlistitem {
-	color: #111;
-	display: block;
-	width: 200px;
-	padding: 20px 10px;
+	border-bottom: 1px solid #ccc;
+	display: flex;
+	flex-flow: column;
+	height: 110px;
+	justify-content: center;
+	padding: 5px 15px;
 
 	&, &:hover {
 		color: #111;
@@ -324,7 +347,6 @@ h1 {
 @dnd-candrop: fade(@dnd-isover, 30%);
 
 .paperdoll {
-	display:flex;
 	flex-flow: row wrap;
 	padding: 5px;
 	position: relative;
@@ -389,7 +411,6 @@ h1 {
 }
 
 .inventory {
-	display:flex;
 	flex-flow: row wrap;
 	background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect x="5" y="5" width="90" height="90" fill="#ddd"/></svg>');
 	width: 404px;
@@ -458,7 +479,6 @@ h1 {
 	height: 140px;
 }
 .item__details {
-	display: flex;
 	justify-content: space-between;
 	padding: 0 10px;
 }
@@ -485,11 +505,8 @@ h1 {
 }
 
 .combatdistribution {
-	display: flex;
+	.list-reset;
 	flex-flow: row;
-	list-style:none;
-	padding:0;
-	margin: 0;
 	font-size: 10px;
 	height:20px;
 	color:white;
@@ -543,7 +560,6 @@ h1 {
 
 .itempanes {
 	margin: 15px -10px 0;
-	display: flex;
 	flex-flow: row;
 	justify-content: center;
 	align-items: flex-start;
@@ -565,11 +581,10 @@ h1 {
 }
 
 .combatlog {
+	.list-reset;
 	background-color: fade(black, 7%);
 	border-radius: 5px;
 	padding: 15px;
-	list-style: none;
-	margin: 0;
 	width: 320px;
 	margin: 0 auto;
 	height: 320px;
@@ -577,7 +592,6 @@ h1 {
 	overflow-y: scroll;
 }
 .combatlog__event {
-	display: flex;
 	font-size: 12px;
 	font-weight: bold;
 	line-height: 24px;
@@ -610,4 +624,144 @@ h1 {
 	&.is-poison {
 		color: #228800;
 	}
+}
+
+.characterinfotabs {
+	flex: 1 1 auto;
+	overflow: hidden;
+}
+.characterinfotabs__headers {
+	.list-reset;
+	background: #ddd;
+	flex-flow: row;
+
+	> * {
+		flex: 1 0 auto;
+		width: 33%;
+	}
+
+	li {
+		background: transparent;
+		border: 0 none;
+		cursor: pointer;
+		display: block;
+		font-weight: bold;
+		line-height: 40px;
+		transition: background-color 0.2s;
+
+		&.is-active {
+			background: #678;
+		}
+	}
+
+	li + li {
+		border-left: 1px solid #ccc;
+	}
+
+	@media (min-width: 960px) {
+		display: none;
+	}
+}
+.characterinfotabs__regionscontainer {
+	flex: 1 1 auto;
+	position: relative;
+}
+.characterinfotabs__regions {
+	.list-reset;
+	bottom: 0;
+	flex-flow: row;
+	position: absolute;
+	top: 0;
+	transition: left 0.2s;
+	width: 300%;
+
+	> * {
+		flex: 1 0 auto;
+		overflow-y: auto;
+		width: 33%;
+	}
+
+	@media (min-width: 960px) {
+		left: 0 !important;
+		width: 100%;
+	}
+}
+
+.characterthumb {
+	align-items: center;
+	flex-flow: row;
+}
+.characterthumb__portrait {
+
+}
+.characterthumb__info {
+	flex: 1 1 auto;
+	padding-left: 15px;
+	text-align: left;
+}
+
+.characters {
+	flex: 1 1 auto;
+	overflow: auto;
+}
+
+.character {
+	flex: 1 1 auto;
+}
+
+.character__header {
+	padding: 5px 15px;
+}
+
+.characteritem {
+	border-bottom: 1px solid #ddd;
+	flex-flow: row;
+
+	&.is-equipped {
+		.characteritem__toggle {
+			background: #295;
+		}
+		.characteritem__combat {
+			color: #295;
+		}
+		.characteritem__sell {
+			transform: scale(0);
+		}
+	}
+}
+.characteritem__info {
+	flex: 1 1 auto;
+	padding: 10px;
+	text-align: left;
+}
+.characteritem__name {
+	font-weight: bold;
+}
+.characteritem__type {
+	font-style: italic;
+	color: #999;
+}
+.characteritem__combat {
+}
+.characteritem__sell {
+	align-self: center;
+	border: 0 none;
+	height: 40px;
+	border-radius: 50%;
+	width: 40px;
+	margin-right: 10px;
+	background: #db3;
+	transition: transform 0.2s;
+}
+.characteritem__toggle {
+	align-self: center;
+	border: 0 none;
+	height: 40px;
+	border-radius: 50%;
+	width: 40px;
+	margin-right: 10px;
+}
+
+.hearts {
+	flex-flow: row;
 }

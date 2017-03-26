@@ -16,9 +16,8 @@ const AppRouter = () => {
       <Route component={PageTemplate}>
         <Route path={ paths.characters() } component={restrictAccess(Characters)}/>
         <Route path={ paths.characterCreate() } component={restrictAccess(CharacterCreate)}/>
-        <Route path={ paths.character(':characterKey') } component={restrictAccess(Character)}>
-          <Route path={ paths.characterItems(':characterKey') } component={CharacterItems}/>
-        </Route>
+        <Route path={ paths.character(':characterKey') } component={restrictAccess(Character)}/>
+        <Route path={ paths.characterTab(':characterKey',':tab') } component={restrictAccess(Character)}/>
       </Route>
     </Router>
   );

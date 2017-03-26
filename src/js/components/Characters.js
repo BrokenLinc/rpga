@@ -1,13 +1,13 @@
-import { assign, map, remove } from 'lodash';
+import { map, times } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
 import base from '../base';
 import paths from '../paths';
-import { characterSpec } from '../specs';
 import ContentLoader from './ContentLoader';
-import Icon from './Icon';
-import Portrait from './Portrait';
+import CharacterThumb from './CharacterThumb';
+
+const MAX_CHARACTERS = 5;
 
 class Characters extends Component {
   constructor(props) {
@@ -17,8 +17,6 @@ class Characters extends Component {
       characters: [],
       isLoading: true,
     };
-
-    this.deleteCharacter = this.deleteCharacter.bind(this);
   }
   componentDidMount(){
     const { uid } = this.context.user;
@@ -28,10 +26,6 @@ class Characters extends Component {
       state: 'characters',
       asArray: true,
       keepKeys: true,
-      queries: {
-        orderByChild: 'name',
-        //limitToFirst: 2,
-      },
       then: () => {
         this.setState({ isLoading: false });
       },
@@ -40,38 +34,34 @@ class Characters extends Component {
   componentWillUnmount(){
     base.removeBinding(this.ref);
   }
-  deleteCharacter(key) {
-    const { uid } = this.context.user;
-    base.remove(`users/${uid}/characters/${key}`);
-  }
   render() {
     const { characters, isLoading } = this.state;
+    const emptyslotCount = Math.max(MAX_CHARACTERS - characters.length, 0);
 
     return (
-      <div>
-        <h1>Characters</h1>
+      <div className="characters">
         <ContentLoader isLoading={isLoading} align="center">
           <ul className="characterlist">
-            <li>
-              <Link to={ paths.characterCreate() } className="characterlistitem">
-                <div className="characterlistitem__portrait portrait">
-                  <Icon name="plus"/>
-                </div>
-                <div className="characterlistitem__name">New Character</div>
-              </Link>
-            </li>
-            {map(characters, (character) => {
-              const { key, imageFile, name, power } = characterSpec(character);
-              return (
-                <li key={key}>
-                  <Link to={ paths.character(key) } className="characterlistitem">
-                    <Portrait imageFile={imageFile} />
-                    <div className="characterlistitem__name">{ name }</div>
+            {map(characters, (character) => (
+              <li key={character.key}>
+                <Link to={ paths.characterTab(character.key, 'items') } className="characterlistitem">
+                  <CharacterThumb character={character}/>
+                </Link>
+              </li>
+            ))}
+            {times(emptyslotCount, (index) => (
+              <li key={index}>
+                {index === 0 ? (
+                  <Link to={ paths.characterCreate() } className="characterlistitem">
+                    + New Character
                   </Link>
-                  {/*<button className="btn btn-sm btn-danger" onClick={ () => { this.deleteCharacter(key) } }>delete</button>*/}
-                </li>
-              )
-            })}
+                ) : (
+                  <div className="characterlistitem">
+                    ...
+                  </div>
+                )}
+              </li>
+            ))}
           </ul>
         </ContentLoader>
 

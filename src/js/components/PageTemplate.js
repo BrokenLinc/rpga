@@ -24,9 +24,9 @@ class PageTemplate extends Component {
         { !user.isLoading && user.email ? (
           <header className="pageheader">
             <nav>
-              <span>Undermud</span>
-              <Link to={ paths.characters() }>Characters</Link>
-              <a onClick={ this.onSignOutClick } href="javascript:void(0)">Log out</a>
+              <span>undermud</span>
+              <Link to={ paths.characters() }>characters</Link>
+              <a onClick={ this.onSignOutClick } href="javascript:void(0)">logout</a>
             </nav>
           </header>
         ) : null }
