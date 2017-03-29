@@ -30,9 +30,15 @@ class CharacterInfoTabs extends Component {
     return (
       <div className="characterinfotabs">
         <ul className="characterinfotabs__headers">
-          <li className={cn({'is-active':activeTab===TABS.now})} onClick={() => this.selectTab(TABS.now)}>C</li>
-          <li className={cn({'is-active':activeTab===TABS.items})} onClick={() => this.selectTab(TABS.items)}>I</li>
-          <li className={cn({'is-active':activeTab===TABS.log})} onClick={() => this.selectTab(TABS.log)}>L</li>
+          <li className={cn({'is-active':activeTab===TABS.now})} onClick={() => this.selectTab(TABS.now)}>
+            <i className="zmdi zmdi-time"></i> now
+          </li>
+          <li className={cn({'is-active':activeTab===TABS.items})} onClick={() => this.selectTab(TABS.items)}>
+            <i className="zmdi zmdi-apps"></i> items
+          </li>
+          <li className={cn({'is-active':activeTab===TABS.log})} onClick={() => this.selectTab(TABS.log)}>
+            <i className="zmdi zmdi-bookmark"></i> log
+          </li>
         </ul>
         <div className="characterinfotabs__regionscontainer">
           <ul className="characterinfotabs__regions" style={activeTab}>

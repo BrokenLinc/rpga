@@ -1,0 +1,112 @@
+@keyframes shake {
+  20% {
+    transform: translate3d(8px, 0, 0);
+  }
+
+  40% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  60% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  80% {
+    transform: translate3d(-1px, 0, 0);
+  }
+}
+
+.rt-fade {
+	&-enter {
+	  opacity: 0.01;
+
+		&&-active {
+		  opacity: 1;
+		  transition: opacity 500ms ease-in;
+		}
+	}
+
+	&-leave {
+	  opacity: 1;
+
+		&&-active {
+		  opacity: 0.01;
+		  transition: opacity 300ms ease-in;
+		}
+	}
+}
+
+.rt-expand-160 {
+	&-enter {
+	  max-height: 0;
+		opacity: 0.01;
+
+		&&-active {
+		  max-height: 160px;
+			opacity: 1;
+		  transition: max-height 0.15s ease-in,
+									opacity 0.15s 0.15s ease-in;
+		}
+	}
+
+	&-leave {
+	  max-height: 160px;
+		opacity: 1;
+
+		&&-active {
+		  max-height: 0;
+			opacity: 0.01;
+		  transition: max-height 0.15s 0.15s ease-in,
+									opacity 0.15s ease-in;
+		}
+	}
+}
+
+.rt-expand-60 {
+	&-enter {
+	  max-height: 0;
+		opacity: 0.01;
+
+		&&-active {
+		  max-height: 60px;
+			opacity: 1;
+		  transition: max-height 0.15s ease-in,
+									opacity 0.15s 0.15s ease-in;
+		}
+	}
+
+	&-leave {
+	  max-height: 60px;
+		opacity: 1;
+
+		&&-active {
+		  max-height: 0;
+			opacity: 0.01;
+		  transition: max-height 0.15s 0.15s ease-in,
+									opacity 0.15s ease-in;
+		}
+	}
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(-360deg);
+	}
+}
+
+.rt-flex-grow {
+
+	&-enter {
+		flex-grow: 0 !important;
+
+		&&-active {
+		}
+	}
+
+	&-leave {
+
+		&&-active {
+			flex-grow: 0 !important;
+		}
+	}
+}

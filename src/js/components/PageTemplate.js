@@ -20,13 +20,13 @@ class PageTemplate extends Component {
     const { children, location, user } = this.props;
 
     return (
-      <div>
+      <div className="pagetemplate">
         { !user.isLoading && user.email ? (
           <header className="pageheader">
             <nav>
               <span>undermud</span>
-              <Link to={ paths.characters() }>characters</Link>
-              <a onClick={ this.onSignOutClick } href="javascript:void(0)">logout</a>
+              <Link to={ paths.characters() }><i className="zmdi zmdi-accounts"></i></Link>
+              <a onClick={ this.onSignOutClick } href="javascript:void(0)"><i className="zmdi zmdi-power"></i></a>
             </nav>
           </header>
         ) : null }

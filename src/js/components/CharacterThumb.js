@@ -17,9 +17,9 @@ class CharacterThumb extends Component {
         <div className="characterthumb__info">
           <div className="characterthumb__name">{ name }</div>
           <div className="characterthumb__health">
-            <div className="hearts">
-              {times(life, () => (<span>H</span>))}
-              {times(5 - life, () => (<span>O</span>))}
+            <div className="lifebar">
+              {times(life, (i) => (<i key={i} className="zmdi zmdi-favorite"></i>))}
+              {times(5 - life, (i) => (<i key={life + i} className="zmdi zmdi-favorite-outline"></i>))}
             </div>
           </div>
           <div className="characterthumb__stats">

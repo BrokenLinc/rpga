@@ -1,0 +1,64 @@
+.characterinfotabs {
+	display: flex;
+	flex: 1 1 auto;
+	flex-flow: column;
+	overflow: hidden;
+}
+.characterinfotabs__headers {
+	display: flex;
+	.list-reset;
+	background: #ddd;
+	flex-flow: row;
+
+	> * {
+		flex: 1 0 auto;
+		width: 33%;
+	}
+
+	li {
+		background: transparent;
+		border: 0 none;
+		cursor: pointer;
+		display: block;
+		font-weight: bold;
+		line-height: 40px;
+		transition: background-color 0.2s;
+
+		&.is-active {
+			background: #678;
+		}
+	}
+
+	li + li {
+		border-left: 1px solid #ccc;
+	}
+
+	@media (min-width: 960px) {
+		display: none;
+	}
+}
+.characterinfotabs__regionscontainer {
+	flex: 1 1 auto;
+	position: relative;
+}
+.characterinfotabs__regions {
+	.list-reset;
+	bottom: 0;
+	display: flex;
+	flex-flow: row;
+	position: absolute;
+	top: 0;
+	transition: left 0.2s;
+	width: 300%;
+
+	> * {
+		flex: 1 0 auto;
+		overflow-y: auto;
+		width: 33%;
+	}
+
+	@media (min-width: 960px) {
+		left: 0 !important;
+		width: 100%;
+	}
+}
