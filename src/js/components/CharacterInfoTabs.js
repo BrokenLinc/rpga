@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import cn from 'classnames';
 
+import CharacterCurrentActivity from './CharacterCurrentActivity';
 import CharacterItemList from './CharacterItemList';
+import Icon from './Icon';
 
 const TABS = {
   now: { left: '0' }, // needed for transitions
@@ -31,18 +33,18 @@ class CharacterInfoTabs extends Component {
       <div className="characterinfotabs">
         <ul className="characterinfotabs__headers">
           <li className={cn({'is-active':activeTab===TABS.now})} onClick={() => this.selectTab(TABS.now)}>
-            <i className="zmdi zmdi-time"></i> now
+            <Icon name="clock-o" /> now
           </li>
           <li className={cn({'is-active':activeTab===TABS.items})} onClick={() => this.selectTab(TABS.items)}>
-            <i className="zmdi zmdi-apps"></i> items
+            <Icon name="male" /> items
           </li>
           <li className={cn({'is-active':activeTab===TABS.log})} onClick={() => this.selectTab(TABS.log)}>
-            <i className="zmdi zmdi-bookmark"></i> log
+            <Icon name="newspaper-o" /> log
           </li>
         </ul>
         <div className="characterinfotabs__regionscontainer">
           <ul className="characterinfotabs__regions" style={activeTab}>
-            <li>Current Activity</li>
+            <li><CharacterCurrentActivity uid={uid} characterKey={characterKey} returnDate={character.returnDate}/></li>
             <li><CharacterItemList uid={uid} characterKey={characterKey} items={character.items}/></li>
             <li>Last Activity</li>
           </ul>

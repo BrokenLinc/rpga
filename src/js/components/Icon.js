@@ -5,7 +5,7 @@ class Icon extends Component {
     render() {
       const { name } = this.props;
       return (
-        <i className={cn('zmdi',`zmdi-${name}`)}></i>
+        <i className={cn('fa',`fa-${name}`)}></i>
       );
     }
 }

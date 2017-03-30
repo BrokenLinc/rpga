@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 
 import { getFullCharacter } from '../utils';
 import Portrait from './Portrait';
+import Icon from './Icon';
 
 class CharacterThumb extends Component {
   render() {
@@ -18,8 +19,8 @@ class CharacterThumb extends Component {
           <div className="characterthumb__name">{ name }</div>
           <div className="characterthumb__health">
             <div className="lifebar">
-              {times(life, (i) => (<i key={i} className="zmdi zmdi-favorite"></i>))}
-              {times(5 - life, (i) => (<i key={life + i} className="zmdi zmdi-favorite-outline"></i>))}
+              {times(life, (i) => (<Icon key={i} name="heart" />))}
+              {times(5 - life, (i) => (<Icon key={life + i} name="heart-o" />))}
             </div>
           </div>
           <div className="characterthumb__stats">

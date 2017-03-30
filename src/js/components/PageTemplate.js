@@ -5,6 +5,7 @@ import { RouteTransition } from 'react-router-transition';
 
 import base from '../base';
 import paths from '../paths';
+import Icon from './Icon';
 
 class PageTemplate extends Component {
   constructor(props) {
@@ -25,8 +26,8 @@ class PageTemplate extends Component {
           <header className="pageheader">
             <nav>
               <span>undermud</span>
-              <Link to={ paths.characters() }><i className="zmdi zmdi-accounts"></i></Link>
-              <a onClick={ this.onSignOutClick } href="javascript:void(0)"><i className="zmdi zmdi-power"></i></a>
+              <Link to={ paths.characters() }><Icon name="home" /></Link>
+              <a onClick={ this.onSignOutClick } href="javascript:void(0)"><Icon name="sign-out" /></a>
             </nav>
           </header>
         ) : null }
