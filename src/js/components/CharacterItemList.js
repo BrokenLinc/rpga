@@ -16,7 +16,8 @@ class CharacterItemList extends Component {
     this.toggleEquip = this.toggleEquip.bind(this);
   }
   componentDidMount(){
-    const { characterKey, uid } = this.props;
+    const { uid } = this.context.user;
+    const { characterKey } = this.props;
 
     this.ref = base.bindToState(`users/${uid}/characters/${characterKey}/items`, {
       context: this,
@@ -38,7 +39,8 @@ class CharacterItemList extends Component {
     return find(this.state.items, { type, isEquipped: true });
   }
   toggleEquip(item) {
-    const { characterKey, uid } = this.props;
+    const { uid } = this.context.user;
+    const { characterKey } = this.props;
     if(item.isEquipped) {
       //unequip item
       base.remove(`users/${uid}/characters/${characterKey}/items/${item.key}/isEquipped`);
@@ -68,9 +70,6 @@ class CharacterItemList extends Component {
                 <div className="characteritem__type">{ type }</div>
                 <div className="characteritem__combat">{ `+${combat} ${combatAction}` }</div>
               </div>
-              <button className="characteritem__sell">
-                $
-              </button>
               <button className="characteritem__toggle" onClick={ () => this.toggleEquip(item) }>
                 { isEquipped ? 'R' : 'E' }
               </button>
@@ -82,8 +81,12 @@ class CharacterItemList extends Component {
   }
 }
 
+CharacterItemList.contextTypes = {
+  user: PropTypes.object.isRequired,
+};
+
 CharacterItemList.propTypes = {
-  uid: PropTypes.string.isRequired,
+  character: PropTypes.object.isRequired,
   characterKey: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string,

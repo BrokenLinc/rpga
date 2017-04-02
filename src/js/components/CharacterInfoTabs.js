@@ -6,9 +6,8 @@ import CharacterItemList from './CharacterItemList';
 import Icon from './Icon';
 
 const TABS = {
-  now: { left: '0' }, // needed for transitions
+  activity: { left: '0' }, // needed for transitions
   items: { left: '-100%' },
-  log: { left: '-200%' },
 };
 
 class CharacterInfoTabs extends Component {
@@ -16,7 +15,7 @@ class CharacterInfoTabs extends Component {
     super(props);
 
     this.state = {
-      activeTab: TABS[props.initialTab] || TABS.now,
+      activeTab: TABS[props.initialTab] || TABS.activity,
     };
 
     this.selectTab = this.selectTab.bind(this);
@@ -25,38 +24,29 @@ class CharacterInfoTabs extends Component {
     this.setState({activeTab});
   }
   render() {
-    const { uid } = this.context.user;
     const { character, characterKey } = this.props;
     const { activeTab } = this.state;
 
     return (
       <div className="characterinfotabs">
         <ul className="characterinfotabs__headers">
-          <li className={cn({'is-active':activeTab===TABS.now})} onClick={() => this.selectTab(TABS.now)}>
-            <Icon name="clock-o" /> now
+          <li className={cn({'is-active':activeTab===TABS.activity})} onClick={() => this.selectTab(TABS.activity)}>
+            <Icon name="clock-o" /> activity
           </li>
           <li className={cn({'is-active':activeTab===TABS.items})} onClick={() => this.selectTab(TABS.items)}>
             <Icon name="male" /> items
           </li>
-          <li className={cn({'is-active':activeTab===TABS.log})} onClick={() => this.selectTab(TABS.log)}>
-            <Icon name="newspaper-o" /> log
-          </li>
         </ul>
         <div className="characterinfotabs__regionscontainer">
           <ul className="characterinfotabs__regions" style={activeTab}>
-            <li><CharacterCurrentActivity uid={uid} characterKey={characterKey} returnDate={character.returnDate}/></li>
-            <li><CharacterItemList uid={uid} characterKey={characterKey} items={character.items}/></li>
-            <li>Last Activity</li>
+            <li><CharacterCurrentActivity characterKey={characterKey} character={character}/></li>
+            <li><CharacterItemList characterKey={characterKey} character={character}/></li>
           </ul>
         </div>
       </div>
     );
   }
 }
-
-CharacterInfoTabs.contextTypes = {
-  user: PropTypes.object.isRequired,
-};
 
 CharacterInfoTabs.propTypes = {
   characterKey: PropTypes.oneOfType([

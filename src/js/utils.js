@@ -2,6 +2,10 @@ import { assign, filter, sample, sumBy } from 'lodash';
 
 import { characterSpec } from './specs';
 
+const rint = (min, max) => {
+  return min + Math.floor(Math.random() * (max - min + 1));
+};
+
 const getFullCharacter = (_character) => {
   const character = characterSpec(_character);
   return assign(getCombatValues(character), character);
@@ -55,6 +59,7 @@ const generateCharacter = () => {
 };
 
 module.exports = {
+  rint,
   getFullCharacter,
   generateCharacter,
   // getCombatValues,

@@ -1,6 +1,8 @@
+import { assign } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 
 import base from '../base';
+import { rint } from '../utils';
 import Countdown from './Countdown';
 
 class CharacterCurrentActivity extends Component {
@@ -9,6 +11,7 @@ class CharacterCurrentActivity extends Component {
 
     this.forceUpdate = this.forceUpdate.bind(this);
     this.sendOnMission = this.sendOnMission.bind(this);
+    this.returnFromMission = this.returnFromMission.bind(this);
   }
   componentDidMount() {
     this.updateInterval = setInterval(this.forceUpdate,500)
@@ -17,41 +20,86 @@ class CharacterCurrentActivity extends Component {
     clearInterval(this.updateInterval);
   }
   sendOnMission() {
-    const { uid, characterKey } = this.props;
-    const returnDate = new Date(new Date().getTime() + 10000);
+    const { uid } = this.context.user;
+    const { characterKey, character } = this.props;
+    const returnDate = new Date(new Date().getTime() + 10000); // 10sec
+    base.update(`users/${uid}/characters/${characterKey}/activity`, {
+      data: {
+        returnDate,
+        returnMessage: `You can tell ${character.name} is back because the air smells like demon eggs`,
+        awayMessage: `${character.name} is out sifting through piles of junk and will return soon.`,
+        life: rint(0,5),
+        story: `${character.name} went out scavenging, but didn't find anything useful.`,
+      }
+    });
+  }
+  returnFromMission() {
+    const { uid } = this.context.user;
+    const { characterKey, character } = this.props;
+    const { activity } = character;
+    const { life } = activity;
     base.update(`users/${uid}/characters/${characterKey}`, {
-      data: { returnDate }
+      data: {
+        life,
+      },
+      then: () => {
+        base.remove(`users/${uid}/characters/${characterKey}/activity/returnDate`);
+      }
     });
   }
   render() {
-    const { returnDate } = this.props;
+    const { character } = this.props;
+    const { activity } = character;
 
-    const isReleased = !returnDate || new Date(returnDate) <= new Date();
-
-    return (
-      <div>
-      {
-        isReleased ? (
-          <button onClick={this.sendOnMission} className="btn">Send on Mission</button>
-        ) : (
+    let result;
+    if (activity && activity.returnDate) {
+      if (new Date(activity.returnDate) <= new Date()) {
+        // back
+        result = (
           <div>
-            <h5>returning in...</h5>
-            <h2><Countdown givenDate={returnDate} showDays={false} showHours={false} afterUnmount={this.checkRelease}/></h2>
+            <p>{ activity.returnMessage }</p>
+            <button onClick={this.returnFromMission} className="btn">What happened?</button>
           </div>
-        )
+        );
+      } else {
+        // away
+        result = (
+          <div>
+            <p>{ activity.awayMessage }</p>
+            <h2><Countdown givenDate={activity.returnDate} showDays={false} showHours={false} afterUnmount={this.checkRelease}/></h2>
+          </div>
+        );
       }
-      </div>
-    );
+    } else {
+    // idle
+      let intro;
+      if (activity) {
+        intro = activity.story;
+      } else {
+        intro = 'Choose an activity:'
+      }
+      result = (
+        <div>
+          <p>{ intro }</p>
+          <button onClick={this.sendOnMission} className="btn">Go scavenging</button>
+        </div>
+      );
+    }
+
+    return result;
   }
 }
 
+CharacterCurrentActivity.contextTypes = {
+  user: PropTypes.object.isRequired,
+};
+
 CharacterCurrentActivity.propTypes = {
-  uid: PropTypes.string.isRequired,
   characterKey: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string,
   ]).isRequired,
-  returnDate: PropTypes.string,
+  character: PropTypes.object,
 };
 
 export default CharacterCurrentActivity;
