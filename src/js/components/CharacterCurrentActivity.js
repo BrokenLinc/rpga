@@ -2,8 +2,10 @@ import { assign } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 
 import base from '../base';
+import { ItemTypes } from '../constants';
 import { rint } from '../utils';
 import Countdown from './Countdown';
+import Icon from './Icon';
 
 class CharacterCurrentActivity extends Component {
   constructor(props) {
@@ -12,6 +14,7 @@ class CharacterCurrentActivity extends Component {
     this.forceUpdate = this.forceUpdate.bind(this);
     this.sendOnMission = this.sendOnMission.bind(this);
     this.returnFromMission = this.returnFromMission.bind(this);
+    this.rest = this.rest.bind(this);
   }
   componentDidMount() {
     this.updateInterval = setInterval(this.forceUpdate,500)
@@ -19,17 +22,40 @@ class CharacterCurrentActivity extends Component {
   componentWillUnmount() {
     clearInterval(this.updateInterval);
   }
+  rest() {
+    const { uid } = this.context.user;
+    const { characterKey, character } = this.props;
+    const returnDate = new Date(new Date().getTime() + 10000); // 10sec
+
+    base.update(`users/${uid}/characters/${characterKey}/activity`, {
+      data: {
+        returnDate,
+        returnMessage: `${character.name} staggers out of bed mumbling something about a dream.`,
+        awayMessage: `${character.name} is in bed, with visions of sugar plums pillaging a dank dungeon.`,
+        life: 5,
+        story: `${character.name} had a dream where Michael Keaton was running for president on a "pro-jello" campaign platform. Nevertheless, a complete night's rest was had.`,
+      }
+    });
+  }
   sendOnMission() {
     const { uid } = this.context.user;
     const { characterKey, character } = this.props;
     const returnDate = new Date(new Date().getTime() + 10000); // 10sec
+    const item = {
+      combat: 5,
+      type: ItemTypes.LEGS,
+      combatAction: 'defense',
+      name: 'Stonewashed Jeans',
+    };
+    
     base.update(`users/${uid}/characters/${characterKey}/activity`, {
       data: {
         returnDate,
-        returnMessage: `You can tell ${character.name} is back because the air smells like demon eggs`,
+        returnMessage: `You can tell ${character.name} is back because the air smells like demon eggs.`,
         awayMessage: `${character.name} is out sifting through piles of junk and will return soon.`,
         life: rint(0,5),
-        story: `${character.name} went out scavenging, but didn't find anything useful.`,
+        story: `${character.name} went out scavenging, and found ${item.name}.`,
+        item,
       }
     });
   }
@@ -37,13 +63,18 @@ class CharacterCurrentActivity extends Component {
     const { uid } = this.context.user;
     const { characterKey, character } = this.props;
     const { activity } = character;
-    const { life } = activity;
-    base.update(`users/${uid}/characters/${characterKey}`, {
-      data: {
-        life,
-      },
+    const { life, item } = activity;
+    base.push(`users/${uid}/characters/${characterKey}/items`, {
+      data: item,
       then: () => {
-        base.remove(`users/${uid}/characters/${characterKey}/activity/returnDate`);
+        base.update(`users/${uid}/characters/${characterKey}`, {
+          data: {
+            life,
+          },
+          then: () => {
+            base.remove(`users/${uid}/characters/${characterKey}/activity/returnDate`);
+          }
+        });
       }
     });
   }
@@ -56,15 +87,15 @@ class CharacterCurrentActivity extends Component {
       if (new Date(activity.returnDate) <= new Date()) {
         // back
         result = (
-          <div>
+          <div className="charactercurrentactivity">
             <p>{ activity.returnMessage }</p>
-            <button onClick={this.returnFromMission} className="btn">What happened?</button>
+            <button onClick={this.returnFromMission} className="btn">Get updates</button>
           </div>
         );
       } else {
         // away
         result = (
-          <div>
+          <div className="charactercurrentactivity">
             <p>{ activity.awayMessage }</p>
             <h2><Countdown givenDate={activity.returnDate} showDays={false} showHours={false} afterUnmount={this.checkRelease}/></h2>
           </div>
@@ -79,9 +110,14 @@ class CharacterCurrentActivity extends Component {
         intro = 'Choose an activity:'
       }
       result = (
-        <div>
+        <div className="charactercurrentactivity">
           <p>{ intro }</p>
-          <button onClick={this.sendOnMission} className="btn">Go scavenging</button>
+          <button className="btn btn-block" onClick={this.sendOnMission}>
+            Go scavenging <Icon name="angle-right" />
+          </button>
+          <button className="btn btn-block" onClick={this.rest}>
+            Stay in bed <Icon name="bed" />
+          </button>
         </div>
       );
     }

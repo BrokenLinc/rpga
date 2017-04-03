@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import cn from 'classnames';
 
 import base from '../base';
+import Icon from './Icon';
 
 class CharacterItemList extends Component {
   constructor(props) {
@@ -71,7 +72,7 @@ class CharacterItemList extends Component {
                 <div className="characteritem__combat">{ `+${combat} ${combatAction}` }</div>
               </div>
               <button className="characteritem__toggle" onClick={ () => this.toggleEquip(item) }>
-                { isEquipped ? 'R' : 'E' }
+                <Icon name="check" />
               </button>
             </div>
           )
