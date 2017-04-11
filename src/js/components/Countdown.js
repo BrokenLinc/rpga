@@ -39,7 +39,7 @@ class Countdown extends Component {
 Countdown.propTypes = {
   showDays: PropTypes.bool,
   showHours: PropTypes.bool,
-  givenDate: PropTypes.string.isRequired,
+  givenDate: PropTypes.number.isRequired,
 };
 
 Countdown.defaultProps = {

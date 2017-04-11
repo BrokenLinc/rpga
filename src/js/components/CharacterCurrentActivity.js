@@ -1,4 +1,4 @@
-import { assign } from 'lodash';
+import { assign, sample } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 
 import base from '../base';
@@ -25,7 +25,7 @@ class CharacterCurrentActivity extends Component {
   rest() {
     const { uid } = this.context.user;
     const { characterKey, character } = this.props;
-    const returnDate = new Date(new Date().getTime() + 10000); // 10sec
+    const returnDate = new Date().getTime() + 10000; // 10sec
 
     base.update(`users/${uid}/characters/${characterKey}/activity`, {
       data: {
@@ -34,20 +34,22 @@ class CharacterCurrentActivity extends Component {
         awayMessage: `${character.name} is in bed, with visions of sugar plums pillaging a dank dungeon.`,
         life: 5,
         story: `${character.name} had a dream where Michael Keaton was running for president on a "pro-jello" campaign platform. Nevertheless, a complete night's rest was had.`,
+        claimed: false,
       }
     });
   }
   sendOnMission() {
     const { uid } = this.context.user;
     const { characterKey, character } = this.props;
-    const returnDate = new Date(new Date().getTime() + 10000); // 10sec
+    const returnDate = new Date().getTime() + 10000; // 10sec
+    const itemType = sample(ItemTypes);
     const item = {
-      combat: 5,
-      type: ItemTypes.LEGS,
+      combat: rint(1,6),
+      type: sample(ItemTypes),
       combatAction: 'defense',
-      name: 'Stonewashed Jeans',
+      name: `${itemType} OF WARDING`,
     };
-    
+
     base.update(`users/${uid}/characters/${characterKey}/activity`, {
       data: {
         returnDate,
@@ -56,6 +58,7 @@ class CharacterCurrentActivity extends Component {
         life: rint(0,5),
         story: `${character.name} went out scavenging, and found ${item.name}.`,
         item,
+        claimed: false,
       }
     });
   }
@@ -72,7 +75,11 @@ class CharacterCurrentActivity extends Component {
             life,
           },
           then: () => {
-            base.remove(`users/${uid}/characters/${characterKey}/activity/returnDate`);
+            base.update(`users/${uid}/characters/${characterKey}/activity`, {
+              data: {
+                claimed: true,
+              }
+            });
           }
         });
       }
@@ -82,8 +89,8 @@ class CharacterCurrentActivity extends Component {
     const { character } = this.props;
     const { activity } = character;
 
-    let result;
-    if (activity && activity.returnDate) {
+    let result = null;
+    if (activity && !activity.claimed) {
       if (new Date(activity.returnDate) <= new Date()) {
         // back
         result = (
@@ -102,7 +109,7 @@ class CharacterCurrentActivity extends Component {
         );
       }
     } else {
-    // idle
+      // idle
       let intro;
       if (activity) {
         intro = activity.story;

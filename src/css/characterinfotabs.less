@@ -40,6 +40,10 @@
 .characterinfotabs__regionscontainer {
 	flex: 1 1 auto;
 	position: relative;
+
+	@media (min-width: 640px) {
+		border-top: 1px solid #ccc;
+	}
 }
 .characterinfotabs__regions {
 	.list-reset;
@@ -53,8 +57,19 @@
 
 	> * {
 		flex: 1 0 auto;
-		overflow-y: auto;
 		width: 50%;
+		//
+		// @media (min-width: 960px) {
+		// 	&:first-child {
+		// 		flex: 1 1 auto;
+		// 		width: auto;
+		// 	}
+		// 	&:nth-child(n+2) { // not first
+		// 		border-left: 1px solid #ccc;
+		// 		flex: 0 0  auto;
+		// 		width: 740px;
+		// 	}
+		// }
 	}
 
 	@media (min-width: 640px) {

@@ -39,8 +39,8 @@ class CharacterInfoTabs extends Component {
         </ul>
         <div className="characterinfotabs__regionscontainer">
           <ul className="characterinfotabs__regions" style={activeTab}>
-            <li><CharacterCurrentActivity characterKey={characterKey} character={character}/></li>
-            <li><CharacterItemList characterKey={characterKey} character={character}/></li>
+            <li className="scrollable"><CharacterCurrentActivity characterKey={characterKey} character={character}/></li>
+            <li className="scrollable"><CharacterItemList characterKey={characterKey} character={character}/></li>
           </ul>
         </div>
       </div>

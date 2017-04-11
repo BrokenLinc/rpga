@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>Undermud</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/components/input.min.css" />
@@ -12,6 +12,56 @@
 	</head>
 	<body>
 		<div id="app" class="react-app"></div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script>
+		// http://stackoverflow.com/questions/10238084/ios-safari-how-to-disable-overscroll-but-allow-scrollable-divs-to-scroll-norma
+		// Uses document because document will be topmost level in bubbling
+		$(document).on('touchmove', function(e) {
+		  e.preventDefault();
+			return false;
+		});
+		$('body').on('touchmove', function(e) {
+		  e.preventDefault();
+			return false;
+		});
+
+		//var scrolling = false;
+		let isResetting;
+
+		// Uses body because jquery on events are called off of the element they are
+		// added to, so bubbling would not work if we used document instead.
+		$('body').on('touchstart', '.scrollable', function(e) {
+	    // Only execute the below code once at a time
+	    //if (!scrolling) {
+        //scrolling = true;
+        if (e.currentTarget.scrollTop === 0) {
+          e.currentTarget.scrollTop += 1;
+					isResetting = true;
+					window.requestAnimationFrame(() => {
+						isResetting = false;
+					});
+        } else if (e.currentTarget.scrollHeight === e.currentTarget.scrollTop + e.currentTarget.offsetHeight) {
+          e.currentTarget.scrollTop -= 1;
+					isResetting = true;
+					window.requestAnimationFrame(() => {
+						isResetting = false;
+					});
+        }
+        //scrolling = false;
+	    //}
+		});
+
+		// Prevents preventDefault from being called on document if it sees a scrollable div
+		$('body').on('touchmove', '.scrollable', function(e) {
+		  if($(this)[0].scrollHeight > $(this).innerHeight()) {
+	      e.stopPropagation();
+	    }
+			if(isResetting) {
+				e.preventDefault();
+				return false;
+			}
+		});
+		</script>
 		<script src="https://www.gstatic.com/firebasejs/3.6.9/firebase.js"></script>
 		<script src="bundle.js"></script>
 	</body>

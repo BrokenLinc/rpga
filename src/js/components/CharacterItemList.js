@@ -15,6 +15,7 @@ class CharacterItemList extends Component {
     };
 
     this.toggleEquip = this.toggleEquip.bind(this);
+    this.trash = this.trash.bind(this);
   }
   componentDidMount(){
     const { uid } = this.context.user;
@@ -57,6 +58,11 @@ class CharacterItemList extends Component {
       });
     }
   }
+  trash(item) {
+    const { uid } = this.context.user;
+    const { characterKey } = this.props;
+    base.remove(`users/${uid}/characters/${characterKey}/items/${item.key}`);
+  }
   render() {
     const { items } = this.state;
 
@@ -71,6 +77,9 @@ class CharacterItemList extends Component {
                 <div className="characteritem__type">{ type }</div>
                 <div className="characteritem__combat">{ `+${combat} ${combatAction}` }</div>
               </div>
+              <button className="characteritem__trash" onClick={ () => this.trash(item) }>
+                <Icon name="trash" />
+              </button>
               <button className="characteritem__toggle" onClick={ () => this.toggleEquip(item) }>
                 <Icon name="check" />
               </button>

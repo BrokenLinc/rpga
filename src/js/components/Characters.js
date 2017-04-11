@@ -39,7 +39,7 @@ class Characters extends Component {
     const emptyslotCount = Math.max(MAX_CHARACTERS - characters.length, 0);
 
     return (
-      <div className="characters">
+      <div className="characters scrollable">
         <ContentLoader isLoading={isLoading} align="center">
           <ul className="characterlist">
             {map(characters, (character) => (
@@ -64,8 +64,7 @@ class Characters extends Component {
             ))}
           </ul>
         </ContentLoader>
-
-    </div>
+      </div>
     );
   }
 }
