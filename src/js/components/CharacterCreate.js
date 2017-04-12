@@ -1,3 +1,4 @@
+import { assign } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import cn from 'classnames';
 
@@ -25,13 +26,11 @@ class CharacterCreate extends Component {
   keepCharacter() {
     const { router } = this.context;
     const { uid } = this.context.user;
-    const { name, imageFile } = this.state.character;
 
     base.push(`users/${uid}/characters`, {
-      data: { name, imageFile },
+      data: this.state.character,
     }).then(newLocation => {
-      this.setState({ name: '' });
-      router.push(paths.characters());
+      router.push(paths.character(newLocation.key));
     }).catch((error) => {
       this.setState({ error });
     });

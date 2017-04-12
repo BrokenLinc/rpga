@@ -75,7 +75,7 @@ class CharacterItemList extends Component {
               <div className="characteritem__info">
                 <div className="characteritem__name">{ name }</div>
                 <div className="characteritem__type">{ type }</div>
-                <div className="characteritem__combat">{ `+${combat} ${combatAction}` }</div>
+                <div className="characteritem__combat">{ `${combat} ${combatAction}` }</div>
               </div>
               <button className="characteritem__trash" onClick={ () => this.trash(item) }>
                 <Icon name="trash" />

@@ -7,7 +7,7 @@ import paths from '../paths';
 import ContentLoader from './ContentLoader';
 import CharacterThumb from './CharacterThumb';
 
-const MAX_CHARACTERS = 5;
+const MAX_CHARACTERS = 50;
 
 class Characters extends Component {
   constructor(props) {
