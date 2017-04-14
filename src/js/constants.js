@@ -59,7 +59,37 @@ const Activities = {
         imageFile: 'top-hat.png',
         type: ItemTypes.SPECIAL,
         combatAction: 'attack',
+      },{
+        name: 'Stonerwashed Jeans',
+        imageFile: 'top-hat.png',
+        type: ItemTypes.LEGS,
+        combatAction: 'defense',
+      },{
+        name: 'Mismatched Boots',
+        imageFile: 'top-hat.png',
+        type: ItemTypes.FEET,
+        combatAction: 'defense',
+      },{
+        name: 'Pristine White Gloves',
+        imageFile: 'top-hat.png',
+        type: ItemTypes.HANDS,
+        combatAction: 'defense',
+      },{
+        name: 'Spoon of DOOM',
+        imageFile: 'top-hat.png',
+        type: ItemTypes.WEAPON,
+        combatAction: 'attack',
       }],
+    }],
+  },
+  NOPE: {
+    label: 'Go noping',
+    minCombat: 20,
+    maxCombat: 40,
+    returnMessage: t`Nope?`,
+    awayMessage: t`Nope...`,
+    results:[{
+      story: 'Nope!',
     }],
   },
   REST: {

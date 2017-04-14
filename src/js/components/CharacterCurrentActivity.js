@@ -1,4 +1,4 @@
-import { assign, clamp, map, sample } from 'lodash';
+import { assign, clamp, filter, map, sample } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 
 import base from '../base';
@@ -82,7 +82,7 @@ class CharacterCurrentActivity extends Component {
     if(result.items) {
       // generate item from activity result
       data.item = sample(result.items);
-      data.item.combat = Math.round(rint(activity.minCombat, activity.maxCombat)/16 * ItemScales[data.item.type]);
+      data.item.combat = Math.ceil(rint(activity.minCombat, activity.maxCombat)/16 * ItemScales[data.item.type]);
     }
     data.story = result.story({ character, item: data.item });
 
@@ -111,7 +111,7 @@ class CharacterCurrentActivity extends Component {
     });
   }
   render() {
-    const { character } = this.props;
+    const character = getFullCharacter(this.props.character);
     const { activity } = character;
 
     let result = null;
@@ -152,10 +152,17 @@ class CharacterCurrentActivity extends Component {
       //     </button>
       //   </div>
       // );
+
+      const availableActivities = filter(Activities, activity => {
+        if(character.combat < activity.minCombat) return false;
+        if(character.combat > activity.maxCombat) return false;
+        return true;
+      });
+
       result = (
         <div className="charactercurrentactivity">
           <p>{ intro }</p>
-          { map(Activities, (activity, key) => {
+          { map(availableActivities, (activity, key) => {
             const { label, icon } = activity;
             return (
               <button key={key} className="btn btn-block" onClick={() => this.doActivity(activity)}>
