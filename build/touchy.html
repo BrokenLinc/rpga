@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Undermud</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css">
+	</head>
+	<body>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+		<script>
+		var touchstart;
+		$(document)
+			.on('mouseleave', '.is-swipeable', function(e) {
+				$(this).removeClass('is-hovered');
+			})
+			.on('mouseenter', '.is-swipeable a', function(e) {
+				// don't allow clicks on focusable children to trigger the hover
+				// note, this makes the links dead to mouseenter for the swipeable
+				// so add some padding around links
+				e.stopPropagation();
+			})
+			.on('mouseenter', '.is-swipeable', function(e) {
+				$(this).addClass('is-hovered');
+			});
+
+		var hammertime = new Hammer(document);
+		hammertime.on('swipe tap', function(e) {
+			$('.is-swiped-left').removeClass('is-swiped-left');
+			$('.is-swiped-right').removeClass('is-swiped-right');
+		});
+		hammertime.on('swipe', function(e) {
+			if(e.pointerType === 'mouse') return;
+
+			$(e.srcEvent.target).closest('.is-swipeable')
+				.toggleClass('is-swiped-left' , e.angle > 150 && e.angle < 201)
+				.toggleClass('is-swiped-right', e.angle > 330 || e.angle < 30);
+		});
+		</script>
+
+		<style>
+		html, body {
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+		}
+		.email {
+			background-color: #ddd;
+			height: 70px;
+			display: flex;
+			flex-flow: row;
+			margin-bottom: 10px;
+		}
+		.email__equip {
+			background-color: #4c6;
+			flex: 0 0 auto;
+			transition: width 0.15s;
+			width: 5px;
+		}
+		.email__delete {
+			background-color: #c46;
+			flex: 0 0 auto;
+			transition: width 0.15s;
+			width: 0;
+		}
+		.email__content {
+			flex: 1 1 auto;
+			padding: 10px;
+		}
+		.email.is-hovered .email__delete,
+		.email.is-swiped-left .email__delete {
+			width: 70px;
+		}
+		.header {
+			background-color: #736;
+			height: 50px;
+			position: fixed;
+			width: 100%;
+		}
+		.email__list {
+			padding: 60px 10px 10px;
+		}
+		</style>
+
+		<div class="header">
+		</div>
+		<div class="email__list">
+			<div class="email is-swipeable">
+				<div class="email__content">Your email</div>
+				<a class="email__delete" href="#"></a>
+			</div>
+			<div class="email is-swipeable">
+				<div class="email__content">Your email</div>
+				<a class="email__delete" href="#"></a>
+			</div>
+		</div>
+	</body>
+</html>

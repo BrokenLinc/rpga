@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get, sample } from 'lodash';
 
 const ItemTypes = {
   HEAD: 'head',
@@ -31,6 +31,38 @@ const ItemScales = {
   weapon: 5,
   special: 3,
   jewelry: 1,
+};
+
+const Dict = {
+  RAT_FIRST_NAMES: () => sample([
+    'Francis',
+    'Felippe',
+    'Cal',
+    'Skeev',
+    'Killet',
+    'Kreen',
+    'Sark',
+  ]),
+  RAT_TITLES: () => sample([
+    'Cutter',
+    'Skitterer',
+    'Snapper',
+    'Furry',
+    'Whiskered',
+    'Many-clawed',
+    'Collector',
+  ]),
+  RAT_NAME: () => sample([
+    `${Dict.RAT_TITLES()} ${Dict.RAT_FIRST_NAMES()}`,
+    `${Dict.RAT_FIRST_NAMES()} the ${Dict.RAT_TITLES()}`,
+  ]),
+};
+
+const Monsters = {
+  RATSCOUT: () => ({
+    names: Dict.RAT_NAME(),
+    attackToDefenseRatio: 0.5,
+  })
 };
 
 function t(strings, ...keys) {
@@ -89,7 +121,8 @@ const Activities = {
     returnMessage: t`Nope?`,
     awayMessage: t`Nope...`,
     results:[{
-      story: 'Nope!',
+      story: t`Nope!`,
+      monster: Monsters.RATSCOUT,
     }],
   },
   REST: {
