@@ -11,16 +11,16 @@ const ItemTypes = {
   JEWELRY: 'jewelry',
 };
 
-const ItemSlots = {
-  HEAD: { slot: 'head', accepts: [ItemTypes.HEAD] },
-  CHEST: { slot: 'chest', accepts: [ItemTypes.CHEST] },
-  LEGS: { slot: 'legs', accepts: [ItemTypes.LEGS] },
-  HANDS: { slot: 'hands', accepts: [ItemTypes.HANDS] },
-  FEET: { slot: 'feet', accepts: [ItemTypes.FEET] },
-  LEFTHAND: { slot: 'lefthand', accepts: [ItemTypes.WEAPON] },
-  RIGHTHAND: { slot: 'righthand', accepts: [ItemTypes.WEAPON] },
-  JEWELRY: { slot: 'jewelry', accepts: [ItemTypes.JEWELRY] },
-};
+// const ItemSlots = {
+//   HEAD: { slot: 'head', accepts: [ItemTypes.HEAD] },
+//   CHEST: { slot: 'chest', accepts: [ItemTypes.CHEST] },
+//   LEGS: { slot: 'legs', accepts: [ItemTypes.LEGS] },
+//   HANDS: { slot: 'hands', accepts: [ItemTypes.HANDS] },
+//   FEET: { slot: 'feet', accepts: [ItemTypes.FEET] },
+//   LEFTHAND: { slot: 'lefthand', accepts: [ItemTypes.WEAPON] },
+//   RIGHTHAND: { slot: 'righthand', accepts: [ItemTypes.WEAPON] },
+//   JEWELRY: { slot: 'jewelry', accepts: [ItemTypes.JEWELRY] },
+// };
 
 const ItemScales = {
   head: 2,
@@ -138,7 +138,7 @@ const Activities = {
 };
 
 module.exports = {
-  ItemSlots,
+  // ItemSlots,
   ItemTypes,
   ItemScales,
   Activities,
