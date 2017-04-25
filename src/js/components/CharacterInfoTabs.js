@@ -4,6 +4,7 @@ import cn from 'classnames';
 import CharacterCurrentActivity from './CharacterCurrentActivity';
 import CharacterItemList from './CharacterItemList';
 import Icon from './Icon';
+import ScrollView from './ScrollView';
 
 const TABS = {
   activity: { left: '0' }, // needed for transitions
@@ -38,10 +39,10 @@ class CharacterInfoTabs extends Component {
           </li>
         </ul>
         <div className="characterinfotabs__regionscontainer">
-          <ul className="characterinfotabs__regions" style={activeTab}>
-            <li className="scrollable"><CharacterCurrentActivity characterKey={characterKey} character={character}/></li>
-            <li className="scrollable"><CharacterItemList characterKey={characterKey} character={character}/></li>
-          </ul>
+          <div className="characterinfotabs__regions" style={activeTab}>
+            <ScrollView><CharacterCurrentActivity characterKey={characterKey} character={character}/></ScrollView>
+            <ScrollView><CharacterItemList characterKey={characterKey} character={character}/></ScrollView>
+          </div>
         </div>
       </div>
     );

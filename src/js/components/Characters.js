@@ -6,6 +6,7 @@ import base from '../base';
 import paths from '../paths';
 import ContentLoader from './ContentLoader';
 import CharacterThumb from './CharacterThumb';
+import ScrollView from './ScrollView';
 
 const MAX_CHARACTERS = 50;
 
@@ -39,7 +40,7 @@ class Characters extends Component {
     const emptyslotCount = Math.max(MAX_CHARACTERS - characters.length, 0);
 
     return (
-      <div className="characters scrollable">
+      <ScrollView className="characters">
         <ContentLoader isLoading={isLoading} align="center">
           <ul className="characterlist">
             {map(characters, (character) => (
@@ -64,7 +65,7 @@ class Characters extends Component {
             ))}
           </ul>
         </ContentLoader>
-      </div>
+      </ScrollView>
     );
   }
 }

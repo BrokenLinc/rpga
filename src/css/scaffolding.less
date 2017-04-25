@@ -13,21 +13,26 @@ body {
 	line-height: 20px;
 	margin: 0;
 }
-.scrollable {
-  overflow: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-}
-.scrollable * {
-  -webkit-transform: translate3d(0,0,0);
-}
+// .scrollable {
+//   overflow: auto;
+//   overflow-x: hidden;
+//   -webkit-overflow-scrolling: touch;
+// }
+// .scrollable * {
+//   -webkit-transform: translate3d(0,0,0);
+// }
 p {
 	margin: 0 0 20px;
 }
 .pagetemplate {
 	align-items: stretch;
+	bottom: 0;
 	display: flex;
 	flex-flow: column;
+	left: 0;
+	position: fixed;
+	right: 0;
+	top: 0;
 
 	> * {
 		flex: 0 0 auto;
