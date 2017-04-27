@@ -2,10 +2,30 @@ import { assign, clamp, filter, map, sample } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 
 import base from '../base';
-import { Activities, ItemTypes } from '../constants';
+import { Activities, ItemTypes, Items } from '../constants';
 import { generateItem, getFullCharacter, rint } from '../utils';
 import Countdown from './Countdown';
 import Icon from './Icon';
+
+const dropItem = (character, result) => {
+  const itemKeywords = sample(result.item).split(' ');
+  const possibleItems = filter(Items, item => {
+    for(let i in itemKeywords) {
+      if(item.keywords.indexOf(itemKeywords[i]) === -1) {
+        return false;
+      }
+    }
+    return true;
+  });
+
+  return assign({
+    combat: Math.max((1,
+      Math.random() > 0.5 ?
+      character.skill.value :
+      (character.attack)
+    ) + rint(0, 2))
+  }, sample(possibleItems));
+}
 
 class CharacterCurrentActivity extends Component {
   constructor(props) {
@@ -66,6 +86,9 @@ class CharacterCurrentActivity extends Component {
   doActivity(activity) {
     const { uid } = this.context.user;
     const { characterKey } = this.props;
+
+    //TODO: input character and activity, get activity result data
+
     const character = getFullCharacter(this.props.character);
     const returnDate = new Date().getTime() + 10000; // 10sec
 
@@ -80,14 +103,9 @@ class CharacterCurrentActivity extends Component {
     if(result.life) {
       data.life = clamp(character.life + result.life, 0, 5);
     }
-    if(result.items) {
+    if(result.item) {
       // generate item from activity result
-      data.item = sample(result.items);
-      data.item.combat = Math.max((1,
-        Math.random() > 0.5 ?
-        character.skill.value :
-        (character.attack)
-      ) + rint(0, 2));
+      data.item = dropItem(character, result);
     }
 
     const hours = new Date().getHours();

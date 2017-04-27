@@ -92,6 +92,43 @@ const Monsters = {
   }),
 };
 
+const Items = [{
+  article: 'a',
+  name: 'Bird on a Hat',
+  imageFile: 'top-hat.png',
+  type: ItemTypes.SPECIAL,
+  combatAction: 'birdlore',
+  keywords: 'fancy black bird animal hat',
+},{
+  article: 'an old pair of',
+  name: 'Stonerwashed Jeans',
+  imageFile: 'top-hat.png',
+  type: ItemTypes.SPECIAL,
+  combatAction: 'smoking',
+  keywords: '80s legs',
+},{
+  article: 'a pair of',
+  name: 'Mismatched Kicking Boots',
+  imageFile: 'top-hat.png',
+  type: ItemTypes.WEAPON,
+  combatAction: 'attack',
+  keywords: 'black rugged shoes',
+},{
+  article: 'a set of',
+  name: 'Pristine White Gloves',
+  imageFile: 'top-hat.png',
+  type: ItemTypes.SPECIAL,
+  combatAction: 'cleaning',
+  keywords: 'fancy white hands',
+},{
+  article: 'a',
+  name: 'Spoon of Doom',
+  imageFile: 'top-hat.png',
+  type: ItemTypes.WEAPON,
+  combatAction: 'attack',
+  keywords: 'metal houseware',
+}];
+
 function t(strings, ...keys) {
   return (function(...values) {
     var dict = values[values.length - 1] || {};
@@ -115,37 +152,7 @@ const Activities = {
           npc: Monsters.RAT(),
         }, data))
       },
-      items: [{
-        article: 'a',
-        name: 'Bird on a Hat',
-        imageFile: 'top-hat.png',
-        type: ItemTypes.SPECIAL,
-        combatAction: 'birdlore',
-      },{
-        article: 'an old pair of',
-        name: 'Stonerwashed Jeans',
-        imageFile: 'top-hat.png',
-        type: ItemTypes.SPECIAL,
-        combatAction: 'smoking',
-      },{
-        article: 'a pair of',
-        name: 'Mismatched Kicking Boots',
-        imageFile: 'top-hat.png',
-        type: ItemTypes.WEAPON,
-        combatAction: 'attack',
-      },{
-        article: 'a set of',
-        name: 'Pristine White Gloves',
-        imageFile: 'top-hat.png',
-        type: ItemTypes.SPECIAL,
-        combatAction: 'cleaning',
-      },{
-        article: 'a',
-        name: 'Spoon of DOOM',
-        imageFile: 'top-hat.png',
-        type: ItemTypes.WEAPON,
-        combatAction: 'attack',
-      }],
+      item: ['fancy', 'metal houseware'],
     }],
   },
   // NOPE: {
@@ -176,4 +183,6 @@ module.exports = {
   ItemTypes,
   //ItemScales,
   Activities,
+  Items,
+  Monsters,
 };

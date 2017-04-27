@@ -26,7 +26,7 @@ class PageTemplate extends Component {
           <header className="pageheader">
             <nav>
               <span>undermud</span>
-              <Link to={ paths.characters() }><Icon name="home" /></Link>
+              <Link to={ paths.characters() }><Icon name="users" /></Link>
               <a onClick={ this.onSignOutClick } href="javascript:void(0)"><Icon name="sign-out" /></a>
             </nav>
           </header>
