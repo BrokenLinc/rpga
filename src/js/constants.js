@@ -1,14 +1,14 @@
-import { get, sample } from 'lodash';
+import { assign, get, sample } from 'lodash';
 
 const ItemTypes = {
-  HEAD: 'head',
-  CHEST: 'chest',
-  LEGS: 'legs',
-  HANDS: 'hands',
-  FEET: 'feet',
+  // HEAD: 'head',
+  // CHEST: 'chest',
+  // LEGS: 'legs',
+  // HANDS: 'hands',
+  // FEET: 'feet',
   WEAPON: 'weapon',
   SPECIAL: 'special',
-  JEWELRY: 'jewelry',
+  // JEWELRY: 'jewelry',
 };
 
 // const ItemSlots = {
@@ -22,16 +22,16 @@ const ItemTypes = {
 //   JEWELRY: { slot: 'jewelry', accepts: [ItemTypes.JEWELRY] },
 // };
 
-const ItemScales = {
-  head: 2,
-  chest: 2,
-  legs: 1,
-  hands: 1,
-  feet: 1,
-  weapon: 5,
-  special: 3,
-  jewelry: 1,
-};
+// const ItemScales = {
+//   // head: 2,
+//   // chest: 2,
+//   // legs: 1,
+//   // hands: 1,
+//   // feet: 1,
+//   weapon: 1,
+//   special: 1,
+//   // jewelry: 1,
+// };
 
 const Dict = {
   RAT_FIRST_NAMES: () => sample([
@@ -56,13 +56,40 @@ const Dict = {
     `${Dict.RAT_TITLES()} ${Dict.RAT_FIRST_NAMES()}`,
     `${Dict.RAT_FIRST_NAMES()} the ${Dict.RAT_TITLES()}`,
   ]),
+  CHIMP_FIRST_NAMES: () => sample([
+    'Chippers',
+    'Cupcake',
+    'Nanners',
+    'Popeye',
+    'Skippy',
+    'Chatters',
+    'Goodboye',
+    'Fruitcake',
+  ]),
+  CHIMP_TITLES: () => sample([
+    'Space Engineer',
+    'Commander',
+    'Orbital Captain',
+    'Hose-Scrubber',
+    'Captain',
+    'Security Consultant',
+    'Moon Architect',
+    'Comrade',
+  ]),
+  CHIMP_NAME: () => sample([
+    `${Dict.CHIMP_TITLES()} ${Dict.CHIMP_FIRST_NAMES()}`,
+    `${Dict.CHIMP_FIRST_NAMES()} the ${Dict.CHIMP_TITLES()}`,
+  ]),
 };
 
 const Monsters = {
-  RATSCOUT: () => ({
-    names: Dict.RAT_NAME(),
-    attackToDefenseRatio: 0.5,
-  })
+  RAT: () => ({
+    name: Dict.RAT_NAME(),
+    //attackToDefenseRatio: 0.5,
+  }),
+  CHIMP: () => ({
+    name: Dict.CHIMP_NAME(),
+  }),
 };
 
 function t(strings, ...keys) {
@@ -81,31 +108,35 @@ const Activities = {
   SCAVENGING: {
     label: 'Go scavenging',
     minCombat: 1,
-    maxCombat: 20,
+    maxCombat: 100,
     returnMessage: t`You can tell ${'character.name'} is back because the air smells like demon eggs.`,
     awayMessage: t`${'character.name'} is out sifting through piles of junk and will return soon.`,
     results: [{
-      story: t`${'character.name'} went out scavenging, and found ${'item.name'}.`,
+      story: data => {
+        return t`${'character.name'} went out scavenging, met a disgusting rat man named ${'npc.name'} and found ${'item.name'}.`(assign({
+          npc: Monsters.RAT(),
+        }, data))
+      },
       items: [{
         name: 'Bird on a Hat',
         imageFile: 'top-hat.png',
         type: ItemTypes.SPECIAL,
-        combatAction: 'attack',
-      },{
-        name: 'Stonerwashed Jeans',
-        imageFile: 'top-hat.png',
-        type: ItemTypes.LEGS,
-        combatAction: 'defense',
-      },{
-        name: 'Mismatched Boots',
-        imageFile: 'top-hat.png',
-        type: ItemTypes.FEET,
-        combatAction: 'defense',
-      },{
-        name: 'Pristine White Gloves',
-        imageFile: 'top-hat.png',
-        type: ItemTypes.HANDS,
-        combatAction: 'defense',
+        combatAction: 'birdlore',
+      // },{
+      //   name: 'Stonerwashed Jeans',
+      //   imageFile: 'top-hat.png',
+      //   type: ItemTypes.LEGS,
+      //   combatAction: 'defense',
+      // },{
+      //   name: 'Mismatched Boots',
+      //   imageFile: 'top-hat.png',
+      //   type: ItemTypes.FEET,
+      //   combatAction: 'defense',
+      // },{
+      //   name: 'Pristine White Gloves',
+      //   imageFile: 'top-hat.png',
+      //   type: ItemTypes.HANDS,
+      //   combatAction: 'defense',
       },{
         name: 'Spoon of DOOM',
         imageFile: 'top-hat.png',
@@ -140,6 +171,6 @@ const Activities = {
 module.exports = {
   // ItemSlots,
   ItemTypes,
-  ItemScales,
+  //ItemScales,
   Activities,
 };

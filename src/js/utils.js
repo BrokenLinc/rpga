@@ -1,6 +1,6 @@
 import { assign, filter, sample, sumBy } from 'lodash';
 
-import { ItemTypes, ItemScales } from './constants';
+import { ItemTypes } from './constants';
 import { characterSpec, itemSpec } from './specs';
 
 const rint = (min, max) => {
@@ -15,11 +15,8 @@ const getFullCharacter = (_character) => {
 const getCombatValues = (character) => {
   return {
     isCharacter: true,
-    combat: getCombatTotal(character),
     attack: getActionTotal('attack', character),
-    defense: getActionTotal('defense', character),
-    attacks: getActionItems('attack', character),
-    defenses: getActionItems('defense', character),
+    skill: getCharacterSkill(character),
   };
 };
 
@@ -32,14 +29,27 @@ const getActionItems = (type, character) => {
   return filter(getEquippedItems(character.items), { combatAction: type });
 };
 
-const getCombatTotal = (character) => {
-  // base 2 combat
-  return 2 + sumBy(getEquippedItems(character.items), 'combat');
-};
+// const getCombatTotal = (character) => {
+//   // base 2 combat
+//   return 2 + sumBy(getEquippedItems(character.items), 'combat');
+// };
 
 const getActionTotal = (type, character) => {
-  // base 1 attack, 1 defense
-  return 1 + sumBy(getActionItems(type, character), 'combat');
+  return sumBy(getActionItems(type, character), 'combat');
+};
+
+const getCharacterSkill = (character) => {
+  const skillItems = filter(
+    getEquippedItems(character.items),
+    ({ combatAction }) => (combatAction != 'attack')
+  );
+  return skillItems.length ? {
+    name: skillItems[0].combatAction,
+    value: skillItems[0].combat,
+  } : {
+    name: 'skill',
+    value: 0,
+  };
 };
 
 const generateCharacter = () => {

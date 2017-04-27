@@ -8,7 +8,7 @@ import Icon from './Icon';
 class CharacterThumb extends Component {
   render() {
     const { character } = this.props;
-    const { imageFile, name, life, attack, defense, combat } = getFullCharacter(character);
+    const { imageFile, name, life, attack, skill } = getFullCharacter(character);
 
     return (
       <div className="characterthumb">
@@ -24,7 +24,7 @@ class CharacterThumb extends Component {
             </div>
           </div>
           <div className="characterthumb__stats">
-            {attack} attack / {defense} defense
+            { attack } attack / { skill.value } { skill.name }
           </div>
         </div>
       </div>

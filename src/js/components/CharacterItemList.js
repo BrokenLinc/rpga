@@ -21,16 +21,20 @@ class CharacterItemList extends Component {
     const { uid } = this.context.user;
     const { characterKey } = this.props;
 
-    this.ref = base.bindToState(`users/${uid}/characters/${characterKey}/items`, {
+    // Use listenTo so it can be reversed on the way to state
+    this.ref = base.listenTo(`users/${uid}/characters/${characterKey}/items`, {
       context: this,
       state: 'items',
       asArray: true,
       keepKeys: true,
       queries: {
-        orderByChild: 'type',
+        orderByChild: 'combat',
       },
-      then: () => {
-        this.setState({isLoading: false})
+      then: (items) => {
+        this.setState({
+          items: items.reverse(),
+          isLoading: false
+        })
       },
     });
   }
