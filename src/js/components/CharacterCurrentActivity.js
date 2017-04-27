@@ -83,13 +83,21 @@ class CharacterCurrentActivity extends Component {
     if(result.items) {
       // generate item from activity result
       data.item = sample(result.items);
-      data.item.combat = (
+      data.item.combat = Math.max((1,
         Math.random() > 0.5 ?
         character.skill.value :
         (character.attack)
-      ) + rint(0, 2);
+      ) + rint(0, 2));
     }
-    data.story = result.story({ character, item: data.item });
+
+    const hours = new Date().getHours();
+    let timeOfDay = 'Tonight';
+    if(hours >= 2) timeOfDay = 'This morning';
+    if(hours >= 12) timeOfDay = 'This afternoon';
+    if(hours >= 17) timeOfDay = 'This evening';
+    if(hours >= 20) timeOfDay = 'Tonight';
+
+    data.story = result.story({ character, item: data.item, timeOfDay });
 
     base.update(`users/${uid}/characters/${characterKey}/activity`, { data });
   }
@@ -140,12 +148,12 @@ class CharacterCurrentActivity extends Component {
       }
     } else {
       // idle
-      let intro;
-      if (activity) {
-        intro = activity.story;
-      } else {
-        intro = 'Choose an activity:'
-      }
+      // let intro;
+      // if (activity) {
+      //   intro = activity.story;
+      // } else {
+      //   intro = 'What will you do next?:'
+      // }
       // result = (
       //   <div className="charactercurrentactivity">
       //     <p>{ intro }</p>
@@ -158,16 +166,17 @@ class CharacterCurrentActivity extends Component {
       //   </div>
       // );
 
-      const availableActivities = filter(Activities, activity => {
-        if(character.combat < activity.minCombat) return false;
-        if(character.combat > activity.maxCombat) return false;
-        return true;
-      });
+      // const availableActivities = filter(Activities, activity => {
+      //   if(character.combat < activity.minCombat) return false;
+      //   if(character.combat > activity.maxCombat) return false;
+      //   return true;
+      // });
 
       result = (
         <div className="charactercurrentactivity">
-          <p>{ intro }</p>
-          { map(availableActivities, (activity, key) => {
+          { activity && <p>{activity.story}</p> }
+          <p><b>What will {character.name} do next?</b></p>
+          { map(Activities, (activity, key) => {
             const { label, icon } = activity;
             return (
               <button key={key} className="btn btn-block" onClick={() => this.doActivity(activity)}>

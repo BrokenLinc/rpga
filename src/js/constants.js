@@ -105,39 +105,42 @@ function t(strings, ...keys) {
 }
 
 const Activities = {
-  SCAVENGING: {
-    label: 'Go scavenging',
-    minCombat: 1,
-    maxCombat: 100,
+  ADVENTURE: {
+    label: 'Go adventuring',
     returnMessage: t`You can tell ${'character.name'} is back because the air smells like demon eggs.`,
     awayMessage: t`${'character.name'} is out sifting through piles of junk and will return soon.`,
     results: [{
       story: data => {
-        return t`${'character.name'} went out scavenging, met a disgusting rat man named ${'npc.name'} and found ${'item.name'}.`(assign({
+        return t`${'timeOfDay'} ${'character.name'} went out scavenging, met a disgusting rat man named ${'npc.name'} and found ${'item.article'} ${'item.name'}.`(assign({
           npc: Monsters.RAT(),
         }, data))
       },
       items: [{
+        article: 'a',
         name: 'Bird on a Hat',
         imageFile: 'top-hat.png',
         type: ItemTypes.SPECIAL,
         combatAction: 'birdlore',
-      // },{
-      //   name: 'Stonerwashed Jeans',
-      //   imageFile: 'top-hat.png',
-      //   type: ItemTypes.LEGS,
-      //   combatAction: 'defense',
-      // },{
-      //   name: 'Mismatched Boots',
-      //   imageFile: 'top-hat.png',
-      //   type: ItemTypes.FEET,
-      //   combatAction: 'defense',
-      // },{
-      //   name: 'Pristine White Gloves',
-      //   imageFile: 'top-hat.png',
-      //   type: ItemTypes.HANDS,
-      //   combatAction: 'defense',
       },{
+        article: 'an old pair of',
+        name: 'Stonerwashed Jeans',
+        imageFile: 'top-hat.png',
+        type: ItemTypes.SPECIAL,
+        combatAction: 'smoking',
+      },{
+        article: 'a pair of',
+        name: 'Mismatched Kicking Boots',
+        imageFile: 'top-hat.png',
+        type: ItemTypes.WEAPON,
+        combatAction: 'attack',
+      },{
+        article: 'a set of',
+        name: 'Pristine White Gloves',
+        imageFile: 'top-hat.png',
+        type: ItemTypes.SPECIAL,
+        combatAction: 'cleaning',
+      },{
+        article: 'a',
         name: 'Spoon of DOOM',
         imageFile: 'top-hat.png',
         type: ItemTypes.WEAPON,
@@ -145,17 +148,17 @@ const Activities = {
       }],
     }],
   },
-  NOPE: {
-    label: 'Go noping',
-    minCombat: 20,
-    maxCombat: 40,
-    returnMessage: t`Nope?`,
-    awayMessage: t`Nope...`,
-    results:[{
-      story: t`Nope!`,
-      monster: Monsters.RATSCOUT,
-    }],
-  },
+  // NOPE: {
+  //   label: 'Go noping',
+  //   minCombat: 20,
+  //   maxCombat: 40,
+  //   returnMessage: t`Nope?`,
+  //   awayMessage: t`Nope...`,
+  //   results:[{
+  //     story: t`Nope!`,
+  //     monster: Monsters.RATSCOUT,
+  //   }],
+  // },
   REST: {
     label: 'Stay in bed',
     icon: 'bed',
