@@ -3,10 +3,8 @@ import { Router, Route, hashHistory } from 'react-router'
 
 import paths from '../paths';
 import restrictAccess from '../restrictAccess';
-// import Dashboard from './Dashboard';
 import Character from './Character';
 import CharacterCreate from './CharacterCreate';
-// import CharacterItems from './CharacterItems';
 import Characters from './Characters';
 import PageTemplate from './PageTemplate';
 

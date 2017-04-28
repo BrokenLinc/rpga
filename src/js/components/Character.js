@@ -2,7 +2,7 @@ import { assign } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 
 import base from '../base';
-import { getFullCharacter } from '../utils';
+import { getFullCharacter } from '../gameFunctions';
 import CharacterThumb from './CharacterThumb';
 import ContentLoader from './ContentLoader';
 import CharacterInfoTabs from './CharacterInfoTabs';

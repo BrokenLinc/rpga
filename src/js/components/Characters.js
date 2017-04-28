@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 import base from '../base';
 import paths from '../paths';
-import { getFullCharacter } from '../utils';
+import { getFullCharacter } from '../gameFunctions';
 import ContentLoader from './ContentLoader';
 import CharacterThumb from './CharacterThumb';
 import ScrollView from './ScrollView';

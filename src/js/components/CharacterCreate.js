@@ -4,7 +4,7 @@ import cn from 'classnames';
 
 import base from '../base';
 import paths from '../paths';
-import { generateCharacter } from '../utils';
+import { generateCharacter } from '../gameFunctions';
 import Portrait from './Portrait';
 
 class CharacterCreate extends Component {

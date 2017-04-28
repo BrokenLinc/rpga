@@ -12,9 +12,7 @@ class CharacterCurrentActivity extends Component {
     super(props);
 
     this.forceUpdate = this.forceUpdate.bind(this);
-    // this.sendOnMission = this.sendOnMission.bind(this);
     this.returnFromMission = this.returnFromMission.bind(this);
-    // this.rest = this.rest.bind(this);
     this.doActivity = this.doActivity.bind(this);
   }
   componentDidMount() {
@@ -23,46 +21,6 @@ class CharacterCurrentActivity extends Component {
   componentWillUnmount() {
     clearInterval(this.updateInterval);
   }
-  // rest() {
-  //   const { uid } = this.context.user;
-  //   const { characterKey, character } = this.props;
-  //   const returnDate = new Date().getTime() + 10000; // 10sec
-  //
-  //   base.update(`users/${uid}/characters/${characterKey}/activity`, {
-  //     data: {
-  //       returnDate,
-  //       returnMessage: `${character.name} staggers out of bed mumbling something about a dream.`,
-  //       awayMessage: `${character.name} is in bed, with visions of sugar plums pillaging a dank dungeon.`,
-  //       life: 5,
-  //       story: `${character.name} had a dream where Michael Keaton was running for president on a "pro-jello" campaign platform. Nevertheless, a complete night's rest was had.`,
-  //       claimed: false,
-  //     }
-  //   });
-  // }
-  // sendOnMission() {
-  //   const { uid } = this.context.user;
-  //   const { characterKey, character } = this.props;
-  //   const returnDate = new Date().getTime() + 10000; // 10sec
-  //   const itemType = sample(ItemTypes);
-  //   const item = {
-  //     combat: rint(1,6),
-  //     type: itemType,
-  //     combatAction: 'defense',
-  //     name: `${itemType} OF WARDING`,
-  //   };
-  //
-  //   base.update(`users/${uid}/characters/${characterKey}/activity`, {
-  //     data: {
-  //       returnDate,
-  //       returnMessage: `You can tell ${character.name} is back because the air smells like demon eggs.`,
-  //       awayMessage: `${character.name} is out sifting through piles of junk and will return soon.`,
-  //       life: rint(0,5),
-  //       story: `${character.name} went out scavenging, and found ${item.name}.`,
-  //       item,
-  //       claimed: false,
-  //     }
-  //   });
-  // }
   doActivity(activity) {
     const { user } = this.context;
     const { character } = this.props;
@@ -99,31 +57,6 @@ class CharacterCurrentActivity extends Component {
         );
       }
     } else {
-      // idle
-      // let intro;
-      // if (activity) {
-      //   intro = activity.story;
-      // } else {
-      //   intro = 'What will you do next?:'
-      // }
-      // result = (
-      //   <div className="charactercurrentactivity">
-      //     <p>{ intro }</p>
-      //     <button className="btn btn-block" onClick={this.sendOnMission}>
-      //       Go scavenging <Icon name="angle-right" />
-      //     </button>
-      //     <button className="btn btn-block" onClick={this.rest}>
-      //       Stay in bed <Icon name="bed" />
-      //     </button>
-      //   </div>
-      // );
-
-      // const availableActivities = filter(Activities, activity => {
-      //   if(character.combat < activity.minCombat) return false;
-      //   if(character.combat > activity.maxCombat) return false;
-      //   return true;
-      // });
-
       result = (
         <div className="charactercurrentactivity">
           { activity && <p>{activity.story}</p> }

@@ -1,8 +1,76 @@
-import { assign, clamp, filter, sample } from 'lodash';
+import { assign, clamp, filter, sample, sumBy } from 'lodash';
 
 import base from './base';
-import { getFullCharacter, rint } from './utils';
-import { Items } from './constants';
+import { rint } from './utils';
+import { Items, ItemTypes } from './constants';
+import { characterSpec, itemSpec } from './specs';
+
+const getFullCharacter = (_character) => {
+  const character = characterSpec(_character);
+  return assign(getCombatValues(character), character);
+};
+
+const getCombatValues = (character) => {
+  return {
+    isCharacter: true,
+    attack: getActionTotal('attack', character),
+    skill: getCharacterSkill(character),
+  };
+};
+
+const getEquippedItems = (items) => {
+  //return filter(items, 'slot');
+  return filter(items, 'isEquipped');
+};
+
+const getActionItems = (type, character) => {
+  return filter(getEquippedItems(character.items), { combatAction: type });
+};
+
+const getActionTotal = (type, character) => {
+  return sumBy(getActionItems(type, character), 'combat');
+};
+
+const getCharacterSkill = (character) => {
+  const skillItems = filter(
+    getEquippedItems(character.items),
+    ({ combatAction }) => (combatAction != 'attack')
+  );
+  return skillItems.length ? {
+    name: skillItems[0].combatAction,
+    value: skillItems[0].combat,
+  } : {
+    name: 'skill',
+    value: 0,
+  };
+};
+
+const generateCharacter = () => {
+  const imageFiles = [
+    'character1.png',
+    'character2.png',
+    'character3.png',
+    'character4.png',
+    'character5.png',
+    'character6.png',
+  ];
+  const names = [
+    'Crampus the Wise',
+    'Jellybean the Spice Queen',
+  ];
+  return {
+    name: sample(names),
+    imageFile: sample(imageFiles),
+    items: [{
+      name: 'Questionable Dagger',
+      imageFile: 'top-hat.png',
+      type: ItemTypes.WEAPON,
+      combatAction: 'attack',
+      combat: 1,
+      isEquipped: true,
+    }],
+  };
+};
 
 const dropItem = (character, result) => {
   const itemKeywords = sample(result.item).split(' ');
@@ -53,8 +121,6 @@ const doActivity = (user, _character, activity) => {
 
   data.story = result.story({ character, item: data.item, timeOfDay });
 
-  console.log(character);
-
   base.update(`users/${user.uid}/characters/${character.key}/activity`, { data });
 }
 
@@ -82,4 +148,6 @@ const returnFromMission = (user, character) => {
 module.exports = {
   doActivity,
   returnFromMission,
+  getFullCharacter,
+  generateCharacter,
 };

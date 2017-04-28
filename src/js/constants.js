@@ -1,37 +1,9 @@
 import { assign, get, sample } from 'lodash';
 
 const ItemTypes = {
-  // HEAD: 'head',
-  // CHEST: 'chest',
-  // LEGS: 'legs',
-  // HANDS: 'hands',
-  // FEET: 'feet',
   WEAPON: 'weapon',
   SPECIAL: 'special',
-  // JEWELRY: 'jewelry',
 };
-
-// const ItemSlots = {
-//   HEAD: { slot: 'head', accepts: [ItemTypes.HEAD] },
-//   CHEST: { slot: 'chest', accepts: [ItemTypes.CHEST] },
-//   LEGS: { slot: 'legs', accepts: [ItemTypes.LEGS] },
-//   HANDS: { slot: 'hands', accepts: [ItemTypes.HANDS] },
-//   FEET: { slot: 'feet', accepts: [ItemTypes.FEET] },
-//   LEFTHAND: { slot: 'lefthand', accepts: [ItemTypes.WEAPON] },
-//   RIGHTHAND: { slot: 'righthand', accepts: [ItemTypes.WEAPON] },
-//   JEWELRY: { slot: 'jewelry', accepts: [ItemTypes.JEWELRY] },
-// };
-
-// const ItemScales = {
-//   // head: 2,
-//   // chest: 2,
-//   // legs: 1,
-//   // hands: 1,
-//   // feet: 1,
-//   weapon: 1,
-//   special: 1,
-//   // jewelry: 1,
-// };
 
 const Dict = {
   RAT_FIRST_NAMES: () => sample([
@@ -155,17 +127,6 @@ const Activities = {
       item: ['fancy', 'metal houseware'],
     }],
   },
-  // NOPE: {
-  //   label: 'Go noping',
-  //   minCombat: 20,
-  //   maxCombat: 40,
-  //   returnMessage: t`Nope?`,
-  //   awayMessage: t`Nope...`,
-  //   results:[{
-  //     story: t`Nope!`,
-  //     monster: Monsters.RATSCOUT,
-  //   }],
-  // },
   REST: {
     label: 'Stay in bed',
     icon: 'bed',
@@ -179,9 +140,7 @@ const Activities = {
 };
 
 module.exports = {
-  // ItemSlots,
   ItemTypes,
-  //ItemScales,
   Activities,
   Items,
   Monsters,
