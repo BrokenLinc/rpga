@@ -1,31 +1,11 @@
-import { assign, clamp, filter, map, sample } from 'lodash';
+import { map } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 
 import base from '../base';
-import { Activities, ItemTypes, Items } from '../constants';
-import { generateItem, getFullCharacter, rint } from '../utils';
+import gameFunctions from '../gameFunctions';
+import { Activities } from '../constants';
 import Countdown from './Countdown';
 import Icon from './Icon';
-
-const dropItem = (character, result) => {
-  const itemKeywords = sample(result.item).split(' ');
-  const possibleItems = filter(Items, item => {
-    for(let i in itemKeywords) {
-      if(item.keywords.indexOf(itemKeywords[i]) === -1) {
-        return false;
-      }
-    }
-    return true;
-  });
-
-  return assign({
-    combat: Math.max((1,
-      Math.random() > 0.5 ?
-      character.skill.value :
-      (character.attack)
-    ) + rint(0, 2))
-  }, sample(possibleItems));
-}
 
 class CharacterCurrentActivity extends Component {
   constructor(props) {
@@ -84,65 +64,19 @@ class CharacterCurrentActivity extends Component {
   //   });
   // }
   doActivity(activity) {
-    const { uid } = this.context.user;
-    const { characterKey } = this.props;
+    const { user } = this.context;
+    const { character } = this.props;
 
-    //TODO: input character and activity, get activity result data
-
-    const character = getFullCharacter(this.props.character);
-    const returnDate = new Date().getTime() + 10000; // 10sec
-
-    // generate result and item
-    const result = sample(activity.results);
-    const data = {
-      returnDate,
-      returnMessage: activity.returnMessage({ character }),
-      awayMessage: activity.awayMessage({ character }),
-      claimed: false,
-    };
-    if(result.life) {
-      data.life = clamp(character.life + result.life, 0, 5);
-    }
-    if(result.item) {
-      // generate item from activity result
-      data.item = dropItem(character, result);
-    }
-
-    const hours = new Date().getHours();
-    let timeOfDay = 'Tonight';
-    if(hours >= 2) timeOfDay = 'This morning';
-    if(hours >= 12) timeOfDay = 'This afternoon';
-    if(hours >= 17) timeOfDay = 'This evening';
-    if(hours >= 20) timeOfDay = 'Tonight';
-
-    data.story = result.story({ character, item: data.item, timeOfDay });
-
-    base.update(`users/${uid}/characters/${characterKey}/activity`, { data });
+    gameFunctions.doActivity(user, character, activity);
   }
   returnFromMission() {
-    // pull result into character and set claimed status
-    const { uid } = this.context.user;
-    const { characterKey, character } = this.props;
-    const { activity } = character;
-    const { life, item } = activity;
-    if(item) {
-      base.push(`users/${uid}/characters/${characterKey}/items`, {
-        data: item,
-      });
-    }
-    if(life) {
-      base.update(`users/${uid}/characters/${characterKey}`, {
-        data: { life },
-      });
-    }
-    base.update(`users/${uid}/characters/${characterKey}/activity`, {
-      data: {
-        claimed: true,
-      }
-    });
+    const { user } = this.context;
+    const { character } = this.props;
+
+    gameFunctions.returnFromMission(user, character);
   }
   render() {
-    const character = getFullCharacter(this.props.character);
+    const { character } = this.props;
     const { activity } = character;
 
     let result = null;
@@ -216,10 +150,6 @@ CharacterCurrentActivity.contextTypes = {
 };
 
 CharacterCurrentActivity.propTypes = {
-  characterKey: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]).isRequired,
   character: PropTypes.object,
 };
 

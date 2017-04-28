@@ -25,7 +25,7 @@ class CharacterInfoTabs extends Component {
     this.setState({activeTab});
   }
   render() {
-    const { character, characterKey } = this.props;
+    const { character } = this.props;
     const { activeTab } = this.state;
 
     return (
@@ -40,8 +40,8 @@ class CharacterInfoTabs extends Component {
         </ul>
         <div className="characterinfotabs__regionscontainer">
           <div className="characterinfotabs__regions" style={activeTab}>
-            <ScrollView><CharacterCurrentActivity characterKey={characterKey} character={character}/></ScrollView>
-            <ScrollView><CharacterItemList characterKey={characterKey} character={character}/></ScrollView>
+            <ScrollView><CharacterCurrentActivity character={character}/></ScrollView>
+            <ScrollView><CharacterItemList character={character}/></ScrollView>
           </div>
         </div>
       </div>
@@ -50,10 +50,7 @@ class CharacterInfoTabs extends Component {
 }
 
 CharacterInfoTabs.propTypes = {
-  characterKey: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]).isRequired,
+  character: PropTypes.object.isRequired,
 };
 
 export default CharacterInfoTabs;

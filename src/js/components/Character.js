@@ -1,6 +1,8 @@
+import { assign } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 
 import base from '../base';
+import { getFullCharacter } from '../utils';
 import CharacterThumb from './CharacterThumb';
 import ContentLoader from './ContentLoader';
 import CharacterInfoTabs from './CharacterInfoTabs';
@@ -18,11 +20,15 @@ class Character extends Component {
     const { uid } = this.context.user;
     const { characterKey } = this.props.params;
 
-    this.ref = base.bindToState(`users/${uid}/characters/${characterKey}`, {
+    this.ref = base.listenTo(`users/${uid}/characters/${characterKey}`, {
       context: this,
-      state: 'character',
-      then: () => {
-        this.setState({isLoading: false})
+      then: (character) => {
+        this.setState({
+          character: assign({
+            key: characterKey,
+          }, getFullCharacter(character)),
+          isLoading: false
+        })
       },
     });
   }
@@ -30,8 +36,7 @@ class Character extends Component {
     base.removeBinding(this.ref);
   }
   render() {
-    const { uid } = this.context.user;
-    const { characterKey, tab } = this.props.params;
+    const { tab } = this.props.params;
     const { character, isLoading } = this.state;
 
     return (
@@ -41,7 +46,7 @@ class Character extends Component {
               <div className="character__header">
                 <CharacterThumb character={character} />
               </div>
-            <CharacterInfoTabs characterKey={characterKey} character={character} initialTab={tab} />
+            <CharacterInfoTabs character={character} initialTab={tab} />
           </div>
         ) : null}
       </ContentLoader>

@@ -19,12 +19,11 @@ class CharacterItemList extends Component {
   }
   componentDidMount(){
     const { uid } = this.context.user;
-    const { characterKey } = this.props;
+    const { character } = this.props;
 
     // Use listenTo so it can be reversed on the way to state
-    this.ref = base.listenTo(`users/${uid}/characters/${characterKey}/items`, {
+    this.ref = base.listenTo(`users/${uid}/characters/${character.key}/items`, {
       context: this,
-      state: 'items',
       asArray: true,
       keepKeys: true,
       queries: {
@@ -46,26 +45,26 @@ class CharacterItemList extends Component {
   }
   toggleEquip(item) {
     const { uid } = this.context.user;
-    const { characterKey } = this.props;
+    const { character } = this.props;
     if(item.isEquipped) {
       //unequip item
-      base.remove(`users/${uid}/characters/${characterKey}/items/${item.key}/isEquipped`);
+      base.remove(`users/${uid}/characters/${character.key}/items/${item.key}/isEquipped`);
     } else {
       // unequip old item
       const oldItem = this.getEquippedItem(item.type);
       if(oldItem) {
-        base.remove(`users/${uid}/characters/${characterKey}/items/${oldItem.key}/isEquipped`);
+        base.remove(`users/${uid}/characters/${character.key}/items/${oldItem.key}/isEquipped`);
       }
       // equip item
-      base.update(`users/${uid}/characters/${characterKey}/items/${item.key}`, {
+      base.update(`users/${uid}/characters/${character.key}/items/${item.key}`, {
         data: { isEquipped: true }
       });
     }
   }
   trash(item) {
     const { uid } = this.context.user;
-    const { characterKey } = this.props;
-    base.remove(`users/${uid}/characters/${characterKey}/items/${item.key}`);
+    const { character } = this.props;
+    base.remove(`users/${uid}/characters/${character.key}/items/${item.key}`);
   }
   render() {
     const { items } = this.state;
@@ -101,10 +100,6 @@ CharacterItemList.contextTypes = {
 
 CharacterItemList.propTypes = {
   character: PropTypes.object.isRequired,
-  characterKey: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string,
-  ]).isRequired,
 };
 
 export default CharacterItemList;
