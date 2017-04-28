@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 
 import base from '../base';
 import paths from '../paths';
+import { getFullCharacter } from '../utils';
 import ContentLoader from './ContentLoader';
 import CharacterThumb from './CharacterThumb';
 import ScrollView from './ScrollView';
@@ -22,13 +23,15 @@ class Characters extends Component {
   componentDidMount(){
     const { uid } = this.context.user;
 
-    this.ref = base.bindToState(`users/${uid}/characters`, {
+    this.ref = base.listenTo(`users/${uid}/characters`, {
       context: this,
-      state: 'characters',
       asArray: true,
       keepKeys: true,
-      then: () => {
-        this.setState({ isLoading: false });
+      then: (characters) => {
+        this.setState({
+          characters: map(characters, character => getFullCharacter(character)),
+          isLoading: false
+        });
       },
     });
   }

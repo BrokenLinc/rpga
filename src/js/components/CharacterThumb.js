@@ -1,14 +1,13 @@
 import { map, times } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 
-import { getFullCharacter } from '../utils';
 import Portrait from './Portrait';
 import Icon from './Icon';
 
 class CharacterThumb extends Component {
   render() {
     const { character } = this.props;
-    const { imageFile, name, life, attack, skill } = getFullCharacter(character);
+    const { imageFile, name, life, attack, skill } = character;
 
     return (
       <div className="characterthumb">
