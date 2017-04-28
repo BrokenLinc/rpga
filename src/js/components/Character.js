@@ -1,12 +1,11 @@
-import { assign, each, filter, map } from 'lodash';
+import { assign } from 'lodash';
 import React, { Component, PropTypes } from 'react';
-import { DragSource } from 'react-dnd';
 
 import base from '../base';
-import { characterSpec } from '../specs';
-import Inventory from './Inventory';
-import PaperDoll from './PaperDoll';
-import Portrait from './Portrait';
+import { getFullCharacter } from '../gameFunctions';
+import CharacterThumb from './CharacterThumb';
+import ContentLoader from './ContentLoader';
+import CharacterInfoTabs from './CharacterInfoTabs';
 
 class Character extends Component {
   constructor(props) {
@@ -17,42 +16,50 @@ class Character extends Component {
       isLoading: true,
     };
   }
-  componentDidMount(){
+  componentDidMount() {
     const { uid } = this.context.user;
     const { characterKey } = this.props.params;
 
-    this.ref = base.bindToState(`users/${uid}/characters/${characterKey}`, {
+    this.ref = base.listenTo(`users/${uid}/characters/${characterKey}`, {
       context: this,
-      state: 'character',
-      then: () => {
-        this.setState({isLoading: false})
+      then: (character) => {
+        this.setState({
+          character: assign({
+            key: characterKey,
+          }, getFullCharacter(character)),
+          isLoading: false
+        })
       },
     });
   }
-  componentWillUnmount(){
+  componentWillUnmount() {
     base.removeBinding(this.ref);
   }
   render() {
-    const { uid } = this.context.user;
-    const { characterKey } = this.props.params;
-    const { character, isLoading, wins, draws, losses } = this.state;
-    const { imageFile, name, power } = characterSpec(character);
-
-    if(isLoading) return null;
+    const { tab } = this.props.params;
+    const { character, isLoading } = this.state;
 
     return (
-      <div>
-        <h1>{ name }</h1>
-        <Portrait imageFile={imageFile} className="is-large" />
-        <PaperDoll uid={uid} characterKey={characterKey}/>
-        <Inventory uid={uid} characterKey={characterKey}/>
-      </div>
+      <ContentLoader isLoading={isLoading} align="center">
+        {character ? (
+          <div className="character">
+              <div className="character__header">
+                <CharacterThumb character={character} />
+              </div>
+            <CharacterInfoTabs character={character} initialTab={tab} />
+          </div>
+        ) : null}
+      </ContentLoader>
     );
   }
 }
 
 Character.contextTypes = {
   user: PropTypes.object.isRequired,
+};
+
+Character.propTypes = {
+  params: PropTypes.object,
 };
 
 export default Character;

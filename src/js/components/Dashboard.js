@@ -1,3 +1,3 @@
-import React from 'react';
-
-export default () => <h1>Dashboard</h1>;
+// import React from 'react';
+//
+// export default () => <h1>Dashboard</h1>;

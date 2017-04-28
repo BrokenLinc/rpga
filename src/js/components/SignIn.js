@@ -74,6 +74,12 @@ class SignIn extends Component {
           <label>Password</label>
           <input value={ password } onChange={ this.onPasswordChange } className="form-control" type="password"/>
         </div>
+        
+        <label>Test</label>
+        <div className="ui input">
+          <input type="text" />
+        </div>
+
         <button className="btn btn-success">Sign In</button>
       </form>
     );

@@ -1,0 +1,30 @@
+.characterlist {
+	.list-reset;
+
+	> li.is-active {
+		background: yellow;
+		font-weight: bold;
+	}
+}
+.characterlistitem {
+	border-bottom: 1px solid #ccc;
+	display: flex;
+	flex-flow: column;
+	height: 110px;
+	justify-content: center;
+	padding: 5px 15px;
+
+	&, &:hover {
+		color: #111;
+		text-decoration: none;
+	}
+	.no-touch &:hover {
+		.characterlistitem__portrait {
+			border-color: #2b5;
+		}
+	}
+}
+.characterlistitem__name {
+	font-size: 18px;
+	font-weight: 300;
+}

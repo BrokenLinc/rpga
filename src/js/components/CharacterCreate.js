@@ -1,92 +1,53 @@
-import { indexOf, map, nth } from 'lodash';
+import { assign } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import cn from 'classnames';
 
 import base from '../base';
-import { characterImage } from '../paths';
+import paths from '../paths';
+import { generateCharacter } from '../gameFunctions';
 import Portrait from './Portrait';
-
-// Form animations requie 6 or more character images
-const characterImageFiles = [
-  'character1.png',
-  'character2.png',
-  'character3.png',
-  'character4.png',
-  'character5.png',
-  'character6.png',
-];
 
 class CharacterCreate extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isLoading: true,
-      name: '',
-      error: null,
-      imageFile: characterImageFiles[0],
+      character: generateCharacter(),
     };
 
-    this.onNameChange = this.onNameChange.bind(this);
-    this.onAddFormSubmit = this.onAddFormSubmit.bind(this);
-    this.setImageFile = this.setImageFile.bind(this);
+    this.rollCharacter = this.rollCharacter.bind(this);
+    this.keepCharacter = this.keepCharacter.bind(this);
   }
-  onNameChange(event) {
-    this.setState({ name: event.target.value.substr(0,16) });
+  rollCharacter() {
+    this.setState({
+      character: generateCharacter(),
+    });
   }
-  setImageFile(imageFile) {
-    this.setState({ imageFile });
-  }
-  onAddFormSubmit(event) {
+  keepCharacter() {
     const { router } = this.context;
     const { uid } = this.context.user;
-    const { name, imageFile } = this.state;
-
-    this.setState({ error: '' });
 
     base.push(`users/${uid}/characters`, {
-      data: { name, imageFile },
+      data: this.state.character,
     }).then(newLocation => {
-      this.setState({ name: '' });
-      router.push(`/characters`);
+      router.push(paths.character(newLocation.key));
     }).catch((error) => {
       this.setState({ error });
     });
     event.preventDefault();
   }
   render() {
-    const { name, imageFile, error, isLoading } = this.state;
-
-    const imagesToShow = [];
-    const startingIndex = indexOf(characterImageFiles, imageFile);
-
-    for(var i = startingIndex - 2; i <= startingIndex + 2; i++) {
-      const thisImageFile = nth(characterImageFiles, i % characterImageFiles.length);
-      imagesToShow.push(thisImageFile);
-    }
+    const { name, imageFile } = this.state.character;
 
     return (
       <div>
         <h1>New Character</h1>
 
-        <form onSubmit={ this.onAddFormSubmit } className={cn('form', {'is-error':error})}>
-          <div className="form-group">
-            <label>Character Name</label>
-            <input type="text" value={ name } onChange={ this.onNameChange } className="form-control" autoFocus maxLength={16} />
-          </div>
-          <ul className="selectionrotator">
-            {map(imagesToShow, (thisImageFile) => {
-              const isActive = thisImageFile === imageFile;
+        <div>{ name }</div>
+        <Portrait imageFile={imageFile} />
 
-              return (
-                <li key={thisImageFile} onClick={ () => { this.setImageFile(thisImageFile) } }>
-                  <Portrait imageFile={thisImageFile} className={cn({'is-active':isActive})} />
-                </li>
-              );
-            })}
-          </ul>
-          <button className="btn btn-default">Create</button>
-        </form>
+        <button onClick={ this.rollCharacter } className="btn btn-default">Re-roll</button>
+        <button onClick={ this.keepCharacter } className="btn btn-default">Keep</button>
     </div>
     );
   }
