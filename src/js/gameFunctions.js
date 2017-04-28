@@ -2,7 +2,8 @@ import { assign, clamp, filter, sample, sumBy } from 'lodash';
 
 import base from './base';
 import { rint } from './utils';
-import { Items, ItemTypes } from './constants';
+import { ItemTypes } from './constants';
+import { Items } from './generators';
 import { characterSpec, itemSpec } from './specs';
 
 const getFullCharacter = (_character) => {
@@ -19,7 +20,6 @@ const getCombatValues = (character) => {
 };
 
 const getEquippedItems = (items) => {
-  //return filter(items, 'slot');
   return filter(items, 'isEquipped');
 };
 

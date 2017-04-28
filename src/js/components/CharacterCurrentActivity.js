@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 
 import base from '../base';
 import gameFunctions from '../gameFunctions';
-import { Activities } from '../constants';
+import { Activities } from '../templates';
 import Countdown from './Countdown';
 import Icon from './Icon';
 
