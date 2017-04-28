@@ -1,5 +1,6 @@
 import { map } from 'lodash';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import cn from 'classnames';
 
@@ -74,7 +75,7 @@ class SignIn extends Component {
           <label>Password</label>
           <input value={ password } onChange={ this.onPasswordChange } className="form-control" type="password"/>
         </div>
-        
+
         <label>Test</label>
         <div className="ui input">
           <input type="text" />

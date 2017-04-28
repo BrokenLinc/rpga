@@ -1,5 +1,6 @@
 import { assign } from 'lodash';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import base from '../base';
 import { getFullCharacter } from '../gameFunctions';

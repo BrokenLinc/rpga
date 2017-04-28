@@ -1,8 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
 
 import { characterImage } from '../paths';
-import { characterSpec } from '../specs';
 import TransitionGroup from './TransitionGroup';
 
 class Portrait extends Component {

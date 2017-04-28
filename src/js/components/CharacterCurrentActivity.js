@@ -1,5 +1,6 @@
 import { map } from 'lodash';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Button, Icon, Segment } from 'semantic-ui-react'
 
 import base from '../base';
