@@ -2,11 +2,11 @@ import { map, times } from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+import { Dimmer, Loader } from 'semantic-ui-react';
 
 import base from '../base';
 import paths from '../paths';
 import { getFullCharacter } from '../gameFunctions';
-import ContentLoader from './ContentLoader';
 import CharacterThumb from './CharacterThumb';
 import ScrollView from './ScrollView';
 
@@ -45,30 +45,31 @@ class Characters extends Component {
 
     return (
       <ScrollView className="characters">
-        <ContentLoader isLoading={isLoading} align="center">
-          <ul className="characterlist">
-            {map(characters, (character) => (
-              <li key={character.key}>
-                <Link to={ paths.characterTab(character.key, 'items') } className="characterlistitem">
-                  <CharacterThumb character={character}/>
+        <Dimmer active={isLoading}>
+          <Loader>Loading characters</Loader>
+        </Dimmer>
+        <ul className="characterlist">
+          {map(characters, (character) => (
+            <li key={character.key}>
+              <Link to={ paths.characterTab(character.key, 'items') } className="characterlistitem">
+                <CharacterThumb character={character}/>
+              </Link>
+            </li>
+          ))}
+          {times(emptyslotCount, (index) => (
+            <li key={index}>
+              {index === 0 ? (
+                <Link to={ paths.characterCreate() } className="characterlistitem">
+                  + New Character
                 </Link>
-              </li>
-            ))}
-            {times(emptyslotCount, (index) => (
-              <li key={index}>
-                {index === 0 ? (
-                  <Link to={ paths.characterCreate() } className="characterlistitem">
-                    + New Character
-                  </Link>
-                ) : (
-                  <div className="characterlistitem">
-                    ...
-                  </div>
-                )}
-              </li>
-            ))}
-          </ul>
-        </ContentLoader>
+              ) : (
+                <div className="characterlistitem">
+                  ...
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
       </ScrollView>
     );
   }

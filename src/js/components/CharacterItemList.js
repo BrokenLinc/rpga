@@ -12,35 +12,35 @@ class CharacterItemList extends Component {
 
     this.state = {
       isLoading: true,
-      items: [],
+      items: {},
     };
 
     this.toggleEquip = this.toggleEquip.bind(this);
     this.trash = this.trash.bind(this);
   }
-  componentDidMount(){
-    const { uid } = this.context.user;
-    const { character } = this.props;
-
-    // Use listenTo so it can be reversed on the way to state
-    this.ref = base.listenTo(`users/${uid}/characters/${character.key}/items`, {
-      context: this,
-      asArray: true,
-      keepKeys: true,
-      queries: {
-        orderByChild: 'combat',
-      },
-      then: (items) => {
-        this.setState({
-          items: items.reverse(),
-          isLoading: false
-        })
-      },
-    });
-  }
-  componentWillUnmount(){
-    base.removeBinding(this.ref);
-  }
+  // componentDidMount(){
+  //   const { uid } = this.context.user;
+  //   const { character } = this.props;
+  //
+  //   // Use listenTo so it can be reversed on the way to state
+  //   this.ref = base.listenTo(`users/${uid}/characters/${character.key}/items`, {
+  //     context: this,
+  //     asArray: true,
+  //     keepKeys: true,
+  //     queries: {
+  //       orderByChild: 'combat',
+  //     },
+  //     then: (items) => {
+  //       this.setState({
+  //         items: items.reverse(),
+  //         isLoading: false
+  //       })
+  //     },
+  //   });
+  // }
+  // componentWillUnmount(){
+  //   base.removeBinding(this.ref);
+  // }
   getEquippedItem(type) {
     return find(this.state.items, { type, isEquipped: true });
   }
@@ -68,12 +68,14 @@ class CharacterItemList extends Component {
     base.remove(`users/${uid}/characters/${character.key}/items/${item.key}`);
   }
   render() {
-    const { items } = this.state;
+    const { items } = this.props.character;
+
+    console.log(items);
 
     return (
       <div className="characteritemlist">
-        {map(items, (item) => {
-          const { key, name, type, combat, combatAction, isEquipped } = item;
+        {map(items, (item, key) => {
+          const { name, type, combat, combatAction, isEquipped } = item;
           return (
             <div key={key} className={cn('characteritem', {'is-equipped':isEquipped})}>
               <div className="characteritem__info">

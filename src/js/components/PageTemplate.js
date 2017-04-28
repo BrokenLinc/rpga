@@ -21,9 +21,11 @@ class PageTemplate extends Component {
   render() {
     const { children, location, user } = this.props;
 
+    const isUserLoaded = (!user.isLoading && !!user.email);
+
     return (
       <div className="pagetemplate">
-        { !user.isLoading && user.email ? (
+        { isUserLoaded && (
           <header className="pageheader">
             <nav>
               <span>undermud</span>
@@ -31,7 +33,7 @@ class PageTemplate extends Component {
               <a onClick={ this.onSignOutClick } href="javascript:void(0)"><Icon name="log out" fitted /></a>
             </nav>
           </header>
-        ) : null }
+        )}
         <RouteTransition
           className="routetransition"
           pathname={location.pathname}

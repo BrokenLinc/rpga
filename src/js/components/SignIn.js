@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import cn from 'classnames';
+import { Button, Form, Message, Segment } from 'semantic-ui-react';
 
 import base from '../base';
 
@@ -61,28 +62,19 @@ class SignIn extends Component {
     if (user.isLoading) return null;
 
     return user.email ? (
-      <div className="form">
+      <Message>
         You're already signed in as { user.email }.<br/>
         <a onClick={ this.onSignOutClick } href="javascript:void(0)">Sign out</a>.
-      </div>
+      </Message>
     ) : (
-      <form onSubmit={ this.onSignInFormSubmit } className={cn('form', {'is-error':error})}>
-        <div className="form-group">
-          <label>Email</label>
-    		  <input value={ email } onChange={ this.onEmailChange } className="form-control" type="text" placeholder="someone@gmail.com"/>
-        </div>
-        <div className="form-group">
-          <label>Password</label>
-          <input value={ password } onChange={ this.onPasswordChange } className="form-control" type="password"/>
-        </div>
-
-        <label>Test</label>
-        <div className="ui input">
-          <input type="text" />
-        </div>
-
-        <button className="btn btn-success">Sign In</button>
-      </form>
+      <Segment color={ error ? 'red' : null }>
+        <Form onSubmit={ this.onSignInFormSubmit } warning={!!error}>
+          <Message warning header="Oops! Check your spelling and try again."/>
+          <Form.Input label="Email" value={ email } onChange={ this.onEmailChange } placeholder="someone@gmail.com" error={!!error} />
+          <Form.Input label="Password" value={ password } onChange={ this.onPasswordChange } type="password" error={!!error} />
+          <Form.Button type="submit">Sign In</Form.Button>
+        </Form>
+      </Segment>
     );
   };
 }

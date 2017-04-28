@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 
 import { characterImage } from '../paths';
-import TransitionGroup from './TransitionGroup';
 
 class Portrait extends Component {
   constructor(props) {

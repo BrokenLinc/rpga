@@ -1,11 +1,11 @@
 import { assign } from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Dimmer, Loader } from 'semantic-ui-react';
 
 import base from '../base';
 import { getFullCharacter } from '../gameFunctions';
 import CharacterThumb from './CharacterThumb';
-import ContentLoader from './ContentLoader';
 import CharacterInfoTabs from './CharacterInfoTabs';
 
 class Character extends Component {
@@ -41,16 +41,19 @@ class Character extends Component {
     const { character, isLoading } = this.state;
 
     return (
-      <ContentLoader isLoading={isLoading} align="center">
-        {character ? (
-          <div className="character">
-              <div className="character__header">
-                <CharacterThumb character={character} />
-              </div>
-            <CharacterInfoTabs character={character} initialTab={tab} />
+      <div className="character">
+        <Dimmer active={isLoading}>
+          <Loader>Loading character</Loader>
+        </Dimmer>
+        {character && (
+          <div className="character__header">
+            <CharacterThumb character={character} />
           </div>
-        ) : null}
-      </ContentLoader>
+        )}
+        {character && (
+          <CharacterInfoTabs character={character} initialTab={tab} />
+        )}
+      </div>
     );
   }
 }
