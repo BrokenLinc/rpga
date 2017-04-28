@@ -1,5 +1,6 @@
 import { assign } from 'lodash';
 import React, { Component, PropTypes } from 'react';
+import { Button } from 'semantic-ui-react';
 import cn from 'classnames';
 
 import base from '../base';
@@ -46,8 +47,8 @@ class CharacterCreate extends Component {
         <div>{ name }</div>
         <Portrait imageFile={imageFile} />
 
-        <button onClick={ this.rollCharacter } className="btn btn-default">Re-roll</button>
-        <button onClick={ this.keepCharacter } className="btn btn-default">Keep</button>
+        <Button onClick={ this.rollCharacter }>Re-roll</Button>
+        <Button onClick={ this.keepCharacter }>Keep</Button>
     </div>
     );
   }

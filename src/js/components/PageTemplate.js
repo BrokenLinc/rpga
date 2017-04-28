@@ -2,10 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { RouteTransition } from 'react-router-transition';
+import { Icon } from 'semantic-ui-react'
 
 import base from '../base';
 import paths from '../paths';
-import Icon from './Icon';
 
 class PageTemplate extends Component {
   constructor(props) {
@@ -26,8 +26,8 @@ class PageTemplate extends Component {
           <header className="pageheader">
             <nav>
               <span>undermud</span>
-              <Link to={ paths.characters() }><Icon name="users" /></Link>
-              <a onClick={ this.onSignOutClick } href="javascript:void(0)"><Icon name="sign-out" /></a>
+              <Link to={ paths.characters() }><Icon name="address book" fitted /></Link>
+              <a onClick={ this.onSignOutClick } href="javascript:void(0)"><Icon name="log out" fitted /></a>
             </nav>
           </header>
         ) : null }

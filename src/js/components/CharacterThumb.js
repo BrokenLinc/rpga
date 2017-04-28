@@ -1,8 +1,8 @@
 import { map, times } from 'lodash';
 import React, { Component, PropTypes } from 'react';
+import { Icon } from 'semantic-ui-react'
 
 import Portrait from './Portrait';
-import Icon from './Icon';
 
 class CharacterThumb extends Component {
   render() {
@@ -18,8 +18,8 @@ class CharacterThumb extends Component {
           <div className="characterthumb__name">{ name }</div>
           <div className="characterthumb__health">
             <div className="lifebar">
-              {times(life, (i) => (<Icon key={i} name="heart" />))}
-              {times(5 - life, (i) => (<Icon key={life + i} name="heart-o" />))}
+              {times(life, (i) => (<Icon key={i} name="heart" fitted />))}
+              {times(5 - life, (i) => (<Icon key={life + i} name="empty heart" fitted />))}
             </div>
           </div>
           <div className="characterthumb__stats">

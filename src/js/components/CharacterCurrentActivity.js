@@ -1,11 +1,11 @@
 import { map } from 'lodash';
 import React, { Component, PropTypes } from 'react';
+import { Button, Icon, Segment } from 'semantic-ui-react'
 
 import base from '../base';
 import gameFunctions from '../gameFunctions';
 import { Activities } from '../templates';
 import Countdown from './Countdown';
-import Icon from './Icon';
 
 class CharacterCurrentActivity extends Component {
   constructor(props) {
@@ -44,7 +44,7 @@ class CharacterCurrentActivity extends Component {
         result = (
           <div className="charactercurrentactivity">
             <p>{ activity.returnMessage }</p>
-            <button onClick={this.returnFromMission} className="btn">Get updates</button>
+            <Button onClick={this.returnFromMission}>Get updates</Button>
           </div>
         );
       } else {
@@ -59,14 +59,14 @@ class CharacterCurrentActivity extends Component {
     } else {
       result = (
         <div className="charactercurrentactivity">
-          { activity && <p>{activity.story}</p> }
+          { activity && <Segment textAlign="left">{activity.story}</Segment> }
           <p><b>What will {character.name} do next?</b></p>
           { map(Activities, (activity, key) => {
             const { label, icon } = activity;
             return (
-              <button key={key} className="btn btn-block" onClick={() => this.doActivity(activity)}>
-                { label } <Icon name={ icon || 'angle-right' } />
-              </button>
+              <Button key={key} onClick={() => this.doActivity(activity)}>
+                <Icon name={ icon || 'angle right' } />{ label }
+              </Button>
             );
           }) }
         </div>

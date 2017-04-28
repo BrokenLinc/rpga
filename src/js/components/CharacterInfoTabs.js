@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
+import { Icon } from 'semantic-ui-react'
 import cn from 'classnames';
 
 import CharacterCurrentActivity from './CharacterCurrentActivity';
 import CharacterItemList from './CharacterItemList';
-import Icon from './Icon';
 import ScrollView from './ScrollView';
 
 const TABS = {
@@ -32,10 +32,10 @@ class CharacterInfoTabs extends Component {
       <div className="characterinfotabs">
         <ul className="characterinfotabs__headers">
           <li className={cn({'is-active':activeTab===TABS.activity})} onClick={() => this.selectTab(TABS.activity)}>
-            <Icon name="clock-o" /> activity
+            <Icon name="clock" />activity
           </li>
           <li className={cn({'is-active':activeTab===TABS.items})} onClick={() => this.selectTab(TABS.items)}>
-            <Icon name="male" /> items
+            <Icon name="male" />items
           </li>
         </ul>
         <div className="characterinfotabs__regionscontainer">

@@ -17,6 +17,7 @@ const t = (strings, ...keys) => {
 const Activities = {
   ADVENTURE: {
     label: 'Go adventuring',
+    icon: 'flag',
     returnMessage: t`You can tell ${'character.name'} is back because the air smells like demon eggs.`,
     awayMessage: t`${'character.name'} is out sifting through piles of junk and will return soon.`,
     results: [{

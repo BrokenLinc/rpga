@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Progress } from 'semantic-ui-react';
 
 class Countdown extends Component {
   constructor(props) {
@@ -7,7 +8,7 @@ class Countdown extends Component {
     this.forceUpdate = this.forceUpdate.bind(this);
   }
   componentDidMount() {
-    this.updateInterval = setInterval(this.forceUpdate,1000)
+    this.updateInterval = setInterval(this.forceUpdate,30)
   }
   componentWillUnmount() {
     clearInterval(this.updateInterval);
@@ -31,7 +32,10 @@ class Countdown extends Component {
     clock.push(String('00' + secs).slice(-2));
 
     return(
-      <div className="countdown">{ clock.join(':') }</div>
+      <div className="countdown">
+        { clock.join(':') } remaining
+        <Progress percent={(1 - msDiff / 10000) * 100} color='green' />
+      </div>
     )
   }
 }

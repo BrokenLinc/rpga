@@ -1,9 +1,9 @@
 import { find, map } from 'lodash';
 import React, { Component, PropTypes } from 'react';
+import { Icon } from 'semantic-ui-react'
 import cn from 'classnames';
 
 import base from '../base';
-import Icon from './Icon';
 
 class CharacterItemList extends Component {
   constructor(props) {
@@ -81,10 +81,10 @@ class CharacterItemList extends Component {
                 <div className="characteritem__combat">{ `${combat} ${combatAction}` }</div>
               </div>
               <button className="characteritem__trash" onClick={ () => this.trash(item) }>
-                <Icon name="trash" />
+                <Icon name="trash" fitted />
               </button>
               <button className="characteritem__toggle" onClick={ () => this.toggleEquip(item) }>
-                <Icon name="check" />
+                <Icon name="check" fitted />
               </button>
             </div>
           )
