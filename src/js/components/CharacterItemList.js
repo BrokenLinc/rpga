@@ -1,97 +1,19 @@
-import { find, map } from 'lodash';
+import { map } from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from 'semantic-ui-react'
-import cn from 'classnames';
 
-import base from '../base';
+import CharacterItem from './CharacterItem';
 
 class CharacterItemList extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isLoading: true,
-      items: {},
-    };
-
-    this.toggleEquip = this.toggleEquip.bind(this);
-    this.trash = this.trash.bind(this);
-  }
-  // componentDidMount(){
-  //   const { uid } = this.context.user;
-  //   const { character } = this.props;
-  //
-  //   // Use listenTo so it can be reversed on the way to state
-  //   this.ref = base.listenTo(`users/${uid}/characters/${character.key}/items`, {
-  //     context: this,
-  //     asArray: true,
-  //     keepKeys: true,
-  //     queries: {
-  //       orderByChild: 'combat',
-  //     },
-  //     then: (items) => {
-  //       this.setState({
-  //         items: items.reverse(),
-  //         isLoading: false
-  //       })
-  //     },
-  //   });
-  // }
-  // componentWillUnmount(){
-  //   base.removeBinding(this.ref);
-  // }
-  getEquippedItem(type) {
-    return find(this.state.items, { type, isEquipped: true });
-  }
-  toggleEquip(item) {
-    const { uid } = this.context.user;
-    const { character } = this.props;
-    if(item.isEquipped) {
-      //unequip item
-      base.remove(`users/${uid}/characters/${character.key}/items/${item.key}/isEquipped`);
-    } else {
-      // unequip old item
-      const oldItem = this.getEquippedItem(item.type);
-      if(oldItem) {
-        base.remove(`users/${uid}/characters/${character.key}/items/${oldItem.key}/isEquipped`);
-      }
-      // equip item
-      base.update(`users/${uid}/characters/${character.key}/items/${item.key}`, {
-        data: { isEquipped: true }
-      });
-    }
-  }
-  trash(item) {
-    const { uid } = this.context.user;
-    const { character } = this.props;
-    base.remove(`users/${uid}/characters/${character.key}/items/${item.key}`);
-  }
   render() {
-    const { items } = this.props.character;
-
-    console.log(items);
+    const { character } = this.props;
+    const { items } = character;
 
     return (
       <div className="characteritemlist">
-        {map(items, (item, key) => {
-          const { name, type, combat, combatAction, isEquipped } = item;
-          return (
-            <div key={key} className={cn('characteritem', {'is-equipped':isEquipped})}>
-              <div className="characteritem__info">
-                <div className="characteritem__name">{ name }</div>
-                <div className="characteritem__type">{ type }</div>
-                <div className="characteritem__combat">{ `${combat} ${combatAction}` }</div>
-              </div>
-              <button className="characteritem__trash" onClick={ () => this.trash(item) }>
-                <Icon name="trash" fitted />
-              </button>
-              <button className="characteritem__toggle" onClick={ () => this.toggleEquip(item) }>
-                <Icon name="check" fitted />
-              </button>
-            </div>
-          )
-        })}
+        {map(items, (item) => (
+          <CharacterItem key={item.key} character={character} item={item} />
+        ))}
       </div>
     );
   }

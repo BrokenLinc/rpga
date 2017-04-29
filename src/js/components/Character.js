@@ -1,4 +1,4 @@
-import { assign } from 'lodash';
+import { assign, map, sortBy } from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Dimmer, Loader } from 'semantic-ui-react';
@@ -25,9 +25,11 @@ class Character extends Component {
       context: this,
       then: (character) => {
         this.setState({
-          character: assign({
-            key: characterKey,
-          }, getFullCharacter(character)),
+          character: assign(
+            { key: characterKey },
+            getFullCharacter(character),
+            { items: sortBy(map(character.items, (item, key) => assign({ key }, item)), 'combat').reverse() }
+          ),
           isLoading: false
         })
       },

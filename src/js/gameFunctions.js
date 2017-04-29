@@ -1,4 +1,4 @@
-import { assign, clamp, filter, sample, sumBy } from 'lodash';
+import { assign, clamp, filter, find, sample, sumBy } from 'lodash';
 
 import base from './base';
 import { rint } from './utils';
@@ -145,9 +145,36 @@ const returnFromMission = (user, character) => {
   });
 };
 
+const getEquippedItem = (items, type) => {
+  return find(items, { type, isEquipped: true });
+};
+
+const toggleEquip = (user, character, item) => {
+  if(item.isEquipped) {
+    //unequip item
+    base.remove(`users/${user.uid}/characters/${character.key}/items/${item.key}/isEquipped`);
+  } else {
+    // unequip old item
+    const oldItem = getEquippedItem(character.items, item.type);
+    if(oldItem) {
+      base.remove(`users/${user.uid}/characters/${character.key}/items/${oldItem.key}/isEquipped`);
+    }
+    // equip item
+    base.update(`users/${user.uid}/characters/${character.key}/items/${item.key}`, {
+      data: { isEquipped: true }
+    });
+  }
+}
+
+const trashItem = (user, character, item) => {
+  base.remove(`users/${user.uid}/characters/${character.key}/items/${item.key}`);
+}
+
 module.exports = {
   doActivity,
   returnFromMission,
   getFullCharacter,
   generateCharacter,
+  toggleEquip,
+  trashItem,
 };
