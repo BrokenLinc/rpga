@@ -1,39 +1,56 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from 'semantic-ui-react'
+import { Dimmer, Icon, Item, Label } from 'semantic-ui-react'
 import cn from 'classnames';
 
+import { itemImage } from '../paths';
 import gameFunctions from '../gameFunctions';
 
 class CharacterItem extends Component {
-  toggleEquip = (item) => {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isActive: false,
+    };
+  }
+  toggle = () => {
+    this.setState({ isActive: !this.state.isActive });
+  }
+  toggleEquip = () => {
     const { user } = this.context;
-    const { character } = this.props;
+    const { character, item } = this.props;
     gameFunctions.toggleEquip(user, character, item);
   }
-  trash = (item) => {
+  trash = () => {
     const { user } = this.context;
-    const { character } = this.props;
+    const { character, item } = this.props;
     gameFunctions.trashItem(user, character, item);
   }
   render() {
+    const { isActive } = this.state;
     const { item } = this.props;
-    const { name, type, combat, combatAction, isEquipped } = item;
+    const { name, type, combat, combatAction, isEquipped, imageFile } = item;
 
     return (
-      <div className={cn('characteritem', {'is-equipped':isEquipped})}>
-        <div className="characteritem__info">
-          <div className="characteritem__name">{ name }</div>
-          <div className="characteritem__type">{ type }</div>
-          <div className="characteritem__combat">{ `${combat} ${combatAction}` }</div>
-        </div>
-        <button className="characteritem__trash" onClick={ () => this.trash(item) }>
-          <Icon name="trash" fitted />
-        </button>
-        <button className="characteritem__toggle" onClick={ () => this.toggleEquip(item) }>
-          <Icon name="check" fitted />
-        </button>
-      </div>
+      <Item onClick={this.toggle} style={{padding:15,margin:0,borderBottom:'1px solid rgba(0,0,0,0.1)',position:'relative'}}>
+        <Dimmer active={isActive}>
+          <Icon onClick={this.trash} name="trash" circular color="red" size="large" inverted style={{margin:'0 10px'}} />
+          <Icon onClick={this.toggleEquip} name="check" circular color="green" size="large" inverted style={{margin:'0 10px'}} />
+          <Icon onClick={this.toggle} name="cancel" circular color="white" size="large" style={{margin:'0 10px'}} />
+        </Dimmer>
+        <Item.Image size="tiny" shape="circular" src={itemImage(imageFile)} />
+        <Item.Content>
+          <Item.Header>{ name }</Item.Header>
+          <Item.Meta>
+            <Label color={combatAction === 'attack' ? 'pink' : 'blue'} basic>
+              { `${combat} ${combatAction}` }
+              <Label.Detail>{ type }</Label.Detail>
+            </Label>
+          </Item.Meta>
+          <Item.Description>flavor text</Item.Description>
+        </Item.Content>
+      </Item>
     );
   }
 }
