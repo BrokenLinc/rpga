@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 
+const DO_FAKE_SCROLL = false;
+
 const rubberBandMovement = distance => {
   return distance < 49 ?
     distance :
@@ -13,21 +15,16 @@ class ScrollView extends Component {
   constructor(props) {
     super(props);
 
-    this.touchstart = this.touchstart.bind(this);
-    this.touchmove = this.touchmove.bind(this);
-    this.touchend = this.touchend.bind(this);
-    this.collapsePadding = this.collapsePadding.bind(this);
-
     this.state = {
       paddingTop: 0,
       paddingBottom: 0,
     };
   }
-  touchstart(event) {
+  touchstart = (event) => {
     this.lastPageY = event.touches.item(0).pageY;
     this.hasScrolled = false;
   }
-  touchmove(event) {
+  touchmove = (event) => {
     const thisPageY = event.touches.item(0).pageY;
     const movement = thisPageY - this.lastPageY;
 
@@ -44,27 +41,31 @@ class ScrollView extends Component {
     } else {
       event.preventDefault();
 
-      if(!this.hasScrolled) {
-        this.isFakeScrolling = true;
+      if(DO_FAKE_SCROLL) {
+        if(!this.hasScrolled) {
+          this.isFakeScrolling = true;
 
-        if(scrollingUp) {
-          this.setState({
-            paddingTop: rubberBandMovement(movement),
-          });
-        }
-        if(scrollingDown) {
-          this.setState({
-            paddingBottom: rubberBandMovement(-movement),
-          });
+          if(scrollingUp) {
+            this.setState({
+              paddingTop: rubberBandMovement(movement),
+            });
+          }
+          if(scrollingDown) {
+            this.setState({
+              paddingBottom: rubberBandMovement(-movement),
+            });
+          }
         }
       }
     }
   }
-  touchend() {
-    this.isFakeScrolling = false;
-    this.collapsePadding();
+  touchend = () => {
+    if(DO_FAKE_SCROLL) {
+      this.isFakeScrolling = false;
+      this.collapsePadding();
+    }
   }
-  collapsePadding() {
+  collapsePadding = () => {
     // Tween it down to zero until interrupted or within 1/2px
     const { paddingTop, paddingBottom } = this.state;
     if(paddingTop > 0 || paddingBottom > 0 && !this.isFakeScrolling) {

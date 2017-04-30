@@ -1,76 +1,35 @@
 .characteritem {
-	border-bottom: 1px solid #ddd;
+	padding: 10px;
+	width: 100%;
+	margin-bottom: -10px;
+}
+.characteritem__content {
+	background: white;
+	border: 0 none;
+	border-radius: .28571429rem;
+	box-shadow: 0 1px 3px 0 #D4D4D5, 0 0 0 1px #D4D4D5;
 	display: flex;
 	flex-flow: row;
+	overflow: hidden;
+	text-align: left;
+	padding: 0;
+	width: 100%;
+}
+.characteritem__image {
+	flex: 0 0 auto;
+	width: 90px;
 
-	&.is-equipped {
-		.characteritem__toggle {
-			border-color: #295;
-			color: #295;
-		}
-		.characteritem__combat {
-			color: #295;
-		}
-		.characteritem__sell {
-			transform: scale(0);
-		}
+	> img {
+		display: block;
+		height: auto;
+		width: 100%;
 	}
 }
 .characteritem__info {
 	flex: 1 1 auto;
 	padding: 10px 15px;
-	text-align: left;
-}
-.characteritem__name {
-	font-weight: bold;
-}
-.characteritem__type {
-	font-style: italic;
-	color: #999;
-}
-.characteritem__combat {
-}
-.characteritem__sell {
-	align-self: center;
-	border: 0 none;
-	height: 40px;
-	border-radius: 50%;
-	width: 40px;
-	margin-right: 15px;
-	background: #db3;
-	transition: transform 0.2s;
-}
-.characteritem__toggle {
-	align-self: center;
-	background: transparent;
-	border: 3px solid #ccc;
-	border-radius: 50%;
-	color: #ccc;
-	cursor: pointer;
-	font-size: 16px;
-	height: 40px;
-	line-height: 34px;
-	margin-right: 15px;
-	padding: 0;
-	text-align: center;
-	width: 40px;
 
-	outline: 0 none;
-}
-.characteritem__trash {
-	align-self: center;
-	background: transparent;
-	border: 3px solid #a14;
-	border-radius: 50%;
-	color: #a14;
-	cursor: pointer;
-	font-size: 16px;
-	height: 40px;
-	line-height: 34px;
-	margin-right: 15px;
-	padding: 0;
-	text-align: center;
-	width: 40px;
-
-	outline: 0 none;
+	h4 {
+		margin-bottom: 5px;
+	}
 }

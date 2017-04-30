@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Dimmer, Icon, Item, Label } from 'semantic-ui-react'
+import { Button, Card, Icon, Label, Modal, Popup } from 'semantic-ui-react'
 import cn from 'classnames';
+import { Link } from 'react-router';
 
-import { itemImage } from '../paths';
+import paths from '../paths';
 import gameFunctions from '../gameFunctions';
 
 class CharacterItem extends Component {
@@ -29,29 +30,50 @@ class CharacterItem extends Component {
   }
   render() {
     const { isActive } = this.state;
-    const { item } = this.props;
+    const { character, item } = this.props;
     const { name, type, combat, combatAction, isEquipped, imageFile } = item;
 
-    return (
-      <Item onClick={this.toggle} style={{padding:15,margin:0,borderBottom:'1px solid rgba(0,0,0,0.1)',position:'relative'}}>
-        <Dimmer active={isActive}>
-          <Icon onClick={this.trash} name="trash" circular color="red" size="large" inverted style={{margin:'0 10px'}} />
-          <Icon onClick={this.toggleEquip} name="check" circular color="green" size="large" inverted style={{margin:'0 10px'}} />
-          <Icon onClick={this.toggle} name="cancel" circular color="white" size="large" style={{margin:'0 10px'}} />
-        </Dimmer>
-        <Item.Image size="tiny" shape="circular" src={itemImage(imageFile)} />
-        <Item.Content>
-          <Item.Header>{ name }</Item.Header>
-          <Item.Meta>
-            <Label color={combatAction === 'attack' ? 'pink' : 'blue'} basic>
-              { `${combat} ${combatAction}` }
-              <Label.Detail>{ type }</Label.Detail>
-            </Label>
-          </Item.Meta>
-          <Item.Description>flavor text</Item.Description>
-        </Item.Content>
-      </Item>
+    const block = (
+      <div className="characteritem">
+        <button className="characteritem__content" onClick={this.toggle}>
+          <div className="characteritem__image">
+            <img src={paths.itemImage(imageFile)} />
+          </div>
+          <div className="characteritem__info">
+            <h4>{ name }</h4>
+            <div>
+              <Label color={combatAction === 'attack' ? 'pink' : 'blue'} basic={!isEquipped}>
+                { isEquipped && <Icon name="check" /> }
+                { `${combat} ${combatAction}` }
+                <Label.Detail>{ type }</Label.Detail>
+              </Label>
+            </div>
+          </div>
+        </button>
+        <Modal basic open={isActive}>
+          <Modal.Content>
+            <div className="cardflipper">
+              <Card
+                image={paths.itemImage(imageFile)}
+              />
+            </div>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button inverted circular icon size="big" color="red">
+              <Icon name="trash" />
+            </Button>
+            <Button inverted circular icon size="big" color="green">
+              <Icon name="checkmark" />
+            </Button>
+            <Button inverted circular icon size="big" onClick={this.toggle}>
+              <Icon name="close" />
+            </Button>
+          </Modal.Actions>
+        </Modal>
+      </div>
     );
+
+    return block;
   }
 }
 
