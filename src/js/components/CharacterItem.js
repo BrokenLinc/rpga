@@ -12,11 +12,18 @@ class CharacterItem extends Component {
     super(props);
 
     this.state = {
-      isActive: false,
+      isOpen: false,
+      isFlipped: false
     };
   }
-  toggle = () => {
-    this.setState({ isActive: !this.state.isActive });
+  open = () => {
+    this.setState({ isOpen: true });
+  }
+  close = () => {
+    this.setState({ isOpen: false, isFlipped: false });
+  }
+  flip = () => {
+    this.setState({ isFlipped: !this.state.isFlipped });
   }
   toggleEquip = () => {
     const { user } = this.context;
@@ -29,13 +36,13 @@ class CharacterItem extends Component {
     gameFunctions.trashItem(user, character, item);
   }
   render() {
-    const { isActive } = this.state;
+    const { isOpen, isFlipped } = this.state;
     const { character, item } = this.props;
     const { name, type, combat, combatAction, isEquipped, imageFile } = item;
 
     const block = (
       <div className="characteritem">
-        <button className="characteritem__content" onClick={this.toggle}>
+        <button className="characteritem__content" onClick={this.open}>
           <div className="characteritem__image">
             <img src={paths.itemImage(imageFile)} />
           </div>
@@ -50,25 +57,36 @@ class CharacterItem extends Component {
             </div>
           </div>
         </button>
-        <Modal basic open={isActive}>
-          <Modal.Content>
-            <div className="cardflipper">
-              <Card
-                image={paths.itemImage(imageFile)}
-              />
+        <Modal basic closeOnDimmerClick={false} open={isOpen} className="characteritem__detail">
+          <div className={cn('cardflipper', {'is-flipped':isFlipped})} onClick={this.flip}>
+            <Card
+              image={paths.itemImage(imageFile)}
+            />
+            <Card
+              header={name}
+              meta={type}
+            />
+          </div>
+          <div className="characteritem__actions">
+            <div>
+              <Button inverted circular icon size="massive" color="red" onClick={this.trash}>
+                <Icon name="trash" />
+              </Button>
+              <div className="buttonlabel">trash</div>
             </div>
-          </Modal.Content>
-          <Modal.Actions>
-            <Button inverted circular icon size="big" color="red">
-              <Icon name="trash" />
-            </Button>
-            <Button inverted circular icon size="big" color="green">
-              <Icon name="checkmark" />
-            </Button>
-            <Button inverted circular icon size="big" onClick={this.toggle}>
-              <Icon name="close" />
-            </Button>
-          </Modal.Actions>
+            <div>
+              <Button inverted circular color={isEquipped ? 'green' : 'grey'} icon size="massive" onClick={this.toggleEquip}>
+                <Icon name="thumbs up"/>
+              </Button>
+              <div className="buttonlabel">{isEquipped ? 'equipped' : 'unequipped'}</div>
+            </div>
+            <div>
+              <Button inverted circular icon size="massive" onClick={this.close}>
+                <Icon name="long arrow right" />
+              </Button>
+              <div className="buttonlabel">done</div>
+            </div>
+          </div>
         </Modal>
       </div>
     );

@@ -33,3 +33,63 @@
 		margin-bottom: 5px;
 	}
 }
+.characteritem__actions {
+	padding: 15px;
+	text-align: center;
+
+	> * {
+		display: inline-block;
+		margin: 10px;
+	}
+
+	.ui.button {
+		margin: 0;
+	}
+}
+.cardflipper {
+	width: 290px;
+	height: 290px;
+	margin: 0 auto;
+	position: relative;
+	cursor: pointer;
+	perspective: 500px;
+
+	.ui.card {
+		position: absolute;
+		width: auto;
+		height: auto;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		margin: 0;
+		transition: transform 0.4s;
+		backface-visibility: hidden;
+		 /* autoprefixer: off */
+		-webkit-backface-visibility: hidden;
+		 /* autoprefixer: on */
+
+		&:first-child {
+			transform: rotateY(0);
+		}
+		&:last-child {
+			transform: rotateY(180deg);
+		}
+	}
+
+	&.is-flipped {
+		.ui.card {
+			&:first-child {
+				transform: rotateY(-180deg);
+			}
+			&:last-child {
+				transform: rotateY(0);
+			}
+		}
+	}
+}
+.buttonlabel {
+	font-size: 12px;
+	margin-top: 1em;
+	opacity: 0.5;
+}
