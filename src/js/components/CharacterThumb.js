@@ -1,7 +1,7 @@
 import { map, times } from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from 'semantic-ui-react'
+import { Icon, Rating } from 'semantic-ui-react'
 
 import Portrait from './Portrait';
 
@@ -16,12 +16,9 @@ class CharacterThumb extends Component {
           <Portrait imageFile={imageFile} />
         </div>
         <div className="characterthumb__info">
-          <div className="characterthumb__name">{ name }</div>
+          <h4 className="characterthumb__name">{ name }</h4>
           <div className="characterthumb__health">
-            <div className="lifebar">
-              {times(life, (i) => (<Icon key={i} name="heart" fitted />))}
-              {times(5 - life, (i) => (<Icon key={life + i} name="empty heart" fitted />))}
-            </div>
+            <Rating disabled icon="heart" rating={life} maxRating={5} />
           </div>
           <div className="characterthumb__stats">
             { attack } attack / { skill.value } { skill.name }

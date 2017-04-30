@@ -51,7 +51,7 @@ class Characters extends Component {
         <ul className="characterlist">
           {map(characters, (character) => (
             <li key={character.key}>
-              <Link to={ paths.characterTab(character.key, 'items') } className="characterlistitem">
+              <Link to={ paths.characterTab(character.key, 'activity') } className="characterlistitem">
                 <CharacterThumb character={character}/>
               </Link>
             </li>
