@@ -1,5 +1,5 @@
-import { assign } from 'lodash';
-import React, { Component, PropTypes } from 'react';
+// import { assign } from 'lodash';
+// import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import RestrictedComponent from './components/RestrictedComponent';

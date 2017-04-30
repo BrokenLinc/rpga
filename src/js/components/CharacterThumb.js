@@ -1,7 +1,7 @@
-import { map, times } from 'lodash';
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Icon, Rating } from 'semantic-ui-react'
+import { times } from 'lodash';
+// import React, { Component } from 'react';
+// import PropTypes from 'prop-types';
+import { Rating } from 'semantic-ui-react'
 
 import Portrait from './Portrait';
 

@@ -1,7 +1,7 @@
-import { map } from 'lodash';
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import cn from 'classnames';
+// import { map } from 'lodash';
+// import React, { Component } from 'react';
+// import PropTypes from 'prop-types';
+// import cn from 'classnames';
 
 const DO_FAKE_SCROLL = false;
 

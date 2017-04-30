@@ -1,7 +1,7 @@
-import { map } from 'lodash';
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Button, Icon, Segment } from 'semantic-ui-react'
+// import { map } from 'lodash';
+// import React, { Component } from 'react';
+// import PropTypes from 'prop-types';
+import { Segment } from 'semantic-ui-react'
 
 import base from '../base';
 import gameFunctions from '../gameFunctions';

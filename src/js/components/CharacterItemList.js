@@ -1,6 +1,6 @@
-import { map } from 'lodash';
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import { map } from 'lodash';
+// import React, { Component } from 'react';
+// import PropTypes from 'prop-types';
 
 import CharacterItem from './CharacterItem';
 

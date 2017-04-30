@@ -35,7 +35,7 @@ var config = {
 			{
 	      test: /\.jsx?$/,
 	      exclude: /node_modules/,
-	      loader: 'babel',
+	      loader: 'babel-loader',
 	      query: {
 	        presets: ['es2015', 'stage-0', 'react']
 	      }
@@ -55,15 +55,26 @@ var config = {
 		]
 	},
 	resolve: {
-    extensions: ['', '.js', '.jsx', '.css', '.less']
+    extensions: ['.js', '.jsx', '.css', '.less']
 	},
 	plugins : [
+new webpack.ProvidePlugin({
+	PropTypes: 'prop-types',
+	React: 'react',
+	Component: ['react', 'Component'],
+	cn: 'classnames',
+	get: ['lodash', 'get'],
+	map: ['lodash', 'map'],
+	assign: ['lodash', 'assign'],
+	Link: ['react-router', 'Link'],
+	Button: ['semantic-ui-react', 'Button'],
+	Icon: ['semantic-ui-react', 'Icon'],
+}),
 		failPlugin,
 		new copyWebpackPlugin([
 			{from : 'html', to: __dirname + '/build'},
 		]),
-	],
-	serverPort : serverPort
+	]
 };
 
 if (isProduction) {

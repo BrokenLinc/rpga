@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import { Router, Route, hashHistory } from 'react-router'
 
 import paths from '../paths';

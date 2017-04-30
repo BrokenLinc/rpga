@@ -1,8 +1,8 @@
-import { assign } from 'lodash';
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Button } from 'semantic-ui-react';
-import cn from 'classnames';
+// import { assign } from 'lodash';
+// import React, { Component } from 'react';
+// import PropTypes from 'prop-types';
+// import { Button } from 'semantic-ui-react';
+// import cn from 'classnames';
 
 import base from '../base';
 import paths from '../paths';

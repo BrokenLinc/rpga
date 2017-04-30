@@ -12,7 +12,7 @@ function compile() {
 		if (err) {
 			console.log('Error building application - ', err);
 			return;
-		} 
+		}
 		var statJson = stat.toJson();
 		if (statJson.errors.length > 0) {
 			console.log('Error building application - ', statJson.errors);
@@ -20,18 +20,18 @@ function compile() {
 		}
 
 		console.log('Application built successfully !');
-	});	
+	});
 }
 
 function startServer() {
 	//Following code is commented because these configurations are already added in webpack-config.js
-	webpackConfig.entry.unshift('webpack-dev-server/client?http://localhost:' + webpackConfig.serverPort + '/', 
+	webpackConfig.entry.unshift('webpack-dev-server/client?http://localhost:' + webpackConfig.devServer.port + '/', 
 		'webpack/hot/dev-server');
 	webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
 
 	var compiler = webpack(webpackConfig);
 	var server = new devServer(compiler, webpackConfig.devServer);
-	server.listen(webpackConfig.serverPort);	
+	server.listen(webpackConfig.devServer.port);
 }
 
 gulp.task('default', function(){

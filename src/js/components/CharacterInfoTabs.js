@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Icon } from 'semantic-ui-react'
-import cn from 'classnames';
+// import React, { Component } from 'react';
+// import PropTypes from 'prop-types';
+// import { Icon } from 'semantic-ui-react'
+// import cn from 'classnames';
 
 import CharacterCurrentActivity from './CharacterCurrentActivity';
 import CharacterItemList from './CharacterItemList';

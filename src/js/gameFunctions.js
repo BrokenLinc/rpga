@@ -1,4 +1,4 @@
-import { assign, clamp, filter, find, sample, sumBy } from 'lodash';
+import { clamp, filter, find, sample, sumBy } from 'lodash';
 
 import base from './base';
 import { rint } from './utils';

@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import React, { Component } from 'react';
+// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+// import { Link } from 'react-router';
 import { RouteTransition } from 'react-router-transition';
-import { Icon } from 'semantic-ui-react'
+// import { Icon } from 'semantic-ui-react'
 
 import base from '../base';
 import paths from '../paths';
