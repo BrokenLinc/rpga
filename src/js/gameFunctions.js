@@ -170,6 +170,14 @@ const trashItem = (user, character, item) => {
   base.remove(`users/${user.uid}/characters/${character.key}/items/${item.key}`);
 }
 
+const createCharacterAndRedirect = (user, character, router) => {
+  return base.push(`users/${user.uid}/characters`, {
+    data: character,
+  }).then(newLocation => {
+    router.push(paths.character(newLocation.key));
+  });
+}
+
 module.exports = {
   doActivity,
   returnFromMission,
@@ -177,4 +185,5 @@ module.exports = {
   generateCharacter,
   toggleEquip,
   trashItem,
+  createCharacterAndRedirect,
 };

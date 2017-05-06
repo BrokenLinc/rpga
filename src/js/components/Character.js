@@ -1,6 +1,4 @@
 import { sortBy } from 'lodash';
-// import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
 import { Dimmer, Loader } from 'semantic-ui-react';
 
 import base from '../base';

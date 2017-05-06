@@ -1,7 +1,3 @@
-// import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-// import { Icon } from 'semantic-ui-react'
-// import cn from 'classnames';
 
 import CharacterCurrentActivity from './CharacterCurrentActivity';
 import CharacterItemList from './CharacterItemList';
@@ -19,10 +15,8 @@ class CharacterInfoTabs extends Component {
     this.state = {
       activeTab: TABS[props.initialTab] || TABS.activity,
     };
-
-    this.selectTab = this.selectTab.bind(this);
   }
-  selectTab(activeTab) {
+  selectTab = (activeTab) => {
     this.setState({activeTab});
   }
   render() {

@@ -1,12 +1,6 @@
-// import { assign } from 'lodash';
-// import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-// import { Button } from 'semantic-ui-react';
-// import cn from 'classnames';
-
 import base from '../base';
 import paths from '../paths';
-import { generateCharacter } from '../gameFunctions';
+import gameFunctions from '../gameFunctions';
 import Portrait from './Portrait';
 
 class CharacterCreate extends Component {
@@ -14,27 +8,19 @@ class CharacterCreate extends Component {
     super(props);
 
     this.state = {
-      character: generateCharacter(),
+      character: gameFunctions.generateCharacter(),
     };
   }
   rollCharacter = () => {
     this.setState({
-      character: generateCharacter(),
+      character: gameFunctions.generateCharacter(),
     });
   }
   keepCharacter = () => {
-    const { router } = this.context;
-    const { uid } = this.context.user;
+    const { router, user } = this.context;
+    const { character } = this.state;
 
-    //TODO: move into gameFunctions.createCharacter(data);
-
-    base.push(`users/${uid}/characters`, {
-      data: this.state.character,
-    }).then(newLocation => {
-      router.push(paths.character(newLocation.key));
-    }).catch((error) => {
-      this.setState({ error });
-    });
+    gameFunctions.createCharacterAndRedirect(user, character, router);
   }
   render() {
     const { name, imageFile } = this.state.character;

@@ -1,6 +1,3 @@
-// import { map } from 'lodash';
-// import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
 import { Segment } from 'semantic-ui-react'
 
 import base from '../base';
@@ -9,26 +6,19 @@ import { Activities } from '../templates';
 import Countdown from './Countdown';
 
 class CharacterCurrentActivity extends Component {
-  constructor(props) {
-    super(props);
-
-    this.forceUpdate = this.forceUpdate.bind(this);
-    this.returnFromMission = this.returnFromMission.bind(this);
-    this.doActivity = this.doActivity.bind(this);
-  }
   componentDidMount() {
-    this.updateInterval = setInterval(this.forceUpdate,500)
+    this.updateInterval = setInterval(this.forceUpdate.bind(this),500)
   }
   componentWillUnmount() {
     clearInterval(this.updateInterval);
   }
-  doActivity(activity) {
+  doActivity = (activity) => {
     const { user } = this.context;
     const { character } = this.props;
 
     gameFunctions.doActivity(user, character, activity);
   }
-  returnFromMission() {
+  returnFromMission = () => {
     const { user } = this.context;
     const { character } = this.props;
 

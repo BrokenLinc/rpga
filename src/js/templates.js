@@ -1,5 +1,3 @@
-// import { assign, get } from 'lodash';
-
 import generators from './generators';
 
 const t = (strings, ...keys) => {

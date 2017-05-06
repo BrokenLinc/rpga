@@ -1,15 +1,8 @@
-// import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
 import { Progress } from 'semantic-ui-react';
 
 class Countdown extends Component {
-  constructor(props) {
-    super(props);
-
-    this.forceUpdate = this.forceUpdate.bind(this);
-  }
   componentDidMount() {
-    this.updateInterval = setInterval(this.forceUpdate,30)
+    this.updateInterval = setInterval(this.forceUpdate.bind(this),30)
   }
   componentWillUnmount() {
     clearInterval(this.updateInterval);

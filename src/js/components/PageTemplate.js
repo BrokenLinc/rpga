@@ -1,20 +1,11 @@
-// import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import { Link } from 'react-router';
 import { RouteTransition } from 'react-router-transition';
-// import { Icon } from 'semantic-ui-react'
 
 import base from '../base';
 import paths from '../paths';
 
 class PageTemplate extends Component {
-  constructor(props) {
-    super(props);
-
-    this.onSignOutClick = this.onSignOutClick.bind(this);
-  }
-  onSignOutClick(event) {
+  onSignOutClick = (event) => {
     base.unauth();
     event.preventDefault();
   }

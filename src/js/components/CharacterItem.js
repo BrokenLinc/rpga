@@ -1,8 +1,4 @@
-// import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
 import { Card, Label, Modal } from 'semantic-ui-react'
-// import cn from 'classnames';
-// import { Link } from 'react-router';
 
 import paths from '../paths';
 import gameFunctions from '../gameFunctions';

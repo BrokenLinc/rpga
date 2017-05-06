@@ -1,6 +1,3 @@
-// import { map } from 'lodash';
-// import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Message, Segment } from 'semantic-ui-react';
 
@@ -15,20 +12,14 @@ class SignIn extends Component {
       password: 'password',
       error: null,
     };
-
-    this.onEmailChange = this.onEmailChange.bind(this);
-    this.onPasswordChange = this.onPasswordChange.bind(this);
-    this.onSignInFormSubmit = this.onSignInFormSubmit.bind(this);
-    // this.onSignUpClick = this.onSignUpClick.bind(this);
-    this.onSignOutClick = this.onSignOutClick.bind(this);
   }
-  onEmailChange(event) {
+  onEmailChange = (event) => {
     this.setState({ email: event.target.value });
   }
-  onPasswordChange(event) {
+  onPasswordChange = (event) => {
     this.setState({ password: event.target.value });
   }
-  onSignInFormSubmit(event) {
+  onSignInFormSubmit = (event) => {
     const { email, password } = this.state;
     const { router } = this.context;
 
@@ -50,7 +41,7 @@ class SignIn extends Component {
   //
   //   event.preventDefault();
   // }
-  onSignOutClick(event) {
+  onSignOutClick = (event) => {
     base.unauth();
     event.preventDefault();
   }
