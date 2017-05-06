@@ -2,7 +2,6 @@
 // import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import cn from 'classnames';
 import { Form, Message, Segment } from 'semantic-ui-react';
 
 import base from '../base';

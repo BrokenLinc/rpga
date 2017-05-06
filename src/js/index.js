@@ -34,4 +34,31 @@ import App from './components/App';
 //     .toggleClass('is-swiped-right', e.angle > 330 || e.angle < 30);
 // });
 
+// http://techqa.info/programming/question/37808180/disable-viewport-zooming-ios-10-safari
+const preventDocumentZoom = () => {
+  document.documentElement.addEventListener('touchstart', (e) => {
+    if(e.touches.length > 1) {
+      e.preventDefault();
+    }
+  });
+
+  let lastTouchEnd = 0;
+  document.documentElement.addEventListener('touchend', (e) => {
+    const now = new Date().getTime();
+    if(now - lastTouchEnd <= 300) {
+      e.preventDefault();
+    }
+    lastTouchEnd = now;
+  }, false);
+};
+preventDocumentZoom();
+
+// var hammertime = new Hammer(document);
+// hammertime.get('pinch').set({ enable: false });
+// hammertime.on('pinch pinchstart pinchmove pinchend pinchcancel pinchin pinchout', function(e) {
+//   e.preventDefault();
+//   e.stopPropagation();
+//   return false;
+// });
+
 ReactDOM.render(<App/>,document.getElementById('app'));

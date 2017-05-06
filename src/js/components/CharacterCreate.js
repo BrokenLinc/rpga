@@ -16,18 +16,17 @@ class CharacterCreate extends Component {
     this.state = {
       character: generateCharacter(),
     };
-
-    this.rollCharacter = this.rollCharacter.bind(this);
-    this.keepCharacter = this.keepCharacter.bind(this);
   }
-  rollCharacter() {
+  rollCharacter = () => {
     this.setState({
       character: generateCharacter(),
     });
   }
-  keepCharacter() {
+  keepCharacter = () => {
     const { router } = this.context;
     const { uid } = this.context.user;
+
+    //TODO: move into gameFunctions.createCharacter(data);
 
     base.push(`users/${uid}/characters`, {
       data: this.state.character,
@@ -36,7 +35,6 @@ class CharacterCreate extends Component {
     }).catch((error) => {
       this.setState({ error });
     });
-    event.preventDefault();
   }
   render() {
     const { name, imageFile } = this.state.character;
