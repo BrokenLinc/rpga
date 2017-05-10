@@ -95,6 +95,27 @@ const Items = [{
   type: ItemTypes.WEAPON,
   combatAction: 'attack',
   keywords: 'metal houseware',
+},{
+  article: 'an',
+  name: 'Old Sea Bass',
+  imageFile: 'top-hat.png',
+  type: ItemTypes.SPECIAL,
+  combatAction: 'fishing',
+  keywords: 'wet stinky ocean fish animal',
+},{
+  article: 'a',
+  name: 'Telescope',
+  imageFile: 'top-hat.png',
+  type: ItemTypes.SPECIAL,
+  combatAction: 'farsight',
+  keywords: 'space tech',
+},{
+  article: 'a',
+  name: 'Slavic Bayonette',
+  imageFile: 'top-hat.png',
+  type: ItemTypes.WEAPON,
+  combatAction: 'attack',
+  keywords: 'soviet',
 }];
 
 module.exports = {

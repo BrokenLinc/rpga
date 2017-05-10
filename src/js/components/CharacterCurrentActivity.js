@@ -28,6 +28,8 @@ class CharacterCurrentActivity extends Component {
     const { character } = this.props;
     const { activity } = character;
 
+    const afterStory = activity.skillgain && `${character.name} gained a point in ${activity.skillgain}.`;
+
     let result = null;
     if (activity && !activity.claimed) {
       if (new Date(activity.returnDate) <= new Date()) {
@@ -50,7 +52,10 @@ class CharacterCurrentActivity extends Component {
     } else {
       result = (
         <div className="charactercurrentactivity">
-          { activity && <Segment textAlign="left">{activity.story}</Segment> }
+          { activity && <Segment textAlign="left">
+            <p>{activity.story}</p>
+            {afterStory && (<p><i>{afterStory}</i></p>)}
+          </Segment> }
           <p><b>What will {character.name} do next?</b></p>
           { map(Activities, (activity, key) => {
             const { label, icon } = activity;

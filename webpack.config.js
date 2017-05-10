@@ -50,7 +50,7 @@ var config = {
 			},
 			{
 				test: /\.(png|jpg|svg)$/,
-				loaders: ['url', 'image-webpack']
+				loaders: ['url-loader', 'image-webpack-loader']
 			}
 		]
 	},

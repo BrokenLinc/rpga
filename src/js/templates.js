@@ -13,18 +13,30 @@ const t = (strings, ...keys) => {
 }
 
 const Activities = {
-  ADVENTURE: {
-    label: 'Go adventuring',
-    icon: 'flag',
-    returnMessage: t`You can tell ${'character.name'} is back because the air smells like demon eggs.`,
-    awayMessage: t`${'character.name'} is out sifting through piles of junk and will return soon.`,
+  SPACE_CENTER: {
+    label: 'Scavenge the Space Center',
+    icon: 'space shuttle',
+    returnMessage: t`${'character.name'} made it back from the space center.`,
+    awayMessage: t`${'character.name'} was last seen heading toward the defunct Soviet space center.`,
     results: [{
-      story: data => {
-        return t`${'timeOfDay'} ${'character.name'} went out scavenging, met a disgusting rat man named ${'npc.name'} and found ${'item.article'} ${'item.name'}.`(assign({
-          npc: generators.Monsters.RAT(),
-        }, data))
-      },
-      item: ['fancy', 'metal houseware'],
+      npc: generators.Monsters.RAT,
+      item: ['tech', 'space', 'soviet'],
+      skill: 'scavenging',
+      story: t`${'timeOfDay'} ${'character.name'} went out to the space center, met a disgusting rat man named ${'npc.name'} and found ${'item.article'} ${'item.name'}.`,
+    }],
+  },
+  WHARF: {
+    label: 'Walk the Wharf',
+    icon: 'anchor',
+    returnMessage: t`${'character.name'} arrives back on a moist, briny wind.`,
+    awayMessage: t`${'character.name'} has left for the wharf, where leathery creatures are known to trade slimy trinkets.`,
+    results: [{
+      npc: generators.Monsters.RAT,
+      item: ['ocean', 'fish', 'wet'],
+      skill: 'negotiating',
+      story: t`${'timeOfDay'} ${'character.name'} went out to the wharf, met a disgusting rat man named ${'npc.name'}.`,
+      success: t`After some "negotiating", ${'npc.name'} offered up ${'item.article'} ${'item.name'}.`,
+      failure: t`It was embarrassing for everyone.`,
     }],
   },
   REST: {
@@ -33,8 +45,8 @@ const Activities = {
     returnMessage: t`${'character.name'} staggers out of bed mumbling something about a dream.`,
     awayMessage: t`${'character.name'} is in bed, with visions of sugar plums pillaging a dank dungeon.`,
     results: [{
-      story: t`${'character.name'} had a dream where Michael Keaton was running for president on a "pro-jello" campaign platform. Nevertheless, a complete night's rest was had.`,
       life: 5,
+      story: t`${'character.name'} had a dream where Michael Keaton was running for president on a "pro-jello" campaign platform. Nevertheless, a complete night's rest was had.`,
     }],
   },
 };

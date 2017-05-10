@@ -1,6 +1,15 @@
 #rpga
 
-Webpack, Babel, React, LessCSS.
+An idle adventure web-game.
+
+## Ingredients
+
+- [React](https://facebook.github.io/react/docs)
+- [Firebase](https://firebase.google.com/)
+- [Re-base](https://github.com/tylermcginnis/re-base)
+- [Lodash](https://lodash.com/docs/)
+- [Semantic UI](https://react.semantic-ui.com)
+- [LessCSS](http://lesscss.org/)
 
 ## Setup
 Run `yarn` to install dependencies.
@@ -9,7 +18,7 @@ Run `yarn` to install dependencies.
 1. Run `yarn start` to run the development server.
 2. Open [localhost:8080](http://localhost:8080).
 
-**Note: Look to `webpack.config.json` for provided packages (You won't need to import these into each module. As of this writing includes `PropTypes, React, Component, cn, get, map, assign, Link, Button & Icon`)**
+**Note**: Look to `webpack.config.json` for provided packages (You won't need to import these into each module.
 
 ## Build & Deploy
 1. Run `yarn run build` to build production files.
@@ -18,4 +27,4 @@ Run `yarn` to install dependencies.
 ## Images?
 Place in `html` folder, import and use in JSX.
 
-[Webpack Source](https://github.com/ramkulkarni1/WebpackBlitzReactStarter)
+[Webpack Config Source](https://github.com/ramkulkarni1/WebpackBlitzReactStarter)

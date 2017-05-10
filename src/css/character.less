@@ -2,7 +2,32 @@
 	display: flex;
 	flex: 1 1 auto;
 	flex-flow: column;
+
+	> * {
+		flex: 0 0 auto;
+		transition: all 0.2s;
+	}
 }
 .character__header {
 	padding: 5px 10px;
+}
+.character__skills {
+	flex: 0 0 auto;
+	height: 0;
+}
+.character__tabs {
+	display: flex;
+	flex: 1 1 auto;
+}
+
+.character.show-skills {
+	.character__header {
+	}
+	.character__skills {
+		flex: 1 1 auto;
+	}
+	.character__tabs {
+		flex: 0 0 auto;
+		height: 0;
+	}
 }

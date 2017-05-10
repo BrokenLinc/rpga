@@ -1,4 +1,4 @@
-import { times } from 'lodash';
+import { each, times } from 'lodash';
 import { Rating } from 'semantic-ui-react'
 
 import Portrait from './Portrait';

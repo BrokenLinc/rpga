@@ -1,10 +1,13 @@
 import { clamp, filter, find, sample, sumBy } from 'lodash';
 
 import base from './base';
+import paths from './paths';
 import { rint } from './utils';
 import { ItemTypes } from './constants';
 import { Items } from './generators';
 import { characterSpec, itemSpec } from './specs';
+
+const ACTIVITY_SECONDS = 10;
 
 const getFullCharacter = (_character) => {
   const character = characterSpec(_character);
@@ -69,6 +72,7 @@ const generateCharacter = () => {
       combat: 1,
       isEquipped: true,
     }],
+    skills: [],
   };
 };
 
@@ -88,45 +92,74 @@ const dropItem = (character, result) => {
       Math.random() > 0.5 ?
       character.skill.value :
       (character.attack)
-    ) + rint(0, 2))
+    ) + rint(-2, 4))
   }, sample(possibleItems));
 }
 
-const doActivity = (user, _character, activity) => {
-  const character = getFullCharacter(_character);
-  const returnDate = new Date().getTime() + 10000; // 10sec
-
-  // generate result and item
-  const result = sample(activity.results);
-  const data = {
-    returnDate,
-    returnMessage: activity.returnMessage({ character }),
-    awayMessage: activity.awayMessage({ character }),
-    claimed: false,
-  };
-  if(result.life) {
-    data.life = clamp(character.life + result.life, 0, 5);
-  }
-  if(result.item) {
-    // generate item from activity result
-    data.item = dropItem(character, result);
-  }
-
+const timeOfDay = () => {
   const hours = new Date().getHours();
   let timeOfDay = 'Tonight';
   if(hours >= 2) timeOfDay = 'This morning';
   if(hours >= 12) timeOfDay = 'This afternoon';
   if(hours >= 17) timeOfDay = 'This evening';
   if(hours >= 20) timeOfDay = 'Tonight';
+  return timeOfDay;
+};
 
-  data.story = result.story({ character, item: data.item, timeOfDay });
+const doActivity = (user, _character, activity) => {
+  const character = getFullCharacter(_character);
+
+  // random adventure
+  const result = sample(activity.results);
+  // TODO: success/failure roll
+
+  // result with no success script are auto-success.
+  const isSuccess = !(result.success && result.failure) || (rint(1,20) > 20);
+
+  // generate data and template extras
+  const data = {
+    returnDate: new Date().getTime() + ACTIVITY_SECONDS * 1000,
+    claimed: false,
+  };
+  const templateData = {
+    character,
+    timeOfDay: timeOfDay(),
+  };
+
+  // things that may or may not happen
+  if(result.npc) {
+    templateData.npc = result.npc();
+  }
+  if(result.life) {
+    data.life = clamp(character.life + result.life, 0, 5);
+  }
+  if(isSuccess && result.item) {
+    data.item = dropItem(character, result);
+  }
+  if(!isSuccess) {
+    data.skillgain = result.skill;
+  }
+
+  assign(templateData, data)
+
+  data.awayMessage = activity.awayMessage(templateData);
+  data.returnMessage = activity.returnMessage(templateData);
+  data.story = result.story(templateData);
+
+  // optional templates
+  if(isSuccess && result.success) {
+    data.story += ' ' + result.success(templateData);
+  }
+  if(!isSuccess && result.failure) {
+    data.story += ' ' + result.failure(templateData);
+  }
 
   base.update(`users/${user.uid}/characters/${character.key}/activity`, { data });
 }
 
 const returnFromMission = (user, character) => {
   const { activity } = character;
-  const { life, item } = activity;
+  const { life, item, skillgain } = activity;
 
   if(item) {
     base.push(`users/${user.uid}/characters/${character.key}/items`, {
@@ -136,6 +169,11 @@ const returnFromMission = (user, character) => {
   if(life) {
     base.update(`users/${user.uid}/characters/${character.key}`, {
       data: { life },
+    });
+  }
+  if(skillgain) {
+    base.update(`users/${user.uid}/characters/${character.key}/skills`, {
+      data: { [skillgain]: (get(character, `skills.${skillgain}`) || 0) + 1 },
     });
   }
   base.update(`users/${user.uid}/characters/${character.key}/activity`, {
