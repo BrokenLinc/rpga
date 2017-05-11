@@ -9,21 +9,6 @@ function config(env) {
 
 	var isProduction = (env === 'prod');
 
-	console.log('env', env);
-	console.log('isProduction', isProduction);
-
-	var lessRule = isProduction ?
-		{
-			test : /\.less$/,
-			loader : extractTextPlugin.extract({
-				fallback: 'style-loader',
-				use: 'css-loader!less-loader'
-			}),
-		} : {
-			test : /\.less$/,
-			loader: 'style-loader!css-loader!less-loader'
-		};
-
 	var config = {
 		entry : path.join(__dirname, 'src/js/index.js'),
 		output : {
@@ -47,10 +32,18 @@ function config(env) {
 		      }
 		    },
 				{
+					test : /\.less$/,
+					loader : isProduction ?
+						extractTextPlugin.extract({
+							fallback: 'style-loader',
+							use: 'css-loader!less-loader'
+						})
+						: 'style-loader!css-loader!less-loader',
+				},
+				{
 					test: /\.(png|jpg|svg)$/,
 					loader: ['url-loader', 'image-webpack-loader']
-				},
-				lessRule
+				}
 			]
 		},
 		resolve: {
