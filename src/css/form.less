@@ -3,6 +3,28 @@ button {
   border: 0 none;
 }
 
+.ui.toggle.checkbox.large, {
+	&,
+	& input,
+	& label,
+	& .box:before,
+	& label:before {
+		height: 36px;
+		margin: 0;
+		transition: background-color 0.2s;
+		width: 66px;
+	}
+	& .box:before,
+	& label:before {
+		background-color: fade(white, 30%);
+	}
+	& .box:after,
+	& label:after {
+		height: 36px;
+		width: 36px;
+	}
+}
+
 // .form {
 // 	background-color: #f8f8f8;
 // 	border: 4px solid white;

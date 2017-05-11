@@ -1,4 +1,4 @@
-import { Card, Label, Modal } from 'semantic-ui-react'
+import { Card, Checkbox, Label, Modal } from 'semantic-ui-react'
 
 import paths from '../paths';
 import gameFunctions from '../gameFunctions';
@@ -65,20 +65,18 @@ class CharacterItem extends Component {
           </div>
           <div className="characteritem__actions">
             <div>
-              <Button inverted circular icon size="massive" color="red" onClick={this.trash}>
+              <Button inverted circular icon color="red" onClick={this.trash}>
                 <Icon name="trash" />
               </Button>
               <div className="buttonlabel">trash</div>
             </div>
             <div>
-              <Button inverted circular color={isEquipped ? 'green' : 'grey'} icon size="massive" onClick={this.toggleEquip}>
-                <Icon name="thumbs up"/>
-              </Button>
+              <Checkbox toggle className="large" checked={isEquipped} onChange={this.toggleEquip} />
               <div className="buttonlabel">{isEquipped ? 'equipped' : 'unequipped'}</div>
             </div>
             <div>
-              <Button inverted circular icon size="massive" onClick={this.close}>
-                <Icon name="long arrow right" />
+              <Button inverted circular icon onClick={this.close}>
+                <Icon name="remove" />
               </Button>
               <div className="buttonlabel">done</div>
             </div>
