@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "gulp",
+    "start": "./node_modules/.bin/webpack-dev-server --env=local --hot --colors",
     "ngrok": "ngrok http -host-header=localhost 8080",
-    "build": "gulp build",
+    "build": "./node_modules/.bin/webpack --env=prod --progress --profile --colors",
     "deploy": "git subtree push --prefix build origin gh-pages"
   },
   "repository": {
@@ -48,8 +48,7 @@
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^2.4.1",
-    "webpack-dev-server": "^1.14.1",
+    "webpack-dev-server": "^2.4.5",
     "webpack-fail-plugin": "^1.0.4"
-  },
-  "dependencies": {}
+  }
 }

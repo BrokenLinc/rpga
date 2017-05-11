@@ -1,94 +1,63 @@
-var path = require('path'),
-	failPlugin = require('webpack-fail-plugin'),
-	copyWebpackPlugin = require('copy-webpack-plugin'),
-	webpack = require('webpack'),
-	ExtractPlugin = require('extract-text-webpack-plugin')
-;
+var path = require('path');
+var failPlugin = require('webpack-fail-plugin');
+var copyWebpackPlugin = require('copy-webpack-plugin');
+var webpack = require('webpack');
 
-var isProduction = process.env.NODE_ENV ? process.env.NODE_ENV.trim() == 'production' : false,
-	extractCSS = false,
-	serverPort = 8080,
-	outputPath = path.join(__dirname, 'build'),
-	outputFileName = 'bundle.js'
-;
+var isProduction = process.env.NODE_ENV ? process.env.NODE_ENV.trim() == 'prod' : false;
 
 var config = {
-	context : path.join(__dirname, 'src'),
-	entry : [
-		'./js/index.js',
-	],
+	entry : path.join(__dirname, 'src/js/index.js'),
 	output : {
-		path : outputPath,
-		filename : outputFileName,
+		filename: 'bundle.js',
+		path: path.join(__dirname, 'build'),
+		sourceMapFilename: 'bundle.map',
 	},
-	devtool : isProduction ? null : 'source-map',
 	devServer : {
-		outputPath : outputPath,
-		contentBase: './build',
-		port : serverPort,
-  	hot: true,
-  	stats: { colors: true},
-  	filename: outputFileName
+		contentBase: path.join(__dirname, 'build'),
+		port: 3000,
 	},
 	module : {
-		loaders :[
+		rules :[
 			{
 	      test: /\.jsx?$/,
 	      exclude: /node_modules/,
 	      loader: 'babel-loader',
-	      query: {
+	      options: {
 	        presets: ['es2015', 'stage-0', 'react']
 	      }
 	    },
 			{
 				test : /\.less$/,
-				loader : extractCSS ? ExtractPlugin.extract('style', 'css!less') : 'style-loader!css-loader!less-loader'
-			},
-			{
-				test: /\.css$/,
-				loader: extractCSS ? ExtractPlugin.extract('style', 'css') : 'style-loader!css-loader'
+				loader: 'style-loader!css-loader!less-loader'
 			},
 			{
 				test: /\.(png|jpg|svg)$/,
-				loaders: ['url-loader', 'image-webpack-loader']
+				loader: ['url-loader', 'image-webpack-loader']
 			}
 		]
 	},
 	resolve: {
-    extensions: ['.js', '.jsx', '.css', '.less']
+    extensions: ['.js', '.less']
 	},
 	plugins : [
 		new webpack.ProvidePlugin({
-			PropTypes: 'prop-types',
-			React: 'react',
-			Component: ['react', 'Component'],
-			cn: 'classnames',
-			get: ['lodash', 'get'],
-			map: ['lodash', 'map'],
-			assign: ['lodash', 'assign'],
-			Link: ['react-router', 'Link'],
-			Button: ['semantic-ui-react', 'Button'],
-			Icon: ['semantic-ui-react', 'Icon'],
-		}),
+        PropTypes: 'prop-types',
+        React: 'react',
+        Component: ['react', 'Component'],
+        cn: 'classnames',
+        get: ['lodash', 'get'],
+        map: ['lodash', 'map'],
+        assign: ['lodash', 'assign'],
+        Link: ['react-router', 'Link'],
+        Button: ['semantic-ui-react', 'Button'],
+        Icon: ['semantic-ui-react', 'Icon'],
+    }),
 		failPlugin,
-		new copyWebpackPlugin([
-			{from : 'html', to: __dirname + '/build'},
-		]),
+		new copyWebpackPlugin([{
+			from: path.join(__dirname, 'src/html'),
+			to: path.join(__dirname, 'build')
+		}])
 	]
 };
-
-if (isProduction) {
-	config.plugins.push(
-		new webpack.optimize.UglifyJsPlugin({
-	    compress: {
-	        warnings: false
-	    }
-		})
-	);
-}
-
-if (extractCSS) {
-	config.plugins.push(new ExtractPlugin('bundle.css'));
-}
 
 module.exports = config;
