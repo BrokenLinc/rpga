@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "./node_modules/.bin/webpack-dev-server --env=local --hot --colors",
-    "ngrok": "ngrok http -host-header=localhost 8080",
+    "ngrok": "ngrok http -host-header=localhost 3000",
     "build": "./node_modules/.bin/webpack --env=prod --progress --profile --colors",
     "deploy": "git subtree push --prefix build origin gh-pages"
   },

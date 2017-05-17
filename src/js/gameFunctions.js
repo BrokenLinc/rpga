@@ -1,4 +1,4 @@
-import { clamp, filter, find, sample, sumBy } from 'lodash';
+import { clamp, clone, filter, find, sample, sumBy } from 'lodash';
 
 import base from './base';
 import paths from './paths';
@@ -11,7 +11,17 @@ const ACTIVITY_SECONDS = 10;
 
 const getFullCharacter = (_character) => {
   const character = characterSpec(_character);
-  return assign(getCombatValues(character), character);
+  const combatCharacter = getCombatValues(character);
+
+  const { skill } = combatCharacter;
+
+  // Add special item into base skills
+  character.allSkills = clone(character.skills);
+  if(skill) {
+    character.allSkills[skill.name] = (character.allSkills[skill.name] || 0) + skill.value;
+  }
+
+  return assign({}, combatCharacter, character);
 };
 
 const getCombatValues = (character) => {
@@ -87,13 +97,10 @@ const dropItem = (character, result) => {
     return true;
   });
 
-  return assign({
-    combat: Math.max((1,
-      Math.random() > 0.5 ?
-      character.skill.value :
-      (character.attack)
-    ) + rint(-2, 4))
-  }, sample(possibleItems));
+  const baseCombat = Math.random() > 0.5 ? character.skill.value : character.attack;
+  const itemCombat = Math.max(1, baseCombat + rint(0, 1));
+
+  return assign({ combat: itemCombat }, sample(possibleItems));
 }
 
 const timeOfDay = () => {
@@ -111,15 +118,20 @@ const doActivity = (user, _character, activity) => {
 
   // random adventure
   const result = sample(activity.results);
-  // TODO: success/failure roll
 
   // result with no success script are auto-success.
-  const isSuccess = !(result.success && result.failure) || (rint(1,20) > 20);
+  const roll = rint(1, 20) + (character.allSkills[result.skill] || 0);
+  console.log(character.allSkills[result.skill], roll);
+  const isSuccess = !(result.success && result.failure) || (roll > 10);
 
   // generate data and template extras
+  // use "null" to clear last entry
   const data = {
     returnDate: new Date().getTime() + ACTIVITY_SECONDS * 1000,
     claimed: false,
+    item: null,
+    skillgain: null,
+    life: null,
   };
   const templateData = {
     character,
@@ -164,6 +176,10 @@ const returnFromMission = (user, character) => {
   if(item) {
     base.push(`users/${user.uid}/characters/${character.key}/items`, {
       data: item,
+    }).then(({ key }) => {
+      base.update(`users/${user.uid}/characters/${character.key}/activity/item`, {
+        data: { key },
+      });
     });
   }
   if(life) {

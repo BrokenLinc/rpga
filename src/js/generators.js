@@ -104,18 +104,34 @@ const Items = [{
   keywords: 'wet stinky ocean fish animal',
 },{
   article: 'a',
+  name: 'Sack of Soy Beans',
+  imageFile: 'seed-bag-2.png',
+  type: ItemTypes.SPECIAL,
+  combatAction: 'cooking',
+  keywords: 'nature seed food bag',
+  description: 'Highly versatile cooking ingredient. Or, sprinkle salt and serve as exotic "edamame".',
+},{
+  article: 'a',
+  name: 'Satchel of Erens Seed',
+  imageFile: 'seed-bag-1.png',
+  type: ItemTypes.SPECIAL,
+  combatAction: 'farming',
+  keywords: 'nature seed food bag',
+  description: 'A key ingredient in Hot Gorggonash Casserole. Highly valued among the forest peoples.',
+},{
+  article: 'a',
   name: 'Telescope',
   imageFile: 'top-hat.png',
   type: ItemTypes.SPECIAL,
   combatAction: 'farsight',
-  keywords: 'space tech',
+  keywords: 'glass space tech',
 },{
   article: 'a',
   name: 'Slavic Bayonette',
   imageFile: 'top-hat.png',
   type: ItemTypes.WEAPON,
   combatAction: 'attack',
-  keywords: 'soviet',
+  keywords: 'sharp soviet blade',
 }];
 
 module.exports = {

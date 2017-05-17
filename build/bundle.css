@@ -168,6 +168,12 @@ p {
 .character__skills {
   flex: 0 0 auto;
   height: 0;
+  overflow: hidden;
+}
+.character__skills > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 .character__tabs {
   display: flex;
@@ -255,10 +261,14 @@ p {
     width: 100%;
   }
 }
+.characteritemlist {
+  padding: 15px;
+}
+.characteritemlist > * {
+  margin-bottom: 15px;
+}
 .characteritem {
-  padding: 10px;
   width: 100%;
-  margin-bottom: -10px;
 }
 .characteritem__content {
   background: white;
@@ -289,15 +299,18 @@ p {
   margin-bottom: 5px;
 }
 .characteritem__actions {
-  padding: 15px;
+  padding: 20px 0 0;
   text-align: center;
 }
 .characteritem__actions > * {
   display: inline-block;
-  margin: 10px;
+  width: 70px;
 }
 .characteritem__actions .ui.button {
   margin: 0;
+}
+.characteritem__actions .ui.checkbox {
+  margin-bottom: 5px;
 }
 .cardflipper {
   width: 290px;
@@ -371,6 +384,25 @@ p {
 button {
   background-color: transparent;
   border: 0 none;
+}
+.ui.toggle.checkbox.large,
+.ui.toggle.checkbox.large input,
+.ui.toggle.checkbox.large label,
+.ui.toggle.checkbox.large .box:before,
+.ui.toggle.checkbox.large label:before {
+  height: 36px;
+  margin: 0;
+  transition: background-color 0.2s;
+  width: 66px;
+}
+.ui.toggle.checkbox.large .box:before,
+.ui.toggle.checkbox.large label:before {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+.ui.toggle.checkbox.large .box:after,
+.ui.toggle.checkbox.large label:after {
+  height: 36px;
+  width: 36px;
 }
 .portrait {
   align-items: center;

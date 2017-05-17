@@ -4,13 +4,20 @@ import base from '../base';
 import gameFunctions from '../gameFunctions';
 import { Activities } from '../templates';
 import Countdown from './Countdown';
+import CharacterItem from './CharacterItem';
 
 class CharacterCurrentActivity extends Component {
   componentDidMount() {
-    this.updateInterval = setInterval(this.forceUpdate.bind(this),500)
+    this.updateInterval = setInterval(this.onUpdateInterval,500)
   }
   componentWillUnmount() {
     clearInterval(this.updateInterval);
+  }
+  onUpdateInterval = () => {
+    const activity = get(this.props, 'character.activity');
+    if (activity && !activity.claimed && new Date(activity.returnDate) > new Date() - 1000) {
+      this.forceUpdate();
+    }
   }
   doActivity = (activity) => {
     const { user } = this.context;
@@ -56,7 +63,10 @@ class CharacterCurrentActivity extends Component {
             <p>{activity.story}</p>
             {afterStory && (<p><i>{afterStory}</i></p>)}
           </Segment> }
-          <p><b>What will {character.name} do next?</b></p>
+
+          <CharacterItem character={character} item={activity.item} />
+
+          <h5>What will {character.name} do next?</h5>
           { map(Activities, (activity, key) => {
             const { label, icon } = activity;
             return (

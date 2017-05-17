@@ -6,7 +6,7 @@ class CharacterItemList extends Component {
     const { items } = character;
 
     return (
-      <div>
+      <div className="characteritemlist">
         {map(items, (item) => (
           <CharacterItem key={item.key} character={character} item={item} />
         ))}

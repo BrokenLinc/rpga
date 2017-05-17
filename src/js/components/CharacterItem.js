@@ -34,7 +34,7 @@ class CharacterItem extends Component {
   render() {
     const { isOpen, isFlipped } = this.state;
     const { character, item } = this.props;
-    const { name, type, combat, combatAction, isEquipped, imageFile } = item;
+    const { description, name, type, combat, combatAction, isEquipped, imageFile } = item;
 
     const block = (
       <div className="characteritem">
@@ -53,14 +53,15 @@ class CharacterItem extends Component {
             </div>
           </div>
         </button>
-        <Modal basic closeOnDimmerClick={false} open={isOpen} className="characteritem__detail">
+        <Modal basic closeOnDimmerClick={false} open={isOpen} className="characteritem__detail" style={{lineHeight:'1.4285em'}}>
           <div className={cn('cardflipper', {'is-flipped':isFlipped})} onClick={this.flip}>
             <Card
               image={paths.itemImage(imageFile)}
             />
             <Card
               header={name}
-              meta={type}
+              meta={`+${combat} ${combatAction}, ${type}`}
+              description={description}
             />
           </div>
           <div className="characteritem__actions">
