@@ -35,7 +35,9 @@ class CharacterCurrentActivity extends Component {
     const { character } = this.props;
     const { activity } = character;
 
-    const afterStory = activity.skillgain && `${character.name} gained a point in ${activity.skillgain}.`;
+    let afterStory = '';
+    if(activity.skillgain) afterStory += `${character.name} gained a point in ${activity.skillgain}! `;
+    //if(activity.item) afterStory += `${character.name} got ${activity.item.article} ${activity.item.name}!`;
 
     let result = null;
     if (activity && !activity.claimed) {
@@ -60,11 +62,11 @@ class CharacterCurrentActivity extends Component {
       result = (
         <div className="charactercurrentactivity">
           { activity && <Segment textAlign="left">
-            <p>{activity.story}</p>
-            {afterStory && (<p><i>{afterStory}</i></p>)}
+            <p dangerouslySetInnerHTML={{__html:activity.story}} />
+            {afterStory && (<p style={{color:'#090'}}><i>{afterStory}</i></p>)}
           </Segment> }
 
-          <CharacterItem character={character} item={activity.item} />
+          {/* { activity.item && <CharacterItem character={character} item={activity.item} /> } */}
 
           <h5>What will {character.name} do next?</h5>
           { map(Activities, (activity, key) => {

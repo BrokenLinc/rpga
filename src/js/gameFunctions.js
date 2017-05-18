@@ -120,7 +120,7 @@ const doActivity = (user, _character, activity) => {
   const result = sample(activity.results);
 
   // result with no success script are auto-success.
-  const roll = rint(1, 20) + (character.allSkills[result.skill] || 0);
+  const roll = Math.random() * 20 + (character.allSkills[result.skill] || 0) / 20;
   console.log(character.allSkills[result.skill], roll);
   const isSuccess = !(result.success && result.failure) || (roll > 10);
 
