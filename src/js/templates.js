@@ -14,6 +14,8 @@ const t = (strings, ...keys) => {
 
 const Activities = {
   SPACE_CENTER: {
+    minLevel: 1,
+    maxLevel: 2,
     label: 'Scavenge the Space Center',
     icon: 'space shuttle',
     awayMessage: t`${'character.name'} was last seen heading toward the defunct Soviet space center.`,
@@ -21,25 +23,28 @@ const Activities = {
     results: [{
       npc: generators.Monsters.RAT,
       item: ['tech', 'space', 'soviet'],
-      skill: 'scavenging',
       story: t`${'timeOfDay'} ${'character.name'} went out to the space center, met a disgusting rat man named ${'npc.name'} and found <b>${'item.article'} ${'item.name'}</b>.`,
     }],
   },
   FOREST: {
+    minLevel: 1,
+    maxLevel: 2,
     label: 'Explore the Forest',
     icon: '',
     awayMessage: t`${'character.name'} has left for the dank-ass forest.`,
     returnMessage: t`${'character.name'} is back, covered in cobwebs.`,
     results: [{
       npc: generators.Monsters.RAT,
+      isFight: true,
       item: ['nature'],
-      skill: 'nature',
-      story: t`${'timeOfDay'} ${'character.name'} went out to the forest, and met a disgusting rat man named ${'npc.name'}. ${'character.name'} pulled out a small pan-pipe and let loose with a fly tune.`,
-      success: t`${'npc.name'} was impressed and offered up <b>${'item.article'} ${'item.name'}</b>.`,
-      failure: t`It was embarrassing for everyone.`,
+      story: t`${'timeOfDay'} ${'character.name'} went out to the forest, and met a disgusting rat man named ${'npc.name'}. ${'character.name'} pulled out a small pan-pipe and let loose with a fly tune. Unfortunately, ${'npc.name'} hated it, and attacked.`,
+      success: t`${'npc.name'} was beaten to death, and his corpse yielded a <b>${'item.article'} ${'item.name'}</b>.`,
+      failure: t`${'character.name'} went home wounded.`,
     }],
   },
   WHARF: {
+    minLevel: 1,
+    maxLevel: 2,
     label: 'Walk the Wharf',
     icon: 'anchor',
     awayMessage: t`${'character.name'} has left for the wharf, where leathery creatures are known to trade slimy trinkets.`,
@@ -47,13 +52,13 @@ const Activities = {
     results: [{
       npc: generators.Monsters.RAT,
       item: ['ocean', 'fish', 'wet'],
-      skill: 'negotiating',
       story: t`${'timeOfDay'} ${'character.name'} went out to the wharf, and met a disgusting rat man named ${'npc.name'}.`,
       success: t`After some "negotiating", ${'npc.name'} offered up <b>${'item.article'} ${'item.name'}</b>.`,
       failure: t`It was embarrassing for everyone.`,
     }],
   },
   REST: {
+    canDoInjured: true,
     label: 'Stay in bed',
     icon: 'bed',
     awayMessage: t`${'character.name'} is in bed, with visions of sugar plums pillaging a dank dungeon.`,

@@ -6,7 +6,7 @@ import Portrait from './Portrait';
 class CharacterThumb extends Component {
   render() {
     const { character } = this.props;
-    const { imageFile, name, life, attack, skill } = character;
+    const { imageFile, name, life, combat, level } = character;
 
     return (
       <div className="characterthumb">
@@ -19,7 +19,7 @@ class CharacterThumb extends Component {
             <Rating disabled icon="heart" rating={life} maxRating={5} />
           </div>
           <div className="characterthumb__stats">
-            { attack } attack / { skill.value } { skill.name }
+            Lvl { level } / { combat } combat
           </div>
         </div>
       </div>

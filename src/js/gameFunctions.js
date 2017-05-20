@@ -13,35 +13,22 @@ const getFullCharacter = (_character) => {
   const character = characterSpec(_character);
   const combatCharacter = getCombatValues(character);
 
-  const { skill } = combatCharacter;
-
-  // Add special item into base skills
-  character.allSkills = clone(character.skills);
-  if(skill) {
-    character.allSkills[skill.name] = (character.allSkills[skill.name] || 0) + skill.value;
-  }
-
   return assign({}, combatCharacter, character);
 };
 
 const getCombatValues = (character) => {
   return {
     isCharacter: true,
-    attack: getActionTotal('attack', character),
-    skill: getCharacterSkill(character),
+    combat: getCombatTotal(character),
   };
+};
+
+const getCombatTotal = (character) => {
+  return sumBy(getEquippedItems(character.items), 'combat');
 };
 
 const getEquippedItems = (items) => {
   return filter(items, 'isEquipped');
-};
-
-const getActionItems = (type, character) => {
-  return filter(getEquippedItems(character.items), { combatAction: type });
-};
-
-const getActionTotal = (type, character) => {
-  return sumBy(getActionItems(type, character), 'combat');
 };
 
 const getCharacterSkill = (character) => {
@@ -77,8 +64,8 @@ const generateCharacter = () => {
     items: [{
       name: 'Questionable Dagger',
       imageFile: 'top-hat.png',
+      description: 'The blade says "Made in China". The handle says "Made in USA". Did these nations ever even exist?',
       type: ItemTypes.WEAPON,
-      combatAction: 'attack',
       combat: 1,
       isEquipped: true,
     }],
@@ -86,7 +73,7 @@ const generateCharacter = () => {
   };
 };
 
-const dropItem = (character, result) => {
+const dropItem = (level, result) => {
   const itemKeywords = sample(result.item).split(' ');
   const possibleItems = filter(Items, item => {
     for(let i in itemKeywords) {
@@ -97,10 +84,10 @@ const dropItem = (character, result) => {
     return true;
   });
 
-  const baseCombat = Math.random() > 0.5 ? character.skill.value : character.attack;
-  const itemCombat = Math.max(1, baseCombat + rint(0, 1));
+  const combat = Math.max(1, level + rint(0,1) + rint(-1,1));
+  const skillBonus = Math.max(1, level + rint(0,1) + rint(-1,1));
 
-  return assign({ combat: itemCombat }, sample(possibleItems));
+  return assign({ combat, skillBonus }, sample(possibleItems));
 }
 
 const timeOfDay = () => {
@@ -120,9 +107,10 @@ const doActivity = (user, _character, activity) => {
   const result = sample(activity.results);
 
   // result with no success script are auto-success.
-  const roll = Math.random() * 20 + (character.allSkills[result.skill] || 0) / 20;
-  console.log(character.allSkills[result.skill], roll);
-  const isSuccess = !(result.success && result.failure) || (roll > 10);
+  // const roll = Math.random() * 20;
+  // const isSuccess = !(result.success && result.failure) || (roll >= 10);
+  let isSuccess = true;
+  let life = character.life;
 
   // generate data and template extras
   // use "null" to clear last entry
@@ -130,27 +118,64 @@ const doActivity = (user, _character, activity) => {
     returnDate: new Date().getTime() + ACTIVITY_SECONDS * 1000,
     claimed: false,
     item: null,
-    skillgain: null,
-    life: null,
+    // skillgain: null,
+    life: 0,
+    fightStory: null,
   };
   const templateData = {
     character,
     timeOfDay: timeOfDay(),
   };
 
+  if(result.life) {
+    life = clamp(life + result.life, 0, 5);
+  }
+
   // things that may or may not happen
   if(result.npc) {
-    templateData.npc = result.npc();
-  }
-  if(result.life) {
-    data.life = clamp(character.life + result.life, 0, 5);
+    const npc = result.npc({
+      life: 5,
+      combat: rint(1,10),
+    });
+    templateData.npc = npc;
+
+    // combat!
+    if(result.isFight) {
+      const combatTotal = npc.combat + character.combat;
+      const npcCheck = npc.combat / combatTotal;
+      const characterCheck = character.combat / combatTotal;
+      let turn = 0;
+
+      data.fightStory = `A fight with ${npc.name} (${npc.combat} combat) begins. `;
+
+      while(life > 0 && npc.life > 0) {
+        console.log(life, npc.life);
+        if(turn % 2) {
+          if(Math.random() > npcCheck) {
+            npc.life--;
+          }
+        } else  {
+          if(Math.random() > characterCheck) {
+            life--;
+          }
+        }
+        turn++;
+      }
+      if(life <= 0) {
+        data.fightStory += npc.life < 5 ?
+          `${character.name} got ${npc.name} down to ${npc.life} life, but in the end was slain.`
+          : `${character.name} was utterly demolished by ${npc.name}.`;
+        isSuccess = false;
+      } else {
+        data.fightStory += `${character.name} was victorious over ${npc.name}!`;
+        isSuccess = true;
+      }
+    }
   }
   if(isSuccess && result.item) {
-    data.item = dropItem(character, result);
+    data.item = dropItem(character.level, result); // TODO: scale to opponent, not character
   }
-  if(!isSuccess) {
-    data.skillgain = result.skill;
-  }
+  data.life = life - character.life;
 
   assign(templateData, data)
 
@@ -171,7 +196,7 @@ const doActivity = (user, _character, activity) => {
 
 const returnFromMission = (user, character) => {
   const { activity } = character;
-  const { life, item, skillgain } = activity;
+  const { life, item } = activity;
 
   if(item) {
     base.push(`users/${user.uid}/characters/${character.key}/items`, {
@@ -182,14 +207,10 @@ const returnFromMission = (user, character) => {
       });
     });
   }
-  if(life) {
+  if(life !== 0) {
+    console.log(character.life + life);
     base.update(`users/${user.uid}/characters/${character.key}`, {
-      data: { life },
-    });
-  }
-  if(skillgain) {
-    base.update(`users/${user.uid}/characters/${character.key}/skills`, {
-      data: { [skillgain]: (get(character, `skills.${skillgain}`) || 0) + 1 },
+      data: { life: clamp(character.life + life, 0, 5) },
     });
   }
   base.update(`users/${user.uid}/characters/${character.key}/activity`, {

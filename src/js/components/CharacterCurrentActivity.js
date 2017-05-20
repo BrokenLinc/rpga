@@ -35,9 +35,16 @@ class CharacterCurrentActivity extends Component {
     const { character } = this.props;
     const { activity } = character;
 
+    //let afterStory = '';
+    // if(activity.skillgain) afterStory += `${character.name} gained a point in ${activity.skillgain}! `;
+    // if(activity.item) afterStory += `${character.name} got ${activity.item.article} ${activity.item.name}!`;
+
     let afterStory = '';
-    if(activity.skillgain) afterStory += `${character.name} gained a point in ${activity.skillgain}! `;
-    //if(activity.item) afterStory += `${character.name} got ${activity.item.article} ${activity.item.name}!`;
+    // if(activity.life < 0) {
+    //   afterStory += `${character.name} lost ${-activity.life} health this turn.`;
+    // } else if (activity.life > 0) {
+    //   afterStory += `${character.name} gained ${activity.life} health this turn.`;
+    // }
 
     let result = null;
     if (activity && !activity.claimed) {
@@ -63,19 +70,24 @@ class CharacterCurrentActivity extends Component {
         <div className="charactercurrentactivity">
           { activity && <Segment textAlign="left">
             <p dangerouslySetInnerHTML={{__html:activity.story}} />
-            {afterStory && (<p style={{color:'#090'}}><i>{afterStory}</i></p>)}
+            {activity.fightStory && <p dangerouslySetInnerHTML={{__html:activity.fightStory}} />}
+            {afterStory && (<p><i>{afterStory}</i></p>)}
           </Segment> }
 
           {/* { activity.item && <CharacterItem character={character} item={activity.item} /> } */}
 
-          <h5>What will {character.name} do next?</h5>
+          {(character.life <= 0) ? (
+            <h5>{character.name} is injured and needs to rest.</h5>
+          ) : (
+            <h5>What will {character.name} do next?</h5>
+          )}
           { map(Activities, (activity, key) => {
-            const { label, icon } = activity;
-            return (
-              <Button key={key} onClick={() => this.doActivity(activity)}>
+            const { canDoInjured, label, icon } = activity;
+            return (character.life > 0 || canDoInjured) ? (
+              <Button key={key} onClick={() => this.doActivity(activity)} fluid>
                 <Icon name={ icon || 'angle right' } />{ label }
               </Button>
-            );
+            ) : null;
           }) }
         </div>
       );

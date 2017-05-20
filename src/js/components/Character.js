@@ -13,7 +13,6 @@ class Character extends Component {
     this.state = {
       character: null,
       isLoading: true,
-      showSkills: false,
     };
   }
   componentDidMount() {
@@ -34,33 +33,21 @@ class Character extends Component {
       },
     });
   }
-  toggleSkills = () => {
-    this.setState({ showSkills: !this.state.showSkills });
-  }
   componentWillUnmount() {
     base.removeBinding(this.ref);
   }
   render() {
     const { tab } = this.props.params;
-    const { character, isLoading, showSkills } = this.state;
+    const { character, isLoading } = this.state;
 
     return (
-      <div className={cn('character',{'show-skills': showSkills})}>
+      <div className="character">
         <Dimmer active={isLoading}>
           <Loader>Loading character</Loader>
         </Dimmer>
         {character && (
-          <button className="character__header" onClick={this.toggleSkills}>
+          <div className="character__header">
             <CharacterThumb character={character} />
-          </button>
-        )}
-        {character && (
-          <div className="character__skills">
-            <ul>
-              {map(character.skills, (value, skill) => (
-                <li key={skill}>{skill}: {value}</li>
-              ))}
-            </ul>
           </div>
         )}
         {character && (

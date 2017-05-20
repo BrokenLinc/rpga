@@ -6,6 +6,7 @@
 	width: 100%;
 }
 .characteritem__content {
+	align-items: stretch;
 	background: white;
 	border: 0 none;
 	border-radius: .28571429rem;
@@ -19,9 +20,11 @@
 }
 .characteritem__image {
 	flex: 0 0 auto;
+	padding: 4px;
 	width: 90px;
 
 	> img {
+		border-radius: 4px;
 		display: block;
 		height: auto;
 		width: 100%;
@@ -29,11 +32,16 @@
 }
 .characteritem__info {
 	flex: 1 1 auto;
-	padding: 10px 15px;
+	padding: 10px;
 
 	h4 {
-		margin-bottom: 5px;
+		margin-bottom: 2px;
 	}
+}
+.characteritem__bonuses {
+	color: green;
+	font-size: 12px;
+	margin-bottom: 3px;
 }
 .characteritem__actions {
 	padding: 20px 0 0;
@@ -80,6 +88,14 @@
 		&:last-child {
 			transform: rotateY(180deg);
 		}
+
+		.meta {
+			color: green;
+		}
+	}
+
+	.descriptipn {
+		font-style: italic;
 	}
 
 	&.is-flipped {

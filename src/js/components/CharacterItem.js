@@ -34,7 +34,16 @@ class CharacterItem extends Component {
   render() {
     const { isOpen, isFlipped } = this.state;
     const { character, item } = this.props;
-    const { description, name, type, combat, combatAction, isEquipped, imageFile } = item;
+    const { description, name, type, combat, combatAction, isEquipped, imageFile, skill, skillBonus } = item;
+
+    const plusMinus = (value) => {
+      return value >= 0 ? `+${value}` : `-${value}`
+    };
+
+    let bonuses = [];
+    combat && bonuses.push(`${plusMinus(combat)} combat`);
+    skill && bonuses.push(`${plusMinus(skillBonus)} ${skill}`);
+    bonuses = bonuses.join(', ');
 
     const block = (
       <div className="characteritem">
@@ -44,13 +53,8 @@ class CharacterItem extends Component {
           </div>
           <div className="characteritem__info">
             <h4>{ name }</h4>
-            <div>
-              <Label color={combatAction === 'attack' ? 'pink' : 'blue'} basic={!isEquipped}>
-                { isEquipped && <Icon name="check" /> }
-                { `${combat} ${combatAction}` }
-                <Label.Detail>{ type }</Label.Detail>
-              </Label>
-            </div>
+            <div className="characteritem__bonuses">{ bonuses }</div>
+            <Label color={isEquipped ? 'green' : null}>{ type }</Label>
           </div>
         </button>
         <Modal basic closeOnDimmerClick={false} open={isOpen} className="characteritem__detail" style={{lineHeight:'1.4285em'}}>
@@ -60,8 +64,9 @@ class CharacterItem extends Component {
             />
             <Card
               header={name}
-              meta={`+${combat} ${combatAction}, ${type}`}
+              meta={bonuses}
               description={description}
+              extra={<Label color={isEquipped ? 'green' : null}>{ type }</Label>}
             />
           </div>
           <div className="characteritem__actions">
