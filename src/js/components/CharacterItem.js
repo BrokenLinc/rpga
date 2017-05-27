@@ -9,14 +9,14 @@ class CharacterItem extends Component {
 
     this.state = {
       isOpen: false,
-      isFlipped: false
+      isFlipped: false,
     };
   }
   open = () => {
     this.setState({ isOpen: true });
   }
   close = () => {
-    this.setState({ isOpen: false, isFlipped: false });
+    this.setState({ isOpen: false });
   }
   flip = () => {
     this.setState({ isFlipped: !this.state.isFlipped });
@@ -57,17 +57,23 @@ class CharacterItem extends Component {
             <Label color={isEquipped ? 'green' : null}>{ type }</Label>
           </div>
         </button>
-        <Modal basic closeOnDimmerClick={false} open={isOpen} className="characteritem__detail" style={{lineHeight:'1.4285em'}}>
-          <div className={cn('cardflipper', {'is-flipped':isFlipped})} onClick={this.flip}>
+        <Modal basic closeOnDimmerClick={true} onClose={this.close} open={isOpen} className="characteritem__detail" style={{lineHeight:'1.4285em'}}>
+          <button onClick={this.close} style={{display:'block',margin:'0 auto 10px',opacity:0.5,padding:'15px'}}>close</button>
+          <div className={cn('cardflipper', {'is-flipped': !isFlipped})} onClick={this.flip}>
             <Card
               image={paths.itemImage(imageFile)}
             />
-            <Card
-              header={name}
-              meta={bonuses}
-              description={description}
-              extra={<Label color={isEquipped ? 'green' : null}>{ type }</Label>}
-            />
+            <Card>
+              <Card.Content>
+                <Card.Header>{ name }</Card.Header>
+                <Card.Meta>{ bonuses }</Card.Meta>
+                <Card.Meta>
+                  <Label color={isEquipped ? 'green' : null}>{ type }</Label>
+                </Card.Meta>
+                <Card.Description>{ description }</Card.Description>
+              </Card.Content>
+              <Card.Content extra>{ 'Tap to flip' }</Card.Content>
+            </Card>
           </div>
           <div className="characteritem__actions">
             <div>
@@ -79,12 +85,6 @@ class CharacterItem extends Component {
             <div>
               <Checkbox toggle className="large" checked={isEquipped} onChange={this.toggleEquip} />
               <div className="buttonlabel">{isEquipped ? 'equipped' : 'unequipped'}</div>
-            </div>
-            <div>
-              <Button inverted circular icon onClick={this.close}>
-                <Icon name="remove" />
-              </Button>
-              <div className="buttonlabel">done</div>
             </div>
           </div>
         </Modal>

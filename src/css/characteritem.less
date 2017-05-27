@@ -49,7 +49,7 @@
 
 	> * {
 		display: inline-block;
-		width: 70px;
+		width: 120px;
 	}
 
 	.ui.button {
@@ -66,6 +66,12 @@
 	position: relative;
 	cursor: pointer;
 	perspective: 500px;
+
+	/* autoprefixer: off */
+	&, * {
+		-webkit-tap-highlight-color: rgba(0,0,0,0);
+	}
+	/* autoprefixer: on */
 
 	.ui.card {
 		position: absolute;
@@ -91,6 +97,11 @@
 
 		.meta {
 			color: green;
+		}
+
+		>img {
+			border: 6px solid white !important;
+			width: 290px; // kicks in responsiveness
 		}
 	}
 

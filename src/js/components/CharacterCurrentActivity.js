@@ -45,6 +45,9 @@ class CharacterCurrentActivity extends Component {
     // } else if (activity.life > 0) {
     //   afterStory += `${character.name} gained ${activity.life} health this turn.`;
     // }
+    if(activity && activity.xp) {
+      afterStory += `${character.name} gained ${activity.xp}xp.`;
+    }
 
     let result = null;
     if (activity && !activity.claimed) {
@@ -71,7 +74,7 @@ class CharacterCurrentActivity extends Component {
           { activity && <Segment textAlign="left">
             <p dangerouslySetInnerHTML={{__html:activity.story}} />
             {activity.fightStory && <p dangerouslySetInnerHTML={{__html:activity.fightStory}} />}
-            {afterStory && (<p><i>{afterStory}</i></p>)}
+            {afterStory && (<p style={{color:'green'}}><i>{afterStory}</i></p>)}
           </Segment> }
 
           {/* { activity.item && <CharacterItem character={character} item={activity.item} /> } */}
@@ -79,13 +82,13 @@ class CharacterCurrentActivity extends Component {
           {(character.life <= 0) ? (
             <h5>{character.name} is injured and needs to rest.</h5>
           ) : (
-            <h5>What will {character.name} do next?</h5>
+            <h5>Where will {character.name} go next?</h5>
           )}
           { map(Activities, (activity, key) => {
-            const { canDoInjured, label, icon } = activity;
-            return (character.life > 0 || canDoInjured) ? (
-              <Button key={key} onClick={() => this.doActivity(activity)} fluid>
-                <Icon name={ icon || 'angle right' } />{ label }
+            const { isSafe, label, icon, minLevel, maxLevel } = activity;
+            return (character.life > 0 || isSafe) ? (
+              <Button basic color="teal" key={key} onClick={() => this.doActivity(activity)} fluid>
+                <Icon name={ icon || 'angle right' } />{ label } (Lvl { minLevel || 1 } - { maxLevel || 100 })
               </Button>
             ) : null;
           }) }

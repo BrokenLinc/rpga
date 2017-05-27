@@ -6,8 +6,8 @@ html, body {
 	overflow: hidden; //prevent root scroll/pulling
 }
 body {
-	background-color: #eee;
-	color: #111;
+	background-color: #302929;
+	color: fade(white, 60%);
 	font-family: Lato, sans-serif;
 	font-size: 14px;
 	line-height: 20px;
@@ -55,4 +55,34 @@ p {
 }
 .ui.fluid.button {
 	margin-bottom: 10px;
+}
+.ui.progress .bar {
+	min-width: 0;
+}
+.transition > * {
+	animation: fadein 0.4s;
+}
+.ui.segment {
+	background-color: fade(white, 5%);
+}
+// .ui.basic.button {
+// 	background-color: fade(black, 15%) !important;
+// }
+.ui.progress {
+	background-color: fade(white, 15%);
+}
+
+@keyframes fadein {
+	0% {
+		opacity: 0;
+		transform: scale(0.9);
+	}
+	30% {
+		opacity: 0;
+		transform: scale(0.9);
+	}
+	100% {
+		opacity: 1;
+		transform: none;
+	}
 }

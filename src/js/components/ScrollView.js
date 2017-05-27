@@ -80,7 +80,7 @@ class ScrollView extends Component {
   }
   render() {
     const { paddingTop, paddingBottom } = this.state;
-    const { children, className } = this.props;
+    const { children, className, alwaysShowScrollbars } = this.props;
 
     return (
       <div
@@ -91,7 +91,7 @@ class ScrollView extends Component {
         onTouchEnd={this.touchend}
         onTouchCancel={this.touchend}
         style={{
-          overflowY: 'scroll',
+          overflowY: alwaysShowScrollbars ? 'scroll' : 'auto',
           WebkitOverflowScrolling: 'touch',
           paddingTop,
           paddingBottom
@@ -109,6 +109,7 @@ ScrollView.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
   ]),
   className: PropTypes.string,
+  alwaysShowScrollbars: PropTypes.bool,
 };
 
 export default ScrollView;

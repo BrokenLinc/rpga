@@ -4,7 +4,7 @@ const ItemTypes = {
   HEAD: 'head',
   HANDS: 'hands',
   FEET: 'feet',
-  LEGS: 'legs',
+  CLOTHES: 'clothes',
 };
 
 module.exports = {

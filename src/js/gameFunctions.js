@@ -4,10 +4,14 @@ import base from './base';
 import paths from './paths';
 import { rint } from './utils';
 import { ItemTypes } from './constants';
-import { Items } from './generators';
+import { Items, Words } from './generators';
+import t from './templatizer';
 import { characterSpec, itemSpec } from './specs';
 
 const ACTIVITY_SECONDS = 10;
+const MAX_LIFE = 5;
+const MAX_ITEMS_EQUIPPABLE = 6;
+const MAC_COMBAT_PER_LEVEL = 10;
 
 const getFullCharacter = (_character) => {
   const character = characterSpec(_character);
@@ -47,47 +51,53 @@ const getCharacterSkill = (character) => {
 
 const generateCharacter = () => {
   const imageFiles = [
-    'character1.png',
-    'character2.png',
-    'character3.png',
-    'character4.png',
-    'character5.png',
-    'character6.png',
-  ];
-  const names = [
-    'Crampus the Wise',
-    'Jellybean the Spice Queen',
+    'char-1.png',
+    'char-2.png',
+    'char-3.png',
+    'char-4.png',
+    'char-5.png',
+    'char-6.png',
+    'char-7.png',
+    'char-8.png',
+    'char-9.png',
+    'char-10.png',
+    'char-11.png',
+    'char-12.png',
   ];
   return {
-    name: sample(names),
+    name: t(Words.CHARACTER_NAME())(),
     imageFile: sample(imageFiles),
     items: [{
-      name: 'Questionable Dagger',
-      imageFile: 'top-hat.png',
+      article: 'a',
+      name: 'Cheap Pocketknife',
+      imageFile: 'knife-1.png',
       description: 'The blade says "Made in China". The handle says "Made in USA". Did these nations ever even exist?',
       type: ItemTypes.WEAPON,
-      combat: 1,
+      combat: 5,
       isEquipped: true,
     }],
-    skills: [],
   };
 };
 
 const dropItem = (level, result) => {
-  const itemKeywords = sample(result.item).split(' ');
-  const possibleItems = filter(Items, item => {
-    for(let i in itemKeywords) {
-      if(item.keywords.indexOf(itemKeywords[i]) === -1) {
-        return false;
-      }
-    }
-    return true;
-  });
+  // const itemKeywords = sample(result.item || ['junk']).split(' ');
+  // const possibleItems = filter(Items, item => {
+  //   for(let i in itemKeywords) {
+  //     if(item.keywords.indexOf(itemKeywords[i]) === -1) {
+  //       return false;
+  //     }
+  //   }
+  //   return true;
+  // });
 
-  const combat = Math.max(1, level + rint(0,1) + rint(-1,1));
-  const skillBonus = Math.max(1, level + rint(0,1) + rint(-1,1));
+  const item = sample(Items);
+  const factor = item.type === ItemTypes.WEAPON ? 5 : 1;
 
-  return assign({ combat, skillBonus }, sample(possibleItems));
+  // TODO: refactor into formula
+  const combat = Math.max(1, (level * factor) + rint(0,factor) + rint(-factor,factor));
+  const skillBonus = Math.max(1, (level * 1) + rint(0,1) + rint(-1,1));
+
+  return assign({ combat, skillBonus }, item);
 }
 
 const timeOfDay = () => {
@@ -118,26 +128,34 @@ const doActivity = (user, _character, activity) => {
     returnDate: new Date().getTime() + ACTIVITY_SECONDS * 1000,
     claimed: false,
     item: null,
-    // skillgain: null,
     life: 0,
     fightStory: null,
+    xp: activity.isSafe ? 0 : (activity.minLevel + activity.minLevel), // base xp
   };
+
+  // Prep malleable life value
+  if(result.life) {
+    life = clampLife(life + result.life);
+  }
+
+  // Prep template info for stories
+  const potentialItem = dropItem(character.level, result); // TODO: scale to opponent, not character
   const templateData = {
     character,
     timeOfDay: timeOfDay(),
+    item: potentialItem,
   };
-
-  if(result.life) {
-    life = clamp(life + result.life, 0, 5);
-  }
 
   // things that may or may not happen
   if(result.npc) {
+    const npcLevel = rint(activity.minLevel, activity.maxLevel);
     const npc = result.npc({
-      life: 5,
-      combat: rint(1,10),
+      level: npcLevel,
+      life: 4,
+      combat: rollCombat(npcLevel),
     });
     templateData.npc = npc;
+    npc.name = t(npc.name)(templateData); // npc names can have dynamic elements
 
     // combat!
     if(result.isFight) {
@@ -146,10 +164,9 @@ const doActivity = (user, _character, activity) => {
       const characterCheck = character.combat / combatTotal;
       let turn = 0;
 
-      data.fightStory = `A fight with ${npc.name} (${npc.combat} combat) begins. `;
+      data.fightStory = `A fight with {npc} (${npc.combat} combat) begins. `;
 
       while(life > 0 && npc.life > 0) {
-        console.log(life, npc.life);
         if(turn % 2) {
           if(Math.random() > npcCheck) {
             npc.life--;
@@ -162,33 +179,42 @@ const doActivity = (user, _character, activity) => {
         turn++;
       }
       if(life <= 0) {
+        // character died
         data.fightStory += npc.life < 5 ?
-          `${character.name} got ${npc.name} down to ${npc.life} life, but in the end was slain.`
-          : `${character.name} was utterly demolished by ${npc.name}.`;
-        isSuccess = false;
+          `{character} got {npc} down to ${npc.life} life, but in the end was slain. `
+          : '{character} was utterly demolished by ${npc}. ';
       } else {
-        data.fightStory += `${character.name} was victorious over ${npc.name}!`;
-        isSuccess = true;
+        // npc died
+        data.fightStory += '{character} was victorious over {npc}! ';
+        data.xp += npc.level * 2; // fight win, get double xp
       }
     }
   }
+  // character can die from fight OR taking adventure dmg
+  if(life <= 0) {
+    isSuccess = false;
+    data.xp = Math.ceil(data.xp / 2); // fail, get half xp
+  }
   if(isSuccess && result.item) {
-    data.item = dropItem(character.level, result); // TODO: scale to opponent, not character
+    data.item = potentialItem;
   }
   data.life = life - character.life;
 
   assign(templateData, data)
 
-  data.awayMessage = activity.awayMessage(templateData);
-  data.returnMessage = activity.returnMessage(templateData);
-  data.story = result.story(templateData);
+  data.awayMessage = t(activity.awayMessage)(templateData);
+  data.returnMessage = t(activity.returnMessage)(templateData);
+  data.story = t(result.story)(templateData);
+  if(data.fightStory) {
+    data.fightStory = t(data.fightStory)(templateData);
+  }
 
   // optional templates
   if(isSuccess && result.success) {
-    data.story += ' ' + result.success(templateData);
+    data.story += ' ' + t(result.success)(templateData);
   }
   if(!isSuccess && result.failure) {
-    data.story += ' ' + result.failure(templateData);
+    data.story += ' ' + t(result.failure)(templateData);
   }
 
   base.update(`users/${user.uid}/characters/${character.key}/activity`, { data });
@@ -197,6 +223,19 @@ const doActivity = (user, _character, activity) => {
 const returnFromMission = (user, character) => {
   const { activity } = character;
   const { life, item } = activity;
+
+  const characterUpdateData = {};
+  if(life !== 0) {
+    characterUpdateData.life = clampLife(character.life + life);
+  }
+  const levelXP = getLevelXP(character.level);
+  let newXP = character.xp + (activity.xp || 0);
+  if(newXP >= levelXP) {
+    newXP -= levelXP;
+    characterUpdateData.level = character.level + 1;
+    characterUpdateData.life = MAX_LIFE;
+  }
+  characterUpdateData.xp = newXP;
 
   if(item) {
     base.push(`users/${user.uid}/characters/${character.key}/items`, {
@@ -207,12 +246,9 @@ const returnFromMission = (user, character) => {
       });
     });
   }
-  if(life !== 0) {
-    console.log(character.life + life);
-    base.update(`users/${user.uid}/characters/${character.key}`, {
-      data: { life: clamp(character.life + life, 0, 5) },
-    });
-  }
+  base.update(`users/${user.uid}/characters/${character.key}`, {
+    data: characterUpdateData,
+  });
   base.update(`users/${user.uid}/characters/${character.key}/activity`, {
     data: {
       claimed: true,
@@ -253,6 +289,22 @@ const createCharacterAndRedirect = (user, character, router) => {
   });
 }
 
+const rollCombat = (level) => {
+  return (level - 1) * MAC_COMBAT_PER_LEVEL + rint(1,MAC_COMBAT_PER_LEVEL);
+};
+
+const getLevelXP = (currentLevel) => {
+  let total = 0;
+  for(let i = currentLevel; i > 0; i--) {
+    total += i;
+  }
+  return total * 20;
+};
+
+const clampLife = (life) => {
+  return clamp(life, 0, MAX_LIFE);
+};
+
 module.exports = {
   doActivity,
   returnFromMission,
@@ -261,4 +313,5 @@ module.exports = {
   toggleEquip,
   trashItem,
   createCharacterAndRedirect,
+  getLevelXP,
 };
