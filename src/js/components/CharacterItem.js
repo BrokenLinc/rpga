@@ -40,21 +40,21 @@ class CharacterItem extends Component {
       return value >= 0 ? `+${value}` : `-${value}`
     };
 
-    let bonuses = [];
-    combat && bonuses.push(`${plusMinus(combat)} combat`);
-    skill && bonuses.push(`${plusMinus(skillBonus)} ${skill}`);
-    bonuses = bonuses.join(', ');
+    // const bonuses = [];
+    // combat && bonuses.push(<Label color={isEquipped ? 'pink' : null} size="small">{ combat } combat</Label>);
+    // skill && bonuses.push(<Label color={isEquipped ? 'pink' : null} size="small">{ skillBonus } { skill }</Label>);
 
     const block = (
-      <div className="characteritem">
+      <div className={cn('characteritem', {'is-equipped':isEquipped})}>
         <button className="characteritem__content" onClick={this.open}>
           <div className="characteritem__image">
             <img src={paths.itemImage(imageFile)} />
           </div>
           <div className="characteritem__info">
-            <h4>{ name }</h4>
-            <div className="characteritem__bonuses">{ bonuses }</div>
-            <Label color={isEquipped ? 'pink' : null}>{ type }</Label>
+            <h4 className="characteritem_name">{ name }</h4>
+            <div className="characteritem__type">{ type }</div>
+            { combat && <div className="characteritem__bonus">{plusMinus(combat)} combat</div>}
+            { skill && <div className="characteritem__bonus">{plusMinus(skillBonus)} {skill}</div>}
           </div>
         </button>
         <Modal basic closeOnDimmerClick={true} onClose={this.close} open={isOpen} className="characteritem__detail" style={{lineHeight:'1.4285em'}}>
@@ -66,9 +66,12 @@ class CharacterItem extends Component {
             <Card>
               <Card.Content>
                 <Card.Header>{ name }</Card.Header>
-                <Card.Meta>{ bonuses }</Card.Meta>
                 <Card.Meta>
-                  <Label color={isEquipped ? 'pink' : null}>{ type }</Label>
+                  { combat && <div className="characteritem__bonus">{plusMinus(combat)} combat</div>}
+                  { skill && <div className="characteritem__bonus">{plusMinus(skillBonus)} {skill}</div>}
+                </Card.Meta>
+                <Card.Meta>
+                  <Label color="pink" basic={!isEquipped}>{ type }</Label>
                 </Card.Meta>
                 <Card.Description>{ description }</Card.Description>
               </Card.Content>

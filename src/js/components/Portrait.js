@@ -9,10 +9,10 @@ class Portrait extends Component {
     };
   }
   render() {
-    const { className, imageFile } = this.props;
+    const { className, imageFile, large } = this.props;
 
     return (
-      <div className={cn('characterlistitem__portrait', 'portrait', className)}>
+      <div className={cn('characterlistitem__portrait', 'portrait', {'is-large':large}, className)}>
         <img src={characterImage(imageFile)}/>
       </div>
     );
@@ -22,6 +22,7 @@ class Portrait extends Component {
 Portrait.contextTypes = {
   imageFile: PropTypes.string,
   className: PropTypes.string,
+  large: PropTypes.string,
 };
 
 export default Portrait

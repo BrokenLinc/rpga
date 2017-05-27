@@ -26,14 +26,15 @@ class CharacterCreate extends Component {
     const { name, imageFile } = this.state.character;
 
     return (
-      <div>
-        <h1>New Character</h1>
+      <div className="charactercreate">
 
-        <div>{ name }</div>
-        <Portrait imageFile={imageFile} />
+        <Portrait imageFile={imageFile} large />
+        <div className="charactercreate__name">{ name }</div>
 
-        <Button onClick={ this.rollCharacter }>Re-roll</Button>
-        <Button onClick={ this.keepCharacter }>Keep</Button>
+        <Button.Group>
+          <Button basic color="teal" onClick={ this.rollCharacter }>Nope</Button>
+          <Button basic color="teal" onClick={ this.keepCharacter }>Invite</Button>
+        </Button.Group>
     </div>
     );
   }

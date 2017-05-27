@@ -64,7 +64,7 @@ const generateCharacter = () => {
     'char-11.png',
     'char-12.png',
   ];
-  return {
+  const character = {
     name: t(Words.CHARACTER_NAME())(),
     imageFile: sample(imageFiles),
     items: [{
@@ -75,8 +75,14 @@ const generateCharacter = () => {
       type: ItemTypes.WEAPON,
       combat: 5,
       isEquipped: true,
-    }],
+    }]
   };
+
+  character.activity = {
+    story: t(Words.BIO())({ character }),
+  };
+
+  return character;
 };
 
 const dropItem = (level, result) => {
@@ -222,7 +228,7 @@ const doActivity = (user, _character, activity) => {
 
 const returnFromMission = (user, character) => {
   const { activity } = character;
-  const { life, item } = activity;
+  const { life = 0, item } = activity;
 
   const characterUpdateData = {};
   if(life !== 0) {

@@ -2,14 +2,19 @@
 	padding: 15px;
 }
 .characteritem {
+	background: fade(white, 5%);
+	border: 2px solid transparent;
+	border-radius: .28571429rem;
 	margin-bottom: 15px;
+	overflow: hidden;
 	width: 100%;
+
+	&.is-equipped {
+		border-color: @active-color;
+	}
 }
 .characteritem__content {
 	align-items: stretch;
-	background: fade(white, 5%);
-	border: 0 none;
-	border-radius: .28571429rem;
 	//box-shadow: 0 1px 3px 0 #D4D4D5, 0 0 0 1px #D4D4D5;
 	display: flex;
 	flex-flow: row;
@@ -20,11 +25,11 @@
 }
 .characteritem__image {
 	flex: 0 0 auto;
-	padding: 4px;
+	// padding: 4px;
 	width: 90px;
 
 	> img {
-		border-radius: 4px;
+		border-radius: 2px;
 		display: block;
 		height: auto;
 		width: 100%;
@@ -32,16 +37,31 @@
 }
 .characteritem__info {
 	flex: 1 1 auto;
-	padding: 10px;
+	font-size: 12px;
+	line-height: 18px;
+	// padding: 10px;
+	padding: 8px 12px;
 
 	h4 {
-		margin-bottom: 2px;
+		margin-bottom: 0px;
 	}
 }
-.characteritem__bonuses {
-	color: green;
-	font-size: 12px;
-	margin-bottom: 3px;
+.characteritem__type {
+	color: fade(white, 40%);
+	text-transform: uppercase;
+}
+// .characteritem__bonus {
+// 	// font-size: 12px;
+// 	// margin-bottom: 3px;
+// 	// font-weight: bold;
+// 	// text-transform: uppercase;
+// 	// margin-top: 4px;
+//
+// 	.characteritem.is-equipped {
+// 		// color: @bonus-color;
+// 	}
+// }
+.characteritem.is-equipped {
 }
 .characteritem__actions {
 	padding: 20px 0 0;
@@ -93,10 +113,6 @@
 		}
 		&:last-child {
 			transform: rotateY(180deg);
-		}
-
-		.meta {
-			color: green;
 		}
 
 		>img {

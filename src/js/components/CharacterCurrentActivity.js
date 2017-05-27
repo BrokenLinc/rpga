@@ -51,12 +51,12 @@ class CharacterCurrentActivity extends Component {
 
     let result = null;
     if (activity && !activity.claimed) {
-      if (new Date(activity.returnDate) <= new Date()) {
+      if (!activity.returnDate || new Date(activity.returnDate) <= new Date()) {
         // back
         result = (
           <div className="charactercurrentactivity">
             <p>{ activity.returnMessage }</p>
-            <Button onClick={this.returnFromMission}>Get updates</Button>
+            <Button onClick={this.returnFromMission}>Read his story</Button>
           </div>
         );
       } else {
@@ -74,7 +74,7 @@ class CharacterCurrentActivity extends Component {
           { activity && <Segment textAlign="left">
             <p dangerouslySetInnerHTML={{__html:activity.story}} />
             {activity.fightStory && <p dangerouslySetInnerHTML={{__html:activity.fightStory}} />}
-            {afterStory && (<p style={{color:'green'}}><i>{afterStory}</i></p>)}
+            {afterStory && (<p className="text-bonus">{afterStory}</p>)}
           </Segment> }
 
           {/* { activity.item && <CharacterItem character={character} item={activity.item} /> } */}
@@ -84,14 +84,16 @@ class CharacterCurrentActivity extends Component {
           ) : (
             <h5>Where will {character.name} go next?</h5>
           )}
-          { map(Activities, (activity, key) => {
-            const { isSafe, label, icon, minLevel, maxLevel } = activity;
-            return (character.life > 0 || isSafe) ? (
-              <Button basic color="teal" key={key} onClick={() => this.doActivity(activity)} fluid>
-                <Icon name={ icon || 'angle right' } />{ label } (Lvl { minLevel || 1 } - { maxLevel || 100 })
-              </Button>
-            ) : null;
-          }) }
+          <div className="charactercurrentactivity__options">
+            { map(Activities, (activity, key) => {
+              const { isSafe, label, icon, minLevel, maxLevel } = activity;
+              return (character.life > 0 || isSafe) ? (
+                <Button basic color="teal" key={key} onClick={() => this.doActivity(activity)} fluid>
+                  <Icon name={ icon || 'angle right' } />{ label } (Lvl { minLevel || 1 } - { maxLevel || 100 })
+                </Button>
+              ) : null;
+            }) }
+          </div>
         </div>
       );
 
