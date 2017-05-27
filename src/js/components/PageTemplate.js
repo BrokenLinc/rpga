@@ -20,8 +20,8 @@ class PageTemplate extends Component {
           <header className="pageheader">
             <nav>
               <span>undermud</span>
-              <Link to={ paths.characters() }><Icon name="address book" fitted /></Link>
-              <a onClick={ this.onSignOutClick } href="javascript:void(0)"><Icon name="log out" fitted /></a>
+              <Link to={ paths.characters() }><Icon name="address book" /> characters</Link>
+              <a onClick={ this.onSignOutClick } href="javascript:void(0)">quit <Icon name="log out" /></a>
             </nav>
           </header>
         )}
