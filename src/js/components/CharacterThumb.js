@@ -23,11 +23,11 @@ class CharacterThumb extends Component {
           <div className="characterthumb__stats">
             Level { level } Survivor
           </div>
-          <Progress style={{margin:'4px 0'}} percent={percentOfLevel(character)} size="tiny" color="teal" />
+          <Progress style={{margin:'6px 0'}} percent={percentOfLevel(character)} size="tiny" color="teal" />
           <div style={{display:'flex',alignItems:'center'}}>
-            <Label color="green" className="characterthumb__stats">
-              { combat } combat
-            </Label>
+            <Label horizontal color="pink" className="characterthumb__stats" size="small">
+              { combat }
+            </Label>combat
             <div style={{marginLeft:5}} className="characterthumb__health">
               <Rating disabled icon="heart" rating={life} maxRating={5} />
             </div>

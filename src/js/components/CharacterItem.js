@@ -54,7 +54,7 @@ class CharacterItem extends Component {
           <div className="characteritem__info">
             <h4>{ name }</h4>
             <div className="characteritem__bonuses">{ bonuses }</div>
-            <Label color={isEquipped ? 'green' : null}>{ type }</Label>
+            <Label color={isEquipped ? 'pink' : null}>{ type }</Label>
           </div>
         </button>
         <Modal basic closeOnDimmerClick={true} onClose={this.close} open={isOpen} className="characteritem__detail" style={{lineHeight:'1.4285em'}}>
@@ -68,7 +68,7 @@ class CharacterItem extends Component {
                 <Card.Header>{ name }</Card.Header>
                 <Card.Meta>{ bonuses }</Card.Meta>
                 <Card.Meta>
-                  <Label color={isEquipped ? 'green' : null}>{ type }</Label>
+                  <Label color={isEquipped ? 'pink' : null}>{ type }</Label>
                 </Card.Meta>
                 <Card.Description>{ description }</Card.Description>
               </Card.Content>

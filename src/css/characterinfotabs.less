@@ -7,7 +7,6 @@
 .characterinfotabs__headers {
 	display: flex;
 	.list-reset;
-	background: #ddd;
 	flex-flow: row;
 
 	> * {
@@ -16,8 +15,9 @@
 	}
 
 	li {
-		background: transparent;
-		border: 0 none;
+		background: fade(black, 30%);
+		border-top: 3px solid fade(black, 20%);
+		color: @link-color;
 		cursor: pointer;
 		display: block;
 		font-weight: bold;
@@ -25,13 +25,15 @@
 		transition: background-color 0.2s;
 
 		&.is-active {
-			background: #9ab;
+			background: transparent;
+			border-top-color: @link-color;
+			color: @body-text-color;
 		}
 	}
 
-	li + li {
-		border-left: 1px solid #ccc;
-	}
+	// li + li {
+	// 	border-left: 1px solid @body-bg;
+	// }
 
 	@media (min-width: 640px) {
 		display: none;
